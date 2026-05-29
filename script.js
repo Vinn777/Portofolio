@@ -137,7 +137,7 @@ window.addEventListener('load', () => {
         const dist = Math.sqrt(dx * dx + dy * dy);
         if (dist < 100) {
           ctx.beginPath();
-          ctx.strokeStyle = `rgba(168, 85, 247, ${0.06 * (1 - dist / 100)})`;
+          ctx.strokeStyle = `rgba(6, 182, 212, ${0.06 * (1 - dist / 100)})`;
           ctx.lineWidth = 0.5;
           ctx.moveTo(particles[i].x, particles[i].y);
           ctx.lineTo(particles[j].x, particles[j].y);
@@ -152,7 +152,7 @@ window.addEventListener('load', () => {
         const dist = Math.sqrt(dx * dx + dy * dy);
         if (dist < mouse.radius) {
           ctx.beginPath();
-          ctx.strokeStyle = `rgba(168, 85, 247, ${0.16 * (1 - dist / mouse.radius)})`;
+          ctx.strokeStyle = `rgba(6, 182, 212, ${0.16 * (1 - dist / mouse.radius)})`;
           ctx.lineWidth = 0.6;
           ctx.moveTo(particles[i].x, particles[i].y);
           ctx.lineTo(mouse.x, mouse.y);
@@ -343,6 +343,8 @@ function initCustomCursor() {
     aura.style.display = 'none';
     return;
   }
+  
+  document.body.classList.add('has-custom-cursor');
 
   // Track pointer movements
   window.addEventListener('mousemove', (e) => {
@@ -373,12 +375,13 @@ function initCustomCursor() {
   setInterval(updateHovers, 1500); // Handle dynamic nodes addition
 
   function renderCursor() {
-    // Linear interpolation: current = current + (target - current) * dampening
-    dotPos.x += (mouse.x - dotPos.x) * 0.3;
-    dotPos.y += (mouse.y - dotPos.y) * 0.3;
+    // The dot exactly matches the mouse position without delay
+    dotPos.x = mouse.x;
+    dotPos.y = mouse.y;
 
-    auraPos.x += (mouse.x - auraPos.x) * 0.085;
-    auraPos.y += (mouse.y - auraPos.y) * 0.085;
+    // The aura softly trails behind using linear interpolation
+    auraPos.x += (mouse.x - auraPos.x) * 0.15;
+    auraPos.y += (mouse.y - auraPos.y) * 0.15;
 
     dot.style.transform = `translate3d(${dotPos.x}px, ${dotPos.y}px, 0)`;
     aura.style.transform = `translate3d(${auraPos.x}px, ${auraPos.y}px, 0)`;
@@ -420,7 +423,7 @@ function initMagneticButtons() {
 
       // Soft pull magnet dynamics (translate elements 30% of cursor offset)
       el.style.transform = `translate3d(${x * 0.32}px, ${y * 0.32}px, 0)`;
-      el.style.boxShadow = `0 12px 28px rgba(168, 85, 247, 0.45)`;
+      el.style.boxShadow = `0 12px 28px rgba(6, 182, 212, 0.45)`;
     });
 
     el.addEventListener('mouseleave', () => {
@@ -446,7 +449,7 @@ function init3DTiltAndSpotlight() {
 
     // Capture custom colors (e.g. for skills cards)
     const icon = card.querySelector('.skill-icon');
-    const glowColor = icon ? getComputedStyle(icon).getPropertyValue('--clr').trim() : 'rgba(168, 85, 247, 0.35)';
+    const glowColor = icon ? getComputedStyle(icon).getPropertyValue('--clr').trim() : 'rgba(6, 182, 212, 0.35)';
 
     card.addEventListener('mousemove', (e) => {
       const rect = card.getBoundingClientRect();
@@ -473,7 +476,7 @@ function init3DTiltAndSpotlight() {
       if (card.classList.contains('skill-card')) {
         card.style.boxShadow = `0 12px 36px rgba(0,0,0,0.5), 0 0 25px ${glowColor}3c`;
       } else {
-        card.style.boxShadow = `0 12px 36px rgba(0,0,0,0.5), 0 0 20px rgba(168, 85, 247, 0.22)`;
+        card.style.boxShadow = `0 12px 36px rgba(0,0,0,0.5), 0 0 20px rgba(6, 182, 212, 0.22)`;
       }
     });
 
@@ -484,67 +487,82 @@ function init3DTiltAndSpotlight() {
   });
 }
 
-/* ------ INTERACTIVE TEXT SCRAMBLE DECODER ------ */
+/* ------ SIMPLE TERMINAL TYPING EFFECT ------ */
 function initTextScramble() {
   const targets = document.querySelectorAll('.section-title, .nav-logo');
-  const chars = '!@#$%^&*()_+~`|}{[]:;?><,./-=10';
-
-  function scrambleNode(node, originalText, resolve) {
-    if (node.nodeType === Node.TEXT_NODE) {
-      const original = originalText || node.textContent;
-      if (!original.trim()) {
-        resolve();
-        return;
-      }
-      
-      let frame = 0;
-      // Elegant speed control: total frames is bounded to ensure it feels snappy
-      const totalFrames = Math.max(30, original.length * 2.5);
-
-      function animate() {
-        // Map frame progress directly to characters solved
-        const progress = (frame / totalFrames) * original.length;
-
-        node.textContent = original.split('').map((char, index) => {
-          if (index < progress) return original[index];
-          if (char === ' ' || char === '\n') return char;
-          return chars[Math.floor(Math.random() * chars.length)];
-        }).join('');
-
-        if (frame < totalFrames) {
-          frame++;
-          requestAnimationFrame(animate);
-        } else {
-          node.textContent = original;
-          resolve();
-        }
-      }
-      requestAnimationFrame(animate);
-    } else {
-      // Crawl all text nodes recursively
-      let promises = [];
-      node.childNodes.forEach(child => {
-        promises.push(new Promise(res => scrambleNode(child, null, res)));
-      });
-      Promise.all(promises).then(resolve);
-    }
-  }
-
+  
   targets.forEach(el => {
-    // Clone and cache the innerHTML structure to always have a clean copy to reset to
     const originalHTML = el.innerHTML;
     
-    el.addEventListener('mouseenter', () => {
+    const triggerScramble = async () => {
       if (el.dataset.scrambling === 'true') return;
       el.dataset.scrambling = 'true';
       
-      // Scramble recursively
-      scrambleNode(el, null, () => {
-        // Restore exact original HTML structure to preserve gradients and tags
+      // Reset inner HTML to clean state
+      el.innerHTML = originalHTML;
+      
+      // Store original text and clear text nodes
+      function clearTextNodes(n) {
+        if (n.nodeType === Node.TEXT_NODE) {
+          n.originalText = n.textContent;
+          n.textContent = '';
+        } else {
+          n.childNodes.forEach(clearTextNodes);
+        }
+      }
+      clearTextNodes(el);
+
+      // Add terminal prefix
+      const prefix = document.createElement('span');
+      prefix.innerHTML = '<span style="color: var(--accent-1); font-family: var(--font-mono); font-weight: bold; margin-right: 8px;">></span>';
+      el.prepend(prefix);
+      
+      // Blinking cursor that follows the typing
+      const cursor = document.createElement('span');
+      cursor.textContent = '_';
+      cursor.style.color = 'var(--accent-1)';
+      cursor.style.animation = 'cursorBlink 0.8s step-end infinite';
+      el.appendChild(cursor);
+
+      // Recursive sequential typing
+      async function typeNodes(n) {
+        if (n.nodeType === Node.TEXT_NODE) {
+          const text = n.originalText;
+          if (!text || !text.trim()) return;
+          for (let i = 0; i < text.length; i++) {
+            n.textContent += text[i];
+            await new Promise(r => setTimeout(r, 40)); // Typing speed
+          }
+        } else if (n !== prefix && n !== cursor) {
+          for (let child of Array.from(n.childNodes)) {
+            await typeNodes(child);
+          }
+        }
+      }
+
+      await typeNodes(el);
+      
+      // Finish typing, let cursor blink a few times then cleanup
+      setTimeout(() => {
         el.innerHTML = originalHTML;
         el.dataset.scrambling = 'false';
+      }, 2000);
+    };
+
+    el.addEventListener('mouseenter', triggerScramble);
+    el.addEventListener('click', triggerScramble);
+
+    // Trigger automatically when scrolled into view
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          triggerScramble();
+          observer.unobserve(entry.target);
+        }
       });
-    });
+    }, { threshold: 0.5 });
+    
+    observer.observe(el);
   });
 }
 
@@ -652,6 +670,6 @@ if (document.readyState === 'loading') {
   initAll();
 }
 
-console.log('%c🚀 Portfolio Ariiq Nawfal Aqilla', 'color:#a855f7;font-size:16px;font-weight:bold;');
-console.log('%cSoftware Engineering | Full-Stack Web Developer | UI/UX Designer', 'color:#c084fc;font-size:12px;');
+console.log('%c🚀 Portfolio Ariiq Nawfal Aqilla', 'color:#06b6d4;font-size:16px;font-weight:bold;');
+console.log('%cSoftware Engineering | Full-Stack Web Developer | UI/UX Designer', 'color:#22d3ee;font-size:12px;');
 
