@@ -37,7 +37,7 @@
 (function initTypewriter() {
   const roles = [
     'Software Engineer',
-    'Full-Stack Developer',
+    'Front-End Developer',
     'UI/UX Designer',
     'Laravel Developer',
     'Web Developer',
@@ -691,5 +691,5 @@ if (document.readyState === 'loading') {
 }
 
 console.log('%c🚀 Portfolio Ariiq Nawfal Aqilla', 'color:#06b6d4;font-size:16px;font-weight:bold;');
-console.log('%cSoftware Engineering | Full-Stack Web Developer | UI/UX Designer', 'color:#22d3ee;font-size:12px;');
+console.log('%cSoftware Engineering | Front-End Web Developer | UI/UX Designer', 'color:#22d3ee;font-size:12px;');
 
