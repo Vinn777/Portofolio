@@ -319,14 +319,23 @@ contactForm?.addEventListener('submit', (e) => {
   btn.innerHTML = '<i class="bx bx-loader-alt bx-spin"></i> Mengirim...';
   btn.disabled = true;
 
-  // Simulate sending (replace with actual email service like EmailJS/Formspree)
-  setTimeout(() => {
-    btn.innerHTML = '<i class="bx bx-send"></i> Kirim Pesan';
-    btn.disabled = false;
-    formSuccess?.classList.add('show');
-    contactForm.reset();
-    setTimeout(() => formSuccess?.classList.remove('show'), 5000);
-  }, 1800);
+  // Menggunakan EmailJS untuk mengirim form
+  emailjs.sendForm('service_1i7xoq6', 'template_kj2fxof', contactForm)
+    .then(() => {
+      btn.innerHTML = '<i class="bx bx-send"></i> Kirim Pesan';
+      btn.disabled = false;
+      formSuccess?.classList.add('show');
+      contactForm.reset();
+      setTimeout(() => formSuccess?.classList.remove('show'), 5000);
+    }, (error) => {
+      console.error('FAILED...', error);
+      btn.innerHTML = '<i class="bx bx-x"></i> Gagal Mengirim';
+      setTimeout(() => {
+        btn.innerHTML = '<i class="bx bx-send"></i> Kirim Pesan';
+        btn.disabled = false;
+      }, 3000);
+      alert('Maaf, pesan gagal dikirim. Pastikan Anda terhubung ke internet atau coba lagi nanti.');
+    });
 });
 
 /* ====== SMOOTH SCROLL FOR ALL ANCHOR LINKS ====== */
