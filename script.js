@@ -334,7 +334,7 @@ contactForm?.addEventListener('submit', (e) => {
         btn.innerHTML = '<i class="bx bx-send"></i> Kirim Pesan';
         btn.disabled = false;
       }, 3000);
-      alert('Maaf, pesan gagal dikirim. Pastikan Anda terhubung ke internet atau coba lagi nanti.');
+      alert('Gagal mengirim pesan. Error: ' + (error.text || error.message || JSON.stringify(error)));
     });
 });
 
