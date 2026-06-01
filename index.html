@@ -40,62 +40,72 @@
         <svg width="140" height="140" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
           <defs>
             <linearGradient id="grad-neon" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#00f2fe"/>
-              <stop offset="50%" stop-color="#06b6d4"/>
-              <stop offset="100%" stop-color="#0891b2"/>
+              <stop offset="0%" stop-color="#00f2fe" />
+              <stop offset="50%" stop-color="#06b6d4" />
+              <stop offset="100%" stop-color="#0891b2" />
             </linearGradient>
             <linearGradient id="grad-neon2" x1="100%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stop-color="#a855f7"/>
-              <stop offset="100%" stop-color="#06b6d4"/>
+              <stop offset="0%" stop-color="#a855f7" />
+              <stop offset="100%" stop-color="#06b6d4" />
             </linearGradient>
             <filter id="glow">
-              <feGaussianBlur stdDeviation="2.5" result="coloredBlur"/>
-              <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+              <feGaussianBlur stdDeviation="2.5" result="coloredBlur" />
+              <feMerge>
+                <feMergeNode in="coloredBlur" />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
             </filter>
             <filter id="glow-strong">
-              <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
-              <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+              <feGaussianBlur stdDeviation="4" result="coloredBlur" />
+              <feMerge>
+                <feMergeNode in="coloredBlur" />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
             </filter>
           </defs>
           <!-- Outer spinning hexagon -->
-          <polygon points="60,4 108,30 108,90 60,116 12,90 12,30"
-            stroke="url(#grad-neon)" stroke-width="1.5" fill="none" filter="url(#glow)"
-            style="transform-origin:60px 60px; animation:spinClockwise 10s linear infinite;"/>
+          <polygon points="60,4 108,30 108,90 60,116 12,90 12,30" stroke="url(#grad-neon)" stroke-width="1.5"
+            fill="none" filter="url(#glow)"
+            style="transform-origin:60px 60px; animation:spinClockwise 10s linear infinite;" />
           <!-- Accent orbit dots -->
           <circle cx="60" cy="4" r="3" fill="#00f2fe" filter="url(#glow)"
-            style="transform-origin:60px 60px; animation:spinClockwise 10s linear infinite;"/>
+            style="transform-origin:60px 60px; animation:spinClockwise 10s linear infinite;" />
           <circle cx="108" cy="30" r="2" fill="#a855f7" filter="url(#glow)"
-            style="transform-origin:60px 60px; animation:spinClockwise 10s linear infinite;"/>
+            style="transform-origin:60px 60px; animation:spinClockwise 10s linear infinite;" />
           <circle cx="12" cy="90" r="2" fill="#06b6d4" filter="url(#glow)"
-            style="transform-origin:60px 60px; animation:spinClockwise 10s linear infinite;"/>
+            style="transform-origin:60px 60px; animation:spinClockwise 10s linear infinite;" />
           <!-- Dashed middle ring counter -->
-          <polygon points="60,18 96,39 96,81 60,102 24,81 24,39"
-            stroke="url(#grad-neon2)" stroke-width="1" fill="none"
+          <polygon points="60,18 96,39 96,81 60,102 24,81 24,39" stroke="url(#grad-neon2)" stroke-width="1" fill="none"
             stroke-dasharray="5 5" opacity="0.6"
-            style="transform-origin:60px 60px; animation:spinCounterClockwise 7s linear infinite;"/>
+            style="transform-origin:60px 60px; animation:spinCounterClockwise 7s linear infinite;" />
           <!-- Inner glow circle -->
-          <circle cx="60" cy="60" r="30" stroke="url(#grad-neon)" stroke-width="1"
-            fill="rgba(0,242,254,0.04)" stroke-dasharray="2 8"
-            style="transform-origin:60px 60px; animation:spinClockwise 5s linear infinite;"/>
+          <circle cx="60" cy="60" r="30" stroke="url(#grad-neon)" stroke-width="1" fill="rgba(0,242,254,0.04)"
+            stroke-dasharray="2 8" style="transform-origin:60px 60px; animation:spinClockwise 5s linear infinite;" />
           <!-- Solid inner fill -->
-          <circle cx="60" cy="60" r="22" fill="rgba(0,242,254,0.06)" stroke="rgba(0,242,254,0.2)" stroke-width="0.5"/>
+          <circle cx="60" cy="60" r="22" fill="rgba(0,242,254,0.06)" stroke="rgba(0,242,254,0.2)" stroke-width="0.5" />
           <!-- Corner scan line brackets -->
-          <line x1="12" y1="30" x2="12" y2="44" stroke="#00f2fe" stroke-width="2.5" opacity="0.9" stroke-linecap="round"/>
-          <line x1="12" y1="30" x2="26" y2="22" stroke="#00f2fe" stroke-width="2.5" opacity="0.9" stroke-linecap="round"/>
-          <line x1="108" y1="30" x2="108" y2="44" stroke="#a855f7" stroke-width="2.5" opacity="0.9" stroke-linecap="round"/>
-          <line x1="108" y1="30" x2="94" y2="22" stroke="#a855f7" stroke-width="2.5" opacity="0.9" stroke-linecap="round"/>
-          <line x1="12" y1="90" x2="12" y2="76" stroke="#06b6d4" stroke-width="2.5" opacity="0.9" stroke-linecap="round"/>
-          <line x1="12" y1="90" x2="26" y2="98" stroke="#06b6d4" stroke-width="2.5" opacity="0.9" stroke-linecap="round"/>
-          <line x1="108" y1="90" x2="108" y2="76" stroke="#00f2fe" stroke-width="2.5" opacity="0.9" stroke-linecap="round"/>
-          <line x1="108" y1="90" x2="94" y2="98" stroke="#00f2fe" stroke-width="2.5" opacity="0.9" stroke-linecap="round"/>
+          <line x1="12" y1="30" x2="12" y2="44" stroke="#00f2fe" stroke-width="2.5" opacity="0.9"
+            stroke-linecap="round" />
+          <line x1="12" y1="30" x2="26" y2="22" stroke="#00f2fe" stroke-width="2.5" opacity="0.9"
+            stroke-linecap="round" />
+          <line x1="108" y1="30" x2="108" y2="44" stroke="#a855f7" stroke-width="2.5" opacity="0.9"
+            stroke-linecap="round" />
+          <line x1="108" y1="30" x2="94" y2="22" stroke="#a855f7" stroke-width="2.5" opacity="0.9"
+            stroke-linecap="round" />
+          <line x1="12" y1="90" x2="12" y2="76" stroke="#06b6d4" stroke-width="2.5" opacity="0.9"
+            stroke-linecap="round" />
+          <line x1="12" y1="90" x2="26" y2="98" stroke="#06b6d4" stroke-width="2.5" opacity="0.9"
+            stroke-linecap="round" />
+          <line x1="108" y1="90" x2="108" y2="76" stroke="#00f2fe" stroke-width="2.5" opacity="0.9"
+            stroke-linecap="round" />
+          <line x1="108" y1="90" x2="94" y2="98" stroke="#00f2fe" stroke-width="2.5" opacity="0.9"
+            stroke-linecap="round" />
           <!-- Center: ANA text -->
-          <text x="60" y="63" text-anchor="middle"
-            font-family="'Space Grotesk', sans-serif" font-weight="900" font-size="24"
-            fill="url(#grad-neon)" filter="url(#glow-strong)" letter-spacing="4">ANA</text>
+          <text x="60" y="63" text-anchor="middle" font-family="'Space Grotesk', sans-serif" font-weight="900"
+            font-size="24" fill="url(#grad-neon)" filter="url(#glow-strong)" letter-spacing="4">ANA</text>
           <!-- Micro label below -->
-          <text x="60" y="76" text-anchor="middle"
-            font-family="'JetBrains Mono', monospace" font-weight="400" font-size="6"
-            fill="#a855f7" opacity="0.75" letter-spacing="3">v2.0.26</text>
+          <text x="60" y="76" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-weight="400"
+            font-size="6" fill="#a855f7" opacity="0.75" letter-spacing="3">v2.0.26</text>
         </svg>
       </div>
 
@@ -464,9 +474,12 @@
             <ul class="exp-list">
               <li><i class="bx bx-check-circle"></i> Memahami alur kerja sistem IndiBizChamp Assignment Wizard.</li>
               <li><i class="bx bx-check-circle"></i> Mampu melakukan input dan validasi data POI dengan teliti.</li>
-              <li><i class="bx bx-check-circle"></i> Meningkatkan kemampuan menggunakan sistem administrasi berbasis web.</li>
-              <li><i class="bx bx-check-circle"></i> Melatih ketelitian, tanggung jawab, dan kerja sama dalam lingkungan kerja.</li>
-              <li><i class="bx bx-check-circle"></i> Memperoleh pengalaman kerja nyata dalam pengelolaan data dan penugasan lapangan.</li>
+              <li><i class="bx bx-check-circle"></i> Meningkatkan kemampuan menggunakan sistem administrasi berbasis
+                web.</li>
+              <li><i class="bx bx-check-circle"></i> Melatih ketelitian, tanggung jawab, dan kerja sama dalam lingkungan
+                kerja.</li>
+              <li><i class="bx bx-check-circle"></i> Memperoleh pengalaman kerja nyata dalam pengelolaan data dan
+                penugasan lapangan.</li>
             </ul>
             <div class="exp-tools">
               <span class="exp-tool"><i class="bx bx-code-alt"></i> Microsoft Office</span>
@@ -494,7 +507,7 @@
 
         <!-- Project 1: Sistem Pengaduan Sekolah -->
         <div class="project-card" data-aos="fade-up">
-          <img src="img/pengaduan-sekolah.png" alt="Sistem Pengaduan Sekolah" class="project-img" />
+          <img src="img/sistem.png" alt="Sistem Pengaduan Sekolah" class="project-img" />
           <div class="project-body">
             <div class="project-tags">
               <span class="project-tag">PHP</span>
@@ -525,7 +538,7 @@
 
         <!-- Project 2: Web TK -->
         <div class="project-card" data-aos="fade-up" data-aos-delay="100">
-          <img src="img/web-tk.png" alt="Web Profile TK" class="project-img" />
+          <img src="img/anhal.jpg.png" alt="Web Profile TK" class="project-img" />
           <div class="project-body">
             <div class="project-tags">
               <span class="project-tag">PHP</span>
@@ -562,8 +575,9 @@
               <span class="project-tag">JavaScript</span>
             </div>
             <h3 class="project-title">
-              FutureProperty 
-              <span style="font-size: 0.75rem; color: #fbbf24; background: rgba(251, 191, 36, 0.15); padding: 0.2rem 0.6rem; border-radius: 99px; font-weight: 600; margin-left: 5px; vertical-align: middle; border: 1px solid rgba(251, 191, 36, 0.3);">Prototype</span>
+              FutureProperty
+              <span
+                style="font-size: 0.75rem; color: #fbbf24; background: rgba(251, 191, 36, 0.15); padding: 0.2rem 0.6rem; border-radius: 99px; font-weight: 600; margin-left: 5px; vertical-align: middle; border: 1px solid rgba(251, 191, 36, 0.3);">Prototype</span>
             </h3>
             <p class="project-desc">
               <strong>Masalah:</strong> Tampilan website real estate yang kaku dan kurang interaktif bagi
