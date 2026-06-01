@@ -3,15 +3,35 @@
    ============================================= */
 
 /* ====== LOADER & ENTRY SEQUENCE ====== */
-window.addEventListener('load', () => {
-  setTimeout(() => {
-    const loader = document.getElementById('loader');
-    if (loader) {
-      loader.classList.add('hidden');
-      document.body.classList.add('loaded');
-    }
-  }, 1500);
-});
+(function initLoader() {
+  const statusMessages = [
+    'INITIALIZING SYSTEM',
+    'LOADING ASSETS...',
+    'BUILDING INTERFACE',
+    'COMPILING MODULES',
+    'CONNECTING SERVICES',
+    'READY'
+  ];
+  const statusEl = document.getElementById('loader-status-text');
+  let msgIdx = 0;
+
+  const interval = setInterval(() => {
+    msgIdx = (msgIdx + 1) % statusMessages.length;
+    if (statusEl) statusEl.textContent = statusMessages[msgIdx];
+  }, 260);
+
+  window.addEventListener('load', () => {
+    clearInterval(interval);
+    if (statusEl) statusEl.textContent = 'READY';
+    setTimeout(() => {
+      const loader = document.getElementById('loader');
+      if (loader) {
+        loader.classList.add('hidden');
+        document.body.classList.add('loaded');
+      }
+    }, 1600);
+  });
+})();
 
 /* ====== TYPEWRITER EFFECT ====== */
 (function initTypewriter() {
