@@ -39,7 +39,6 @@
     'Software Engineer',
     'Front-End Developer',
     'UI/UX Designer',
-    'Laravel Developer',
     'Web Developer',
   ];
   const el = document.getElementById('typed-role');
