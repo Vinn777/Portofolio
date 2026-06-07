@@ -77,15 +77,14 @@
   setTimeout(type, 1600);
 })();
 
-/* ====== CANVAS PARTICLES ====== */
+/* ====== CANVAS PARTICLES (ELEGANT NETWORK) ====== */
 (function initParticles() {
   const canvas = document.getElementById('bg-canvas');
   if (!canvas) return;
   const ctx = canvas.getContext('2d');
   let W, H, particles = [];
   
-  // Interactive Mouse Object
-  let mouse = { x: null, y: null, radius: 140 };
+  let mouse = { x: null, y: null, radius: 180 };
 
   function resize() {
     W = canvas.width  = window.innerWidth;
@@ -110,27 +109,26 @@
     reset() {
       this.x  = randomBetween(0, W);
       this.y  = randomBetween(0, H);
-      this.r  = randomBetween(0.5, 2.5);
-      this.vx = randomBetween(-0.3, 0.3);
-      this.vy = randomBetween(-0.3, 0.3);
-      this.alpha = randomBetween(0.15, 0.6);
-      const hue = randomBetween(260, 300);
-      this.color = `hsla(${hue}, 80%, 70%, ${this.alpha})`;
+      this.r  = randomBetween(1, 2.5);
+      this.vx = randomBetween(-0.15, 0.15); // Slower, more elegant
+      this.vy = randomBetween(-0.15, 0.15);
+      this.alpha = randomBetween(0.1, 0.4);
+      // Use emerald/teal hues (150-170)
+      const hue = randomBetween(150, 170);
+      this.color = `hsla(${hue}, 70%, 60%, ${this.alpha})`;
     }
     update() {
       this.x += this.vx; 
       this.y += this.vy;
       
-      // Smooth particle attraction to mouse cursor
       if (mouse.x !== null) {
         const dx = mouse.x - this.x;
         const dy = mouse.y - this.y;
         const dist = Math.sqrt(dx * dx + dy * dy);
         if (dist < mouse.radius) {
           const force = (mouse.radius - dist) / mouse.radius;
-          // Smooth pull toward pointer coordinates
-          this.x += (dx / dist) * force * 0.35;
-          this.y += (dy / dist) * force * 0.35;
+          this.x += (dx / dist) * force * 0.2; // Softer pull
+          this.y += (dy / dist) * force * 0.2;
         }
       }
 
@@ -144,35 +142,34 @@
     }
   }
 
-  for (let i = 0; i < 110; i++) particles.push(new Particle());
+  // Adjust count based on screen width for performance and elegance
+  const particleCount = W < 768 ? 50 : 100;
+  for (let i = 0; i < particleCount; i++) particles.push(new Particle());
 
-  // Draw connecting lines between nearby particles and pointer
   function drawLines() {
     for (let i = 0; i < particles.length; i++) {
-      // Connect to other nearby particles
       for (let j = i + 1; j < particles.length; j++) {
         const dx = particles[i].x - particles[j].x;
         const dy = particles[i].y - particles[j].y;
         const dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < 100) {
+        if (dist < 120) {
           ctx.beginPath();
-          ctx.strokeStyle = `rgba(6, 182, 212, ${0.06 * (1 - dist / 100)})`;
-          ctx.lineWidth = 0.5;
+          ctx.strokeStyle = `rgba(16, 185, 129, ${0.1 * (1 - dist / 120)})`;
+          ctx.lineWidth = 0.6;
           ctx.moveTo(particles[i].x, particles[i].y);
           ctx.lineTo(particles[j].x, particles[j].y);
           ctx.stroke();
         }
       }
       
-      // Connect particle directly to the mouse cursor if close
       if (mouse.x !== null) {
         const dx = particles[i].x - mouse.x;
         const dy = particles[i].y - mouse.y;
         const dist = Math.sqrt(dx * dx + dy * dy);
         if (dist < mouse.radius) {
           ctx.beginPath();
-          ctx.strokeStyle = `rgba(6, 182, 212, ${0.16 * (1 - dist / mouse.radius)})`;
-          ctx.lineWidth = 0.6;
+          ctx.strokeStyle = `rgba(16, 185, 129, ${0.15 * (1 - dist / mouse.radius)})`;
+          ctx.lineWidth = 0.8;
           ctx.moveTo(particles[i].x, particles[i].y);
           ctx.lineTo(mouse.x, mouse.y);
           ctx.stroke();
@@ -451,7 +448,7 @@ function initMagneticButtons() {
 
       // Soft pull magnet dynamics (translate elements 30% of cursor offset)
       el.style.transform = `translate3d(${x * 0.32}px, ${y * 0.32}px, 0)`;
-      el.style.boxShadow = `0 12px 28px rgba(6, 182, 212, 0.45)`;
+      el.style.boxShadow = `0 12px 28px rgba(16, 185, 129, 0.45)`;
     });
 
     el.addEventListener('mouseleave', () => {
@@ -477,7 +474,7 @@ function init3DTiltAndSpotlight() {
 
     // Capture custom colors (e.g. for skills cards)
     const icon = card.querySelector('.skill-icon');
-    const glowColor = icon ? getComputedStyle(icon).getPropertyValue('--clr').trim() : 'rgba(6, 182, 212, 0.35)';
+    const glowColor = icon ? getComputedStyle(icon).getPropertyValue('--clr').trim() : 'rgba(16, 185, 129, 0.35)';
 
     card.addEventListener('mousemove', (e) => {
       const rect = card.getBoundingClientRect();
@@ -504,7 +501,7 @@ function init3DTiltAndSpotlight() {
       if (card.classList.contains('skill-card')) {
         card.style.boxShadow = `0 12px 36px rgba(0,0,0,0.5), 0 0 25px ${glowColor}3c`;
       } else {
-        card.style.boxShadow = `0 12px 36px rgba(0,0,0,0.5), 0 0 20px rgba(6, 182, 212, 0.22)`;
+        card.style.boxShadow = `0 12px 36px rgba(0,0,0,0.5), 0 0 20px rgba(16, 185, 129, 0.22)`;
       }
     });
 
@@ -698,6 +695,6 @@ if (document.readyState === 'loading') {
   initAll();
 }
 
-console.log('%c🚀 Portfolio Ariiq Nawfal Aqilla', 'color:#06b6d4;font-size:16px;font-weight:bold;');
-console.log('%cSoftware Engineering | Front-End Web Developer | UI/UX Designer', 'color:#22d3ee;font-size:12px;');
+console.log('%c🚀 Portfolio Ariiq Nawfal Aqilla', 'color:#10b981;font-size:16px;font-weight:bold;');
+console.log('%cSoftware Engineering | Front-End Web Developer | UI/UX Designer', 'color:#34d399;font-size:12px;');
 
