@@ -436,7 +436,7 @@ function initScrollProgress() {
 
 /* ------ MAGNETIC PHYSICS BUTTONS ------ */
 function initMagneticButtons() {
-  const targets = document.querySelectorAll('.btn-primary, .btn-outline, .btn-cv, .btn-hire, .nav-logo');
+  const targets = document.querySelectorAll('.btn-primary, .btn-outline, .btn-cv, .btn-hire, .nav-logo, .skills-tab');
   const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
   if (isTouch) return;
 
