@@ -767,6 +767,48 @@ section {
   transform: translateY(-2px);
 }
 
+/* Skills Tab Toggle */
+.skills-tab-wrap {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-bottom: 2.5rem;
+}
+.skills-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.65rem 1.8rem;
+  background: transparent;
+  color: var(--text-secondary);
+  font-weight: 600;
+  font-size: 0.92rem;
+  border: 1.5px solid var(--border);
+  border-radius: 99px;
+  cursor: pointer;
+  transition: var(--transition);
+  font-family: var(--font-main);
+}
+.skills-tab:hover {
+  border-color: var(--border-hover);
+  color: var(--text-primary);
+  background: rgba(16, 185, 129, 0.06);
+}
+.skills-tab.active {
+  background: var(--gradient);
+  border-color: transparent;
+  color: #fff;
+  box-shadow: 0 4px 16px rgba(16, 185, 129, 0.25);
+}
+.skills-panel {
+  animation: fadeInPanel 0.35s ease;
+}
+@keyframes fadeInPanel {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+
 /* ---- PROJECTS ---- */
 #projects { background: var(--bg-secondary); }
 .projects-grid {

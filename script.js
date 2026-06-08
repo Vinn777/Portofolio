@@ -695,6 +695,42 @@ if (document.readyState === 'loading') {
   initAll();
 }
 
+/* ====== SKILLS TAB TOGGLE ====== */
+function switchTab(tab) {
+  const panelHard = document.getElementById('panel-hard');
+  const panelSoft = document.getElementById('panel-soft');
+  const tabHard   = document.getElementById('tab-hard');
+  const tabSoft   = document.getElementById('tab-soft');
+
+  if (tab === 'hard') {
+    panelHard.style.display = 'block';
+    panelSoft.style.display = 'none';
+    tabHard.classList.add('active');
+    tabSoft.classList.remove('active');
+
+    // Re-animate skill bars when switching back to hard skills
+    setTimeout(() => {
+      document.querySelectorAll('#panel-hard .skill-fill').forEach(bar => {
+        bar.style.width = '0%';
+        setTimeout(() => {
+          bar.style.width = bar.getAttribute('data-width') + '%';
+        }, 50);
+      });
+    }, 50);
+
+  } else {
+    panelHard.style.display = 'none';
+    panelSoft.style.display = 'block';
+    tabSoft.classList.add('active');
+    tabHard.classList.remove('active');
+
+    // Re-trigger AOS for newly visible soft skill cards
+    document.querySelectorAll('#panel-soft [data-aos]').forEach(el => {
+      el.classList.add('aos-animate');
+    });
+  }
+}
+
 console.log('%c🚀 Portfolio Ariiq Nawfal Aqilla', 'color:#10b981;font-size:16px;font-weight:bold;');
 console.log('%cSoftware Engineering | Front-End Web Developer | UI/UX Designer', 'color:#34d399;font-size:12px;');
 
