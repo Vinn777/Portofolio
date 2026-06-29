@@ -113,9 +113,9 @@
       this.vx = randomBetween(-0.15, 0.15); // Slower, more elegant
       this.vy = randomBetween(-0.15, 0.15);
       this.alpha = randomBetween(0.1, 0.4);
-      // Use emerald/teal hues (150-170)
-      const hue = randomBetween(150, 170);
-      this.color = `hsla(${hue}, 70%, 60%, ${this.alpha})`;
+      // Use cyan-to-purple hues (180-280)
+      const hue = randomBetween(180, 280);
+      this.color = `hsla(${hue}, 80%, 65%, ${this.alpha})`;
     }
     update() {
       this.x += this.vx; 
@@ -154,7 +154,7 @@
         const dist = Math.sqrt(dx * dx + dy * dy);
         if (dist < 120) {
           ctx.beginPath();
-          ctx.strokeStyle = `rgba(16, 185, 129, ${0.1 * (1 - dist / 120)})`;
+          ctx.strokeStyle = `rgba(0, 242, 254, ${0.1 * (1 - dist / 120)})`;
           ctx.lineWidth = 0.6;
           ctx.moveTo(particles[i].x, particles[i].y);
           ctx.lineTo(particles[j].x, particles[j].y);
@@ -168,7 +168,7 @@
         const dist = Math.sqrt(dx * dx + dy * dy);
         if (dist < mouse.radius) {
           ctx.beginPath();
-          ctx.strokeStyle = `rgba(16, 185, 129, ${0.15 * (1 - dist / mouse.radius)})`;
+          ctx.strokeStyle = `rgba(0, 242, 254, ${0.15 * (1 - dist / mouse.radius)})`;
           ctx.lineWidth = 0.8;
           ctx.moveTo(particles[i].x, particles[i].y);
           ctx.lineTo(mouse.x, mouse.y);
@@ -448,7 +448,7 @@ function initMagneticButtons() {
 
       // Soft pull magnet dynamics (translate elements 30% of cursor offset)
       el.style.transform = `translate3d(${x * 0.32}px, ${y * 0.32}px, 0)`;
-      el.style.boxShadow = `0 12px 28px rgba(16, 185, 129, 0.45)`;
+      el.style.boxShadow = `0 12px 28px rgba(0, 242, 254, 0.35), 0 8px 20px rgba(168, 85, 247, 0.2)`;
     });
 
     el.addEventListener('mouseleave', () => {
@@ -501,7 +501,7 @@ function init3DTiltAndSpotlight() {
       if (card.classList.contains('skill-card')) {
         card.style.boxShadow = `0 12px 36px rgba(0,0,0,0.5), 0 0 25px ${glowColor}3c`;
       } else {
-        card.style.boxShadow = `0 12px 36px rgba(0,0,0,0.5), 0 0 20px rgba(16, 185, 129, 0.22)`;
+        card.style.boxShadow = `0 12px 36px rgba(0,0,0,0.5), 0 0 20px rgba(0, 242, 254, 0.15), 0 0 40px rgba(168, 85, 247, 0.08)`;
       }
     });
 
@@ -731,6 +731,6 @@ function switchTab(tab) {
   }
 }
 
-console.log('%c🚀 Portfolio Ariiq Nawfal Aqilla', 'color:#10b981;font-size:16px;font-weight:bold;');
-console.log('%cSoftware Engineering | Front-End Web Developer | UI/UX Designer', 'color:#34d399;font-size:12px;');
+console.log('%c🚀 Portfolio Ariiq Nawfal Aqilla', 'color:#00f2fe;font-size:16px;font-weight:bold;');
+console.log('%cSoftware Engineering | Front-End Web Developer | UI/UX Designer', 'color:#a855f7;font-size:12px;');
 
