@@ -5,16 +5,27 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description"
-    content="Portfolio Ariiq Nawfal Aqilla - Fresh Graduate Software Engineering SMK Telkom Lampung. Spesialis Front-End Web Development dengan skill HTML, CSS, JavaScript, React.js, Tailwind CSS, Bootstrap, dan UI/UX Design." />
-  <title>Ariiq Nawfal Aqilla | Software Engineer</title>
+    content="Portfolio Ariiq Nawfal Aqilla - Fresh Graduate Software Engineering SMK Telkom Lampung. Front-End Developer spesialis HTML, CSS, JavaScript, React.js, Tailwind CSS, dan UI/UX Design. NeoBrutalism 3D Portfolio." />
+  <meta name="keywords" content="Ariiq Nawfal Aqilla, Front-End Developer, Portfolio, React, JavaScript, SMK Telkom Lampung" />
+  <meta name="author" content="Ariiq Nawfal Aqilla" />
+  <title>Ariiq Nawfal Aqilla | Front-End Developer</title>
 
   <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&family=Sora:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap"
     rel="stylesheet" />
 
   <!-- Boxicons -->
   <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+
+  <!-- Three.js (3D Hero) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+
+  <!-- GSAP + ScrollTrigger -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 
   <!-- CSS -->
   <link rel="stylesheet" href="style.css" />
@@ -35,27 +46,28 @@
   <!-- ====== LOADER ====== -->
   <div class="loader" id="loader">
     <div class="loader-inner">
-      <!-- Futuristic Logo -->
+      <!-- Original Futuristic Hexagon Logo with Dark Purple & Neon Gradients -->
       <div class="loader-logo">
-        <svg width="140" height="140" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg width="130" height="130" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
           <defs>
-            <linearGradient id="grad-neon" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#67f7ff" />
-              <stop offset="50%" stop-color="#00f2fe" />
-              <stop offset="100%" stop-color="#00d4ff" />
+            <linearGradient id="grad-purple-dark" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#FFD60A" />
+              <stop offset="50%" stop-color="#C084FC" />
+              <stop offset="100%" stop-color="#7C3AED" />
             </linearGradient>
-            <linearGradient id="grad-neon2" x1="100%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stop-color="#a855f7" />
-              <stop offset="100%" stop-color="#00f2fe" />
+            <linearGradient id="grad-purple-neon" x1="100%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#A855F7" />
+              <stop offset="50%" stop-color="#7C3AED" />
+              <stop offset="100%" stop-color="#00F2FE" />
             </linearGradient>
-            <filter id="glow">
+            <filter id="glow-purple">
               <feGaussianBlur stdDeviation="2.5" result="coloredBlur" />
               <feMerge>
                 <feMergeNode in="coloredBlur" />
                 <feMergeNode in="SourceGraphic" />
               </feMerge>
             </filter>
-            <filter id="glow-strong">
+            <filter id="glow-purple-strong">
               <feGaussianBlur stdDeviation="4" result="coloredBlur" />
               <feMerge>
                 <feMergeNode in="coloredBlur" />
@@ -64,61 +76,61 @@
             </filter>
           </defs>
           <!-- Outer spinning hexagon -->
-          <polygon points="60,4 108,30 108,90 60,116 12,90 12,30" stroke="url(#grad-neon)" stroke-width="1.5"
-            fill="none" filter="url(#glow)"
+          <polygon points="60,4 108,30 108,90 60,116 12,90 12,30" stroke="url(#grad-purple-dark)" stroke-width="2"
+            fill="none" filter="url(#glow-purple)"
             style="transform-origin:60px 60px; animation:spinClockwise 10s linear infinite;" />
           <!-- Accent orbit dots -->
-          <circle cx="60" cy="4" r="3" fill="#67f7ff" filter="url(#glow)"
+          <circle cx="60" cy="4" r="3.5" fill="#FFD60A" filter="url(#glow-purple)"
             style="transform-origin:60px 60px; animation:spinClockwise 10s linear infinite;" />
-          <circle cx="108" cy="30" r="2" fill="#a855f7" filter="url(#glow)"
+          <circle cx="108" cy="30" r="3" fill="#C084FC" filter="url(#glow-purple)"
             style="transform-origin:60px 60px; animation:spinClockwise 10s linear infinite;" />
-          <circle cx="12" cy="90" r="2" fill="#00f2fe" filter="url(#glow)"
+          <circle cx="12" cy="90" r="3" fill="#7C3AED" filter="url(#glow-purple)"
             style="transform-origin:60px 60px; animation:spinClockwise 10s linear infinite;" />
           <!-- Dashed middle ring counter -->
-          <polygon points="60,18 96,39 96,81 60,102 24,81 24,39" stroke="url(#grad-neon2)" stroke-width="1" fill="none"
-            stroke-dasharray="5 5" opacity="0.6"
+          <polygon points="60,18 96,39 96,81 60,102 24,81 24,39" stroke="url(#grad-purple-neon)" stroke-width="1.5" fill="none"
+            stroke-dasharray="5 5" opacity="0.8"
             style="transform-origin:60px 60px; animation:spinCounterClockwise 7s linear infinite;" />
           <!-- Inner glow circle -->
-          <circle cx="60" cy="60" r="30" stroke="url(#grad-neon)" stroke-width="1" fill="rgba(0,242,254,0.04)"
+          <circle cx="60" cy="60" r="30" stroke="url(#grad-purple-dark)" stroke-width="1" fill="rgba(124,58,237,0.08)"
             stroke-dasharray="2 8" style="transform-origin:60px 60px; animation:spinClockwise 5s linear infinite;" />
           <!-- Solid inner fill -->
-          <circle cx="60" cy="60" r="22" fill="rgba(0,242,254,0.06)" stroke="rgba(0,242,254,0.2)" stroke-width="0.5" />
+          <circle cx="60" cy="60" r="22" fill="rgba(46,16,101,0.3)" stroke="rgba(192,132,252,0.4)" stroke-width="0.75" />
           <!-- Corner scan line brackets -->
-          <line x1="12" y1="30" x2="12" y2="44" stroke="#67f7ff" stroke-width="2.5" opacity="0.9"
+          <line x1="12" y1="30" x2="12" y2="44" stroke="#FFD60A" stroke-width="2.5" opacity="0.9"
             stroke-linecap="round" />
-          <line x1="12" y1="30" x2="26" y2="22" stroke="#67f7ff" stroke-width="2.5" opacity="0.9"
+          <line x1="12" y1="30" x2="26" y2="22" stroke="#FFD60A" stroke-width="2.5" opacity="0.9"
             stroke-linecap="round" />
-          <line x1="108" y1="30" x2="108" y2="44" stroke="#a855f7" stroke-width="2.5" opacity="0.9"
+          <line x1="108" y1="30" x2="108" y2="44" stroke="#C084FC" stroke-width="2.5" opacity="0.9"
             stroke-linecap="round" />
-          <line x1="108" y1="30" x2="94" y2="22" stroke="#a855f7" stroke-width="2.5" opacity="0.9"
+          <line x1="108" y1="30" x2="94" y2="22" stroke="#C084FC" stroke-width="2.5" opacity="0.9"
             stroke-linecap="round" />
-          <line x1="12" y1="90" x2="12" y2="76" stroke="#00f2fe" stroke-width="2.5" opacity="0.9"
+          <line x1="12" y1="90" x2="12" y2="76" stroke="#7C3AED" stroke-width="2.5" opacity="0.9"
             stroke-linecap="round" />
-          <line x1="12" y1="90" x2="26" y2="98" stroke="#00f2fe" stroke-width="2.5" opacity="0.9"
+          <line x1="12" y1="90" x2="26" y2="98" stroke="#7C3AED" stroke-width="2.5" opacity="0.9"
             stroke-linecap="round" />
-          <line x1="108" y1="90" x2="108" y2="76" stroke="#67f7ff" stroke-width="2.5" opacity="0.9"
+          <line x1="108" y1="90" x2="108" y2="76" stroke="#FFD60A" stroke-width="2.5" opacity="0.9"
             stroke-linecap="round" />
-          <line x1="108" y1="90" x2="94" y2="98" stroke="#67f7ff" stroke-width="2.5" opacity="0.9"
+          <line x1="108" y1="90" x2="94" y2="98" stroke="#FFD60A" stroke-width="2.5" opacity="0.9"
             stroke-linecap="round" />
           <!-- Center: ANA text -->
           <text x="60" y="63" text-anchor="middle" font-family="'Space Grotesk', sans-serif" font-weight="900"
-            font-size="24" fill="url(#grad-neon)" filter="url(#glow-strong)" letter-spacing="4">ANA</text>
+            font-size="24" fill="url(#grad-purple-dark)" filter="url(#glow-purple-strong)" letter-spacing="4">ANA</text>
           <!-- Micro label below -->
-          <text x="60" y="76" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-weight="400"
-            font-size="6" fill="#a855f7" opacity="0.75" letter-spacing="3">v2.0.26</text>
+          <text x="60" y="76" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-weight="600"
+            font-size="6" fill="#C084FC" opacity="0.85" letter-spacing="3">v2.0.26</text>
         </svg>
       </div>
 
-      <!-- Futuristic Status UI -->
+      <!-- Brutalist Status -->
       <div class="loader-status">
         <div class="loader-status-row">
           <span class="status-dot status-dot-cyan"></span>
           <span class="status-text" id="loader-status-text">INITIALIZING SYSTEM</span>
         </div>
         <div class="loader-data-row">
+          <span class="data-chip"><span class="data-label">MODE</span> DARK PURPLE</span>
           <span class="data-chip"><span class="data-label">SYS</span> ONLINE</span>
-          <span class="data-chip"><span class="data-label">ENV</span> WEB</span>
-          <span class="data-chip"><span class="data-label">STACK</span> FRONT-END</span>
+          <span class="data-chip"><span class="data-label">3D</span> ON</span>
         </div>
       </div>
     </div>
@@ -133,19 +145,20 @@
     <div class="container">
       <div class="nav-inner">
         <a href="#hero" class="nav-logo"
-          style="text-decoration: none; display: flex; align-items: center; gap: 4px;"><svg width="28" height="28"
+          style="text-decoration: none; display: flex; align-items: center; gap: 4px;"><svg width="32" height="32"
             viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" class="futuristic-logo">
             <defs>
-              <linearGradient id="neon-cyan" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#67f7ff" />
-                <stop offset="100%" stop-color="#00d4ff" />
+              <linearGradient id="purple-dark-logo" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#FFD60A" />
+                <stop offset="50%" stop-color="#C084FC" />
+                <stop offset="100%" stop-color="#7C3AED" />
               </linearGradient>
             </defs>
-            <path d="M32 2 L60 18 L60 46 L32 62 L4 46 L4 18 Z" stroke="url(#neon-cyan)" stroke-width="2" fill="none"
+            <path d="M32 2 L60 18 L60 46 L32 62 L4 46 L4 18 Z" stroke="url(#purple-dark-logo)" stroke-width="2.2" fill="none"
               class="hex-outer" />
-            <path d="M32 10 L50 21 L50 43 L32 54 L14 43 L14 21 Z" stroke="url(#neon-cyan)" stroke-width="1.5"
+            <path d="M32 10 L50 21 L50 43 L32 54 L14 43 L14 21 Z" stroke="url(#purple-dark-logo)" stroke-width="1.5"
               fill="none" stroke-dasharray="4 4" class="hex-inner" /><text x="32" y="40" text-anchor="middle"
-              font-family="'Space Grotesk', sans-serif" font-weight="900" font-size="22" fill="#fff"
+              font-family="'Space Grotesk', sans-serif" font-weight="900" font-size="22" fill="#FFFFFF"
               letter-spacing="1">ANA</text>
           </svg></a>
         <ul class="nav-links" id="nav-links">
@@ -172,31 +185,33 @@
   <section id="hero">
     <div class="hero-glow hero-glow-1"></div>
     <div class="hero-glow hero-glow-2"></div>
+    <!-- 3D Canvas (Three.js) -->
+    <canvas id="hero-3d-canvas"></canvas>
     <div class="container">
       <div class="hero-content">
         <div class="hero-badge">
           <span class="badge-dot"></span>
-          <span>✨ Available for work &amp; Collaboration</span>
+          <span>◆ Available for Work &amp; Collaboration</span>
         </div>
         <h1 class="hero-title">
-          Halo, Saya <br />
-          <span class="gradient-text">Ariiq Nawfal Aqilla</span><br />
-          <span class="hero-role" id="typed-role"></span><span class="typed-cursor">|</span>
+          Halo, Saya<br />
+          <span class="gradient-text">Ariiq Nawfal</span><br />
+          <span class="hero-role" id="typed-role"></span><span class="typed-cursor">_</span>
         </h1>
         <p class="hero-desc">
           Awalnya suka ngoprek UI web iseng-iseng, eh keterusan belajar front-end. Fresh Graduate <strong
             class="school-highlight">SMK Telkom Lampung</strong> yang lebih suka ngoding malam 🌙 dan sekarang lagi
-          seru-serunya eksplor ekosistem React & Next.js.
+          seru-serunya eksplor ekosistem React &amp; Next.js.
         </p>
         <div class="hero-btns">
-          <a href="#projects" class="btn-primary">
+          <a href="#projects" class="btn-primary" id="hero-cta-projects">
             <i class="bx bx-code-alt"></i> Lihat Project
           </a>
-          <a href="#contact" class="btn-outline">
+          <a href="#contact" class="btn-outline" id="hero-cta-contact">
             <i class="bx bx-paper-plane"></i> Hubungi Saya
           </a>
           <a href="cv/cv terbaru .pdf" download class="btn-cv" id="btn-cv" title="Download CV">
-            <i class="bx bx-download"></i> Download CV
+            <i class="bx bx-download"></i> CV
           </a>
         </div>
         <div class="hero-stats">
@@ -218,12 +233,10 @@
       </div>
       <div class="hero-visual">
         <div class="hero-avatar-wrap">
-          <div class="avatar-ring avatar-ring-1"></div>
-          <div class="avatar-ring avatar-ring-2"></div>
-          <div class="avatar-ring avatar-ring-3"></div>
           <div class="avatar-circle">
-            <img src="img/profile.jpeg?v=3" alt="Ariiq Nawfal" class="profile-img"
-              onerror="this.onerror=null; this.src='https://via.placeholder.com/160/4c1d95/fff?text=Foto+Asli';" />
+            <img src="img/profile.jpeg?v=3" alt="Ariiq Nawfal Aqilla - Front-End Developer" class="profile-img"
+              loading="lazy"
+              onerror="this.onerror=null; this.src='https://via.placeholder.com/280x280/1E1E1E/FFD60A?text=ANA';" />
           </div>
           <div class="floating-badge fb-1"><i class="bx bxl-html5"></i> HTML</div>
           <div class="floating-badge fb-2"><i class="bx bxl-react"></i> React</div>
@@ -233,7 +246,7 @@
       </div>
     </div>
     <div class="scroll-indicator">
-      <span>Scroll Down</span>
+      <span>Scroll</span>
       <div class="scroll-arrow"></div>
     </div>
   </section>
@@ -242,6 +255,7 @@
   <section id="about">
     <div class="container">
       <div class="section-header" data-aos="fade-up">
+        <span class="section-tag">About Me</span>
         <h2 class="section-title">Tentang <span class="gradient-text">Saya</span></h2>
         <p class="section-sub">Kenali lebih dekat siapa saya dan apa yang saya kerjakan</p>
       </div>
@@ -321,6 +335,7 @@
   <section id="skills">
     <div class="container">
       <div class="section-header" data-aos="fade-up">
+        <span class="section-tag">Tech Stack</span>
         <h2 class="section-title">Skill <span class="gradient-text">Saya</span></h2>
         <p class="section-sub">Teknologi, tools, dan kemampuan yang saya miliki</p>
       </div>
@@ -476,6 +491,7 @@
   <section id="experience">
     <div class="container">
       <div class="section-header" data-aos="fade-up">
+        <span class="section-tag">Experience</span>
         <h2 class="section-title">Pengalaman <span class="gradient-text">Magang</span></h2>
         <p class="section-sub">Perjalanan karir dan pengalaman profesional saya di dunia industri</p>
       </div>
@@ -516,6 +532,7 @@
   <section id="projects">
     <div class="container">
       <div class="section-header" data-aos="fade-up">
+        <span class="section-tag">Portfolio</span>
         <h2 class="section-title">Proyek <span class="gradient-text">Saya</span></h2>
         <p class="section-sub">Kumpulan karya yang telah saya kerjakan</p>
       </div>
@@ -616,6 +633,7 @@
   <section id="certificates">
     <div class="container">
       <div class="section-header" data-aos="fade-up">
+        <span class="section-tag">Credentials</span>
         <h2 class="section-title">Sertifikat <span class="gradient-text">Saya</span></h2>
         <p class="section-sub">Pencapaian dan sertifikasi yang telah saya raih</p>
       </div>
@@ -663,6 +681,7 @@
   <section id="contact">
     <div class="container">
       <div class="section-header" data-aos="fade-up">
+        <span class="section-tag">Contact</span>
         <h2 class="section-title">Hubungi <span class="gradient-text">Saya</span></h2>
         <p class="section-sub">Ada project menarik? Mari berkolaborasi!</p>
       </div>
@@ -753,23 +772,24 @@
     <div class="container">
       <div class="footer-inner">
         <a href="#hero" class="nav-logo footer-logo"
-          style="text-decoration: none; display: flex; align-items: center; gap: 4px;"><svg width="28" height="28"
+          style="text-decoration: none; display: flex; align-items: center; gap: 4px;"><svg width="32" height="32"
             viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" class="futuristic-logo">
             <defs>
-              <linearGradient id="neon-cyan-ft" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#67f7ff" />
-                <stop offset="100%" stop-color="#00d4ff" />
+              <linearGradient id="purple-dark-logo-ft" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#FFD60A" />
+                <stop offset="50%" stop-color="#C084FC" />
+                <stop offset="100%" stop-color="#7C3AED" />
               </linearGradient>
             </defs>
-            <path d="M32 2 L60 18 L60 46 L32 62 L4 46 L4 18 Z" stroke="url(#neon-cyan-ft)" stroke-width="2" fill="none"
+            <path d="M32 2 L60 18 L60 46 L32 62 L4 46 L4 18 Z" stroke="url(#purple-dark-logo-ft)" stroke-width="2.2" fill="none"
               class="hex-outer" />
-            <path d="M32 10 L50 21 L50 43 L32 54 L14 43 L14 21 Z" stroke="url(#neon-cyan-ft)" stroke-width="1.5"
+            <path d="M32 10 L50 21 L50 43 L32 54 L14 43 L14 21 Z" stroke="url(#purple-dark-logo-ft)" stroke-width="1.5"
               fill="none" stroke-dasharray="4 4" class="hex-inner" /><text x="32" y="40" text-anchor="middle"
-              font-family="'Space Grotesk', sans-serif" font-weight="900" font-size="22" fill="#fff"
+              font-family="'Space Grotesk', sans-serif" font-weight="900" font-size="22" fill="#FFFFFF"
               letter-spacing="1">ANA</text>
           </svg></a>
         <p class="footer-text">
-          Dibuat dengan <i class="bx bx-heart" style="color:#00f2fe;"></i> oleh
+          Dibuat dengan <i class="bx bx-heart" style="color:#C084FC;"></i> oleh
           <span class="gradient-text">Ariiq Nawfal Aqilla</span>
         </p>
         <p class="footer-copy">&copy; 2026 Ariiq Nawfal Aqilla. All rights reserved.</p>

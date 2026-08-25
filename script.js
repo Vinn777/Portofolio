@@ -1,15 +1,16 @@
 /* =============================================
    ARIIQ NAWFAL AQILLA - PORTFOLIO JS
+   Theme: NeoBrutalism 3D
    ============================================= */
 
 /* ====== LOADER & ENTRY SEQUENCE ====== */
 (function initLoader() {
   const statusMessages = [
-    'INITIALIZING SYSTEM',
-    'LOADING ASSETS...',
-    'BUILDING INTERFACE',
-    'COMPILING MODULES',
-    'CONNECTING SERVICES',
+    'LOADING PORTFOLIO',
+    'BUILDING UI...',
+    'LOADING 3D...',
+    'COMPILING STYLES',
+    'INIT ANIMATIONS',
     'READY'
   ];
   const statusEl = document.getElementById('loader-status-text');
@@ -77,7 +78,7 @@
   setTimeout(type, 1600);
 })();
 
-/* ====== CANVAS PARTICLES (ELEGANT NETWORK) ====== */
+/* ====== CANVAS PARTICLES (SUBTLE DOTS — BRUTALIST BG) ====== */
 (function initParticles() {
   const canvas = document.getElementById('bg-canvas');
   if (!canvas) return;
@@ -109,13 +110,15 @@
     reset() {
       this.x  = randomBetween(0, W);
       this.y  = randomBetween(0, H);
-      this.r  = randomBetween(1, 2.5);
-      this.vx = randomBetween(-0.15, 0.15); // Slower, more elegant
-      this.vy = randomBetween(-0.15, 0.15);
-      this.alpha = randomBetween(0.1, 0.4);
-      // Use cyan-to-purple hues (180-280)
-      const hue = randomBetween(180, 280);
-      this.color = `hsla(${hue}, 80%, 65%, ${this.alpha})`;
+      this.r  = randomBetween(0.8, 1.8);
+      this.vx = randomBetween(-0.1, 0.1);
+      this.vy = randomBetween(-0.1, 0.1);
+      this.alpha = randomBetween(0.05, 0.2);
+      // Warm yellow-white tones for brutalist feel
+      const hue = Math.random() > 0.7 ? randomBetween(42, 52) : 0;
+      this.color = hue > 0
+        ? `hsla(${hue}, 100%, 65%, ${this.alpha})`
+        : `rgba(255,255,255,${this.alpha})`;
     }
     update() {
       this.x += this.vx; 
@@ -127,8 +130,8 @@
         const dist = Math.sqrt(dx * dx + dy * dy);
         if (dist < mouse.radius) {
           const force = (mouse.radius - dist) / mouse.radius;
-          this.x += (dx / dist) * force * 0.2; // Softer pull
-          this.y += (dy / dist) * force * 0.2;
+          this.x += (dx / dist) * force * 0.15;
+          this.y += (dy / dist) * force * 0.15;
         }
       }
 
@@ -142,8 +145,7 @@
     }
   }
 
-  // Adjust count based on screen width for performance and elegance
-  const particleCount = W < 768 ? 50 : 100;
+  const particleCount = W < 768 ? 40 : 80;
   for (let i = 0; i < particleCount; i++) particles.push(new Particle());
 
   function drawLines() {
@@ -152,26 +154,12 @@
         const dx = particles[i].x - particles[j].x;
         const dy = particles[i].y - particles[j].y;
         const dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < 120) {
+        if (dist < 100) {
           ctx.beginPath();
-          ctx.strokeStyle = `rgba(0, 242, 254, ${0.1 * (1 - dist / 120)})`;
-          ctx.lineWidth = 0.6;
+          ctx.strokeStyle = `rgba(255, 214, 10, ${0.06 * (1 - dist / 100)})`;
+          ctx.lineWidth = 0.5;
           ctx.moveTo(particles[i].x, particles[i].y);
           ctx.lineTo(particles[j].x, particles[j].y);
-          ctx.stroke();
-        }
-      }
-      
-      if (mouse.x !== null) {
-        const dx = particles[i].x - mouse.x;
-        const dy = particles[i].y - mouse.y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < mouse.radius) {
-          ctx.beginPath();
-          ctx.strokeStyle = `rgba(0, 242, 254, ${0.15 * (1 - dist / mouse.radius)})`;
-          ctx.lineWidth = 0.8;
-          ctx.moveTo(particles[i].x, particles[i].y);
-          ctx.lineTo(mouse.x, mouse.y);
           ctx.stroke();
         }
       }
@@ -185,6 +173,294 @@
     requestAnimationFrame(animate);
   }
   animate();
+})();
+
+/* ====== THREE.JS 3D HERO OBJECT ====== */
+(function initHero3D() {
+  const canvas = document.getElementById('hero-3d-canvas');
+  if (!canvas || typeof THREE === 'undefined') return;
+
+  const W = canvas.offsetWidth || 520;
+  const H = canvas.offsetHeight || 520;
+
+  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+  renderer.setSize(W, H);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setClearColor(0x000000, 0);
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(50, W / H, 0.1, 100);
+  camera.position.z = 5;
+
+  // Group to hold all meshes
+  const group = new THREE.Group();
+  scene.add(group);
+
+  // === MAIN ICOSAHEDRON — wireframe dark purple & violet ===
+  const geoMain = new THREE.IcosahedronGeometry(1.5, 1);
+  const matWire = new THREE.MeshBasicMaterial({
+    color: 0xC084FC,
+    wireframe: true,
+    transparent: true,
+    opacity: 0.75
+  });
+  const meshMain = new THREE.Mesh(geoMain, matWire);
+  group.add(meshMain);
+
+  // === INNER solid — semi-transparent deep purple fill ===
+  const matInner = new THREE.MeshBasicMaterial({
+    color: 0x7C3AED,
+    transparent: true,
+    opacity: 0.08
+  });
+  const meshInner = new THREE.Mesh(geoMain, matInner);
+  group.add(meshInner);
+
+  // === OUTER wireframe ring (octahedron) in signature yellow ===
+  const geoOuter = new THREE.OctahedronGeometry(2.2, 0);
+  const matOuter = new THREE.MeshBasicMaterial({
+    color: 0xFFD60A,
+    wireframe: true,
+    transparent: true,
+    opacity: 0.35
+  });
+  const meshOuter = new THREE.Mesh(geoOuter, matOuter);
+  group.add(meshOuter);
+
+  // === SMALL orbiting cube in cyan/neon blue ===
+  const geoCube = new THREE.BoxGeometry(0.35, 0.35, 0.35);
+  const matCube = new THREE.MeshBasicMaterial({
+    color: 0x00F2FE,
+    wireframe: true,
+    transparent: true,
+    opacity: 0.85
+  });
+  const meshCube = new THREE.Mesh(geoCube, matCube);
+  meshCube.position.set(2.3, 0, 0);
+  group.add(meshCube);
+
+  // === TORUS ring in neon purple ===
+  const geoTorus = new THREE.TorusGeometry(2, 0.015, 4, 60);
+  const matTorus = new THREE.MeshBasicMaterial({
+    color: 0xA855F7,
+    transparent: true,
+    opacity: 0.4
+  });
+  const meshTorus = new THREE.Mesh(geoTorus, matTorus);
+  meshTorus.rotation.x = Math.PI / 2.5;
+  group.add(meshTorus);
+
+  // Mouse parallax
+  let mouseX = 0, mouseY = 0;
+  const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+  if (!isTouch) {
+    document.addEventListener('mousemove', (e) => {
+      mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
+      mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+    });
+  }
+
+  let t = 0;
+  function animate3D() {
+    requestAnimationFrame(animate3D);
+    t += 0.008;
+
+    // Main rotation
+    group.rotation.y = t * 0.4 + mouseX * 0.4;
+    group.rotation.x = t * 0.15 + mouseY * 0.2;
+
+    // Outer counter-spin
+    meshOuter.rotation.y = -t * 0.6;
+    meshOuter.rotation.z = t * 0.3;
+
+    // Orbiting cube
+    meshCube.position.x = Math.cos(t * 1.2) * 2.3;
+    meshCube.position.y = Math.sin(t * 1.2) * 0.5;
+    meshCube.position.z = Math.sin(t * 1.2) * 2.3;
+    meshCube.rotation.x += 0.03;
+    meshCube.rotation.z += 0.02;
+
+    // Subtle pulse on main mesh opacity
+    matWire.opacity = 0.55 + Math.sin(t * 2) * 0.15;
+
+    renderer.render(scene, camera);
+  }
+  animate3D();
+
+  // Resize handler
+  window.addEventListener('resize', () => {
+    const newW = canvas.offsetWidth || 520;
+    const newH = canvas.offsetHeight || 520;
+    camera.aspect = newW / newH;
+    camera.updateProjectionMatrix();
+    renderer.setSize(newW, newH);
+  });
+})();
+
+/* ====== GSAP SCROLL REVEAL ANIMATIONS ====== */
+(function initGSAP() {
+  if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+  gsap.registerPlugin(ScrollTrigger);
+
+  // Hero content entrance
+  gsap.fromTo('.hero-content', {
+    opacity: 0,
+    y: 60
+  }, {
+    opacity: 1,
+    y: 0,
+    duration: 1,
+    ease: 'power3.out',
+    delay: 1.8
+  });
+
+  gsap.fromTo('.hero-visual', {
+    opacity: 0,
+    x: 80
+  }, {
+    opacity: 1,
+    x: 0,
+    duration: 1.1,
+    ease: 'power3.out',
+    delay: 2
+  });
+
+  // Section tags animate in
+  gsap.utils.toArray('.section-tag').forEach(tag => {
+    gsap.fromTo(tag, {
+      scaleX: 0,
+      transformOrigin: 'left center'
+    }, {
+      scaleX: 1,
+      duration: 0.5,
+      ease: 'power2.out',
+      scrollTrigger: {
+        trigger: tag,
+        start: 'top 85%'
+      }
+    });
+  });
+
+  // Section titles
+  gsap.utils.toArray('.section-title').forEach(title => {
+    gsap.fromTo(title, {
+      opacity: 0,
+      y: 40
+    }, {
+      opacity: 1,
+      y: 0,
+      duration: 0.7,
+      ease: 'power3.out',
+      scrollTrigger: {
+        trigger: title,
+        start: 'top 85%'
+      }
+    });
+  });
+
+  // About cards stagger
+  gsap.utils.toArray('.about-card').forEach((card, i) => {
+    gsap.fromTo(card, {
+      opacity: 0,
+      y: 50,
+      x: i === 0 ? -30 : i === 2 ? 30 : 0
+    }, {
+      opacity: 1,
+      y: 0,
+      x: 0,
+      duration: 0.6,
+      delay: i * 0.1,
+      ease: 'power2.out',
+      scrollTrigger: {
+        trigger: '.about-grid',
+        start: 'top 80%'
+      }
+    });
+  });
+
+  // Skill cards stagger
+  gsap.utils.toArray('.skill-card').forEach((card, i) => {
+    gsap.fromTo(card, {
+      opacity: 0,
+      y: 30
+    }, {
+      opacity: 1,
+      y: 0,
+      duration: 0.4,
+      delay: i * 0.06,
+      ease: 'back.out(1.5)',
+      scrollTrigger: {
+        trigger: '.skills-grid',
+        start: 'top 80%'
+      }
+    });
+  });
+
+  // Project cards stagger
+  gsap.utils.toArray('.project-card').forEach((card, i) => {
+    gsap.fromTo(card, {
+      opacity: 0,
+      y: 60
+    }, {
+      opacity: 1,
+      y: 0,
+      duration: 0.6,
+      delay: i * 0.15,
+      ease: 'power2.out',
+      scrollTrigger: {
+        trigger: '.projects-grid',
+        start: 'top 80%'
+      }
+    });
+  });
+
+  // Cert cards
+  gsap.utils.toArray('.cert-card').forEach((card, i) => {
+    gsap.fromTo(card, {
+      opacity: 0,
+      x: i % 2 === 0 ? -40 : 40
+    }, {
+      opacity: 1,
+      x: 0,
+      duration: 0.6,
+      delay: i * 0.1,
+      ease: 'power2.out',
+      scrollTrigger: {
+        trigger: '.certs-grid',
+        start: 'top 80%'
+      }
+    });
+  });
+
+  // Contact section
+  gsap.fromTo('.contact-info', {
+    opacity: 0,
+    x: -50
+  }, {
+    opacity: 1,
+    x: 0,
+    duration: 0.7,
+    ease: 'power2.out',
+    scrollTrigger: {
+      trigger: '.contact-wrap',
+      start: 'top 75%'
+    }
+  });
+
+  gsap.fromTo('.contact-form', {
+    opacity: 0,
+    x: 50
+  }, {
+    opacity: 1,
+    x: 0,
+    duration: 0.7,
+    delay: 0.15,
+    ease: 'power2.out',
+    scrollTrigger: {
+      trigger: '.contact-wrap',
+      start: 'top 75%'
+    }
+  });
 })();
 
 /* ====== NAVBAR SCROLL ====== */
@@ -434,80 +710,52 @@ function initScrollProgress() {
   updateProgress();
 }
 
-/* ------ MAGNETIC PHYSICS BUTTONS ------ */
+/* ------ MAGNETIC PHYSICS BUTTONS (NEOBRUTALISM) ------ */
 function initMagneticButtons() {
   const targets = document.querySelectorAll('.btn-primary, .btn-outline, .btn-cv, .btn-hire, .nav-logo, .skills-tab');
   const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
   if (isTouch) return;
 
   targets.forEach(el => {
+    const origTransform = el.style.transform || '';
     el.addEventListener('mousemove', (e) => {
       const rect = el.getBoundingClientRect();
       const x = e.clientX - rect.left - rect.width / 2;
       const y = e.clientY - rect.top - rect.height / 2;
-
-      // Soft pull magnet dynamics (translate elements 30% of cursor offset)
-      el.style.transform = `translate3d(${x * 0.32}px, ${y * 0.32}px, 0)`;
-      el.style.boxShadow = `0 12px 28px rgba(0, 242, 254, 0.35), 0 8px 20px rgba(168, 85, 247, 0.2)`;
+      // Small magnetic pull — NeoBrutalism keeps sharp edges
+      el.style.transform = `translate3d(${x * 0.22}px, ${y * 0.22}px, 0)`;
     });
 
     el.addEventListener('mouseleave', () => {
-      // Soft elastic reset handled via CSS transitions
-      el.style.transform = 'translate3d(0px, 0px, 0)';
-      el.style.boxShadow = '';
+      el.style.transform = origTransform;
     });
   });
 }
 
-/* ------ 3D TILT CARDS & SPOTLIGHT REFLECTION ------ */
+/* ------ BRUTALIST CARD HOVER EFFECT ------ */
 function init3DTiltAndSpotlight() {
-  const cards = document.querySelectorAll('.about-card, .project-card, .skill-card');
+  const cards = document.querySelectorAll('.about-card, .project-card, .skill-card, .cert-card');
   const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 
   cards.forEach(card => {
-    // Dynamically inject card spotlight overlay
-    if (!card.querySelector('.card-glow-spotlight')) {
-      const spotlight = document.createElement('div');
-      spotlight.className = 'card-glow-spotlight';
-      card.prepend(spotlight);
-    }
-
-    // Capture custom colors (e.g. for skills cards)
-    const icon = card.querySelector('.skill-icon');
-    const glowColor = icon ? getComputedStyle(icon).getPropertyValue('--clr').trim() : 'rgba(16, 185, 129, 0.35)';
-
     card.addEventListener('mousemove', (e) => {
+      if (isTouch) return;
       const rect = card.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
-
-      // Set CSS coordinates for glass spotlight glow
       card.style.setProperty('--mouse-x', `${x}px`);
       card.style.setProperty('--mouse-y', `${y}px`);
 
-      if (!isTouch) {
-        // Calculate physics rotation angles
-        const centerX = rect.width / 2;
-        const centerY = rect.height / 2;
-        const rotX = ((rect.top + centerY - e.clientY) / centerY) * 7; // Max rotation 7deg
-        const rotY = ((e.clientX - (rect.left + centerX)) / centerX) * 7; // Max rotation 7deg
-
-        card.style.transform = `perspective(1000px) rotateX(${rotX}deg) rotateY(${rotY}deg) translateY(-5px)`;
-      } else {
-        card.style.transform = 'translateY(-4px)';
-      }
-
-      // Dynamic shadows on hover
-      if (card.classList.contains('skill-card')) {
-        card.style.boxShadow = `0 12px 36px rgba(0,0,0,0.5), 0 0 25px ${glowColor}3c`;
-      } else {
-        card.style.boxShadow = `0 12px 36px rgba(0,0,0,0.5), 0 0 20px rgba(0, 242, 254, 0.15), 0 0 40px rgba(168, 85, 247, 0.08)`;
-      }
+      // Subtle tilt — less extreme for brutalist feel
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+      const rotX = ((rect.top + centerY - e.clientY) / centerY) * 3;
+      const rotY = ((e.clientX - (rect.left + centerX)) / centerX) * 3;
+      card.style.transform = `perspective(900px) rotateX(${rotX}deg) rotateY(${rotY}deg) translate(-2px, -2px)`;
     });
 
     card.addEventListener('mouseleave', () => {
-      card.style.transform = isTouch ? '' : 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0px)';
-      card.style.boxShadow = '';
+      card.style.transform = '';
     });
   });
 }
@@ -731,6 +979,7 @@ function switchTab(tab) {
   }
 }
 
-console.log('%c🚀 Portfolio Ariiq Nawfal Aqilla', 'color:#00f2fe;font-size:16px;font-weight:bold;');
-console.log('%cSoftware Engineering | Front-End Web Developer | UI/UX Designer', 'color:#a855f7;font-size:12px;');
+console.log('%c◆ Portfolio Ariiq Nawfal Aqilla', 'color:#FFD60A;font-size:16px;font-weight:900;font-family:Space Grotesk,sans-serif;');
+console.log('%cFront-End Developer | UI/UX | NeoBrutalism 3D Portfolio', 'color:#4FC3F7;font-size:12px;');
+
 
