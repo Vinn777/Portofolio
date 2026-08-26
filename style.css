@@ -1403,13 +1403,41 @@ section {
 }
 
 @media (max-width: 768px) {
+  #hero {
+    padding: 6rem 0 3rem;
+  }
   #hero .container {
     grid-template-columns: 1fr;
     text-align: center;
+    gap: 2rem;
   }
   .hero-btns { justify-content: center; }
   .hero-stats { justify-content: center; }
-  .hero-visual { display: none; }
+  
+  /* Hero Avatar on Mobile */
+  .hero-visual {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    order: -1;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+  .avatar-circle {
+    width: 220px;
+    height: 220px;
+    box-shadow: 5px 5px 0px var(--nb-purple-brand), -5px -5px 0px var(--nb-red);
+  }
+  .floating-badge {
+    padding: 0.35rem 0.65rem;
+    font-size: 0.72rem;
+    box-shadow: 2px 2px 0px rgba(255,255,255,0.15);
+  }
+  .floating-badge.fb-1 { top: -10px; left: -15px; }
+  .floating-badge.fb-2 { top: -10px; right: -15px; }
+  .floating-badge.fb-3 { bottom: -10px; left: -15px; }
+  .floating-badge.fb-4 { bottom: -10px; right: -15px; }
+
   #hero-3d-canvas { display: none; }
 
   .nav-links {
@@ -1441,6 +1469,20 @@ section {
 @media (max-width: 480px) {
   section { padding: 4rem 0; }
   .hero-title { font-size: 2.2rem; }
+  .avatar-circle {
+    width: 180px;
+    height: 180px;
+    box-shadow: 4px 4px 0px var(--nb-purple-brand), -4px -4px 0px var(--nb-red);
+  }
+  .floating-badge {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.65rem;
+    gap: 0.25rem;
+  }
+  .floating-badge.fb-1 { top: -8px; left: -8px; }
+  .floating-badge.fb-2 { top: -8px; right: -8px; }
+  .floating-badge.fb-3 { bottom: -8px; left: -8px; }
+  .floating-badge.fb-4 { bottom: -8px; right: -8px; }
   .skills-grid { grid-template-columns: repeat(2, 1fr); }
   .certs-grid { grid-template-columns: 1fr; }
 }

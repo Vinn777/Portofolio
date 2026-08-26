@@ -314,12 +314,15 @@
     delay: 1.8
   });
 
+  const isMobile = window.innerWidth <= 768;
   gsap.fromTo('.hero-visual', {
     opacity: 0,
-    x: 80
+    x: isMobile ? 0 : 80,
+    y: isMobile ? 30 : 0
   }, {
     opacity: 1,
     x: 0,
+    y: 0,
     duration: 1.1,
     ease: 'power3.out',
     delay: 2
