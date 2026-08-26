@@ -101,12 +101,31 @@
   }
   resize();
   window.addEventListener('resize', resize);
+  window.addEventListener('orientationchange', () => setTimeout(resize, 100));
 
   window.addEventListener('mousemove', (e) => {
     mouse.x = e.clientX;
     mouse.y = e.clientY;
   });
   window.addEventListener('mouseleave', () => {
+    mouse.x = null;
+    mouse.y = null;
+  });
+
+  // Mobile Touch Support for particles
+  window.addEventListener('touchstart', (e) => {
+    if (e.touches && e.touches[0]) {
+      mouse.x = e.touches[0].clientX;
+      mouse.y = e.touches[0].clientY;
+    }
+  }, { passive: true });
+  window.addEventListener('touchmove', (e) => {
+    if (e.touches && e.touches[0]) {
+      mouse.x = e.touches[0].clientX;
+      mouse.y = e.touches[0].clientY;
+    }
+  }, { passive: true });
+  window.addEventListener('touchend', () => {
     mouse.x = null;
     mouse.y = null;
   });
@@ -153,7 +172,7 @@
     }
   }
 
-  const particleCount = W < 768 ? 40 : 80;
+  const particleCount = W < 768 ? 45 : 80;
   for (let i = 0; i < particleCount; i++) particles.push(new Particle());
 
   function drawLines() {
@@ -183,17 +202,32 @@
   animate();
 })();
 
-/* ====== THREE.JS 3D HERO OBJECT ====== */
+/* ====== THREE.JS 3D HERO OBJECT (RESPONSIVE ON ALL DEVICES) ====== */
 (function initHero3D() {
   const canvas = document.getElementById('hero-3d-canvas');
   if (!canvas || typeof THREE === 'undefined') return;
 
-  const W = canvas.offsetWidth || 520;
-  const H = canvas.offsetHeight || 520;
+  function calculateDimensions() {
+    const isMobile = window.innerWidth <= 768;
+    const isSmallMobile = window.innerWidth <= 480;
+    let w, h;
+    if (isSmallMobile) {
+      w = h = Math.min(Math.round(window.innerWidth * 0.88), 300);
+    } else if (isMobile) {
+      w = h = Math.min(Math.round(window.innerWidth * 0.85), 360);
+    } else if (window.innerWidth <= 1024) {
+      w = h = 440;
+    } else {
+      w = h = 520;
+    }
+    return { w, h };
+  }
+
+  let { w: W, h: H } = calculateDimensions();
 
   const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
-  renderer.setSize(W, H);
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setSize(W, H, false);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
   renderer.setClearColor(0x000000, 0);
 
   const scene = new THREE.Scene();
@@ -258,24 +292,34 @@
   meshTorus.rotation.x = Math.PI / 2.5;
   group.add(meshTorus);
 
-  // Mouse parallax
-  let mouseX = 0, mouseY = 0;
-  const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-  if (!isTouch) {
-    document.addEventListener('mousemove', (e) => {
-      mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
-      mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
-    });
-  }
+  // Mouse & Touch Interactive Parallax
+  let targetX = 0, targetY = 0;
+  let currentX = 0, currentY = 0;
+
+  window.addEventListener('mousemove', (e) => {
+    targetX = (e.clientX / window.innerWidth - 0.5) * 2;
+    targetY = (e.clientY / window.innerHeight - 0.5) * 2;
+  });
+
+  window.addEventListener('touchmove', (e) => {
+    if (e.touches && e.touches[0]) {
+      targetX = (e.touches[0].clientX / window.innerWidth - 0.5) * 2;
+      targetY = (e.touches[0].clientY / window.innerHeight - 0.5) * 2;
+    }
+  }, { passive: true });
 
   let t = 0;
   function animate3D() {
     requestAnimationFrame(animate3D);
     t += 0.008;
 
+    // Smooth damping
+    currentX += (targetX - currentX) * 0.05;
+    currentY += (targetY - currentY) * 0.05;
+
     // Main rotation
-    group.rotation.y = t * 0.4 + mouseX * 0.4;
-    group.rotation.x = t * 0.15 + mouseY * 0.2;
+    group.rotation.y = t * 0.4 + currentX * 0.45;
+    group.rotation.x = t * 0.15 + currentY * 0.25;
 
     // Outer counter-spin
     meshOuter.rotation.y = -t * 0.6;
@@ -295,14 +339,17 @@
   }
   animate3D();
 
-  // Resize handler
-  window.addEventListener('resize', () => {
-    const newW = canvas.offsetWidth || 520;
-    const newH = canvas.offsetHeight || 520;
+  // Dynamic Resize handler for all phone models & orientations
+  function handleResize() {
+    const { w: newW, h: newH } = calculateDimensions();
     camera.aspect = newW / newH;
     camera.updateProjectionMatrix();
-    renderer.setSize(newW, newH);
-  });
+    renderer.setSize(newW, newH, false);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+  }
+
+  window.addEventListener('resize', handleResize);
+  window.addEventListener('orientationchange', () => setTimeout(handleResize, 150));
 })();
 
 /* ====== GSAP SCROLL REVEAL ANIMATIONS ====== */

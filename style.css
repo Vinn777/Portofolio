@@ -1478,7 +1478,21 @@ section {
   .floating-badge.fb-3 { bottom: -10px; left: -15px; }
   .floating-badge.fb-4 { bottom: -10px; right: -15px; }
 
-  #hero-3d-canvas { display: none; }
+  /* 3D Hero Canvas — Rendered and centered behind avatar on mobile */
+  #hero-3d-canvas {
+    display: block !important;
+    position: absolute;
+    top: 6.2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: clamp(270px, 85vw, 360px);
+    height: clamp(270px, 85vw, 360px);
+    max-width: 95vw;
+    max-height: 95vw;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.75;
+  }
 
   .nav-links {
     position: fixed; top: 0; right: -100%;
@@ -1510,6 +1524,14 @@ section {
 @media (max-width: 480px) {
   section { padding: 4rem 0; }
   .hero-title { font-size: 2.2rem; }
+  
+  #hero-3d-canvas {
+    top: 5.2rem;
+    width: clamp(240px, 88vw, 300px);
+    height: clamp(240px, 88vw, 300px);
+    opacity: 0.8;
+  }
+
   .avatar-circle {
     width: 180px;
     height: 180px;
@@ -1526,4 +1548,11 @@ section {
   .floating-badge.fb-4 { bottom: -8px; right: -8px; }
   .skills-grid { grid-template-columns: repeat(2, 1fr); }
   .certs-grid { grid-template-columns: 1fr; }
+}
+
+/* Touch devices: hide desktop cursor dot */
+@media (hover: none) and (pointer: coarse) {
+  .cursor-dot, .cursor-aura {
+    display: none !important;
+  }
 }
