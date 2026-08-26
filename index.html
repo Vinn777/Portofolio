@@ -28,7 +28,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 
   <!-- CSS -->
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css?v=2.2" />
 </head>
 
 <body>
@@ -181,6 +181,9 @@
     </div>
   </nav>
 
+  <!-- ====== NAV OVERLAY (MOBILE BACKDROP) ====== -->
+  <div class="nav-overlay" id="nav-overlay" aria-hidden="true"></div>
+
   <!-- ====== HERO ====== -->
   <section id="hero">
     <div class="hero-glow hero-glow-1"></div>
@@ -201,7 +204,7 @@
         <p class="hero-desc">
           Awalnya suka ngoprek UI web iseng-iseng, eh keterusan belajar front-end. Fresh Graduate <strong
             class="school-highlight">SMK Telkom Lampung</strong> yang lebih suka ngoding malam 🌙 dan sekarang lagi
-          seru-serunya eksplor ekosistem React &amp; Next.js.
+            seru-serunya eksplor ekosistem React &amp; Next.js.
         </p>
         <div class="hero-btns">
           <a href="#projects" class="btn-primary" id="hero-cta-projects">
@@ -234,9 +237,8 @@
       <div class="hero-visual">
         <div class="hero-avatar-wrap">
           <div class="avatar-circle">
-            <img src="img/profile.jpeg?v=3" alt="Ariiq Nawfal Aqilla - Front-End Developer" class="profile-img"
-              loading="eager"
-              onerror="this.onerror=null; this.src='https://via.placeholder.com/280x280/1E1E1E/FFD60A?text=ANA';" />
+            <img src="img/profile.jpeg?v=2.2" alt="Ariiq Nawfal Aqilla - Front-End Developer" class="profile-img"
+              loading="eager" decoding="async" />
           </div>
           <div class="floating-badge fb-1"><i class="bx bxl-html5"></i> HTML</div>
           <div class="floating-badge fb-2"><i class="bx bxl-react"></i> React</div>
@@ -812,7 +814,7 @@
     })();
   </script>
 
-  <script src="script.js"></script>
+  <script src="script.js?v=2.2"></script>
 </body>
 
 </html>

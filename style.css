@@ -457,6 +457,7 @@ section {
   display: none; flex-direction: column; gap: 5px;
   background: none; border: 2px solid rgba(255,255,255,0.3); cursor: pointer; padding: 6px 8px;
   border-radius: 0;
+  z-index: 1001;
 }
 .hamburger span {
   display: block; width: 22px; height: 2px;
@@ -467,6 +468,25 @@ section {
 .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px,5px); }
 .hamburger.active span:nth-child(2) { opacity: 0; }
 .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px,-5px); }
+
+/* ---- NAV OVERLAY (MOBILE BACKDROP) ---- */
+.nav-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(8, 4, 17, 0.75);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  z-index: 998;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.nav-overlay.active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
 
 /* ---- HERO ---- */
 #hero {
@@ -1403,6 +1423,10 @@ section {
 }
 
 @media (max-width: 768px) {
+  body.menu-open {
+    overflow: hidden;
+  }
+
   #hero {
     padding: 6rem 0 3rem;
   }
@@ -1414,19 +1438,35 @@ section {
   .hero-btns { justify-content: center; }
   .hero-stats { justify-content: center; }
   
-  /* Hero Avatar on Mobile */
+  /* Hero Avatar on Mobile - guaranteed display */
   .hero-visual {
-    display: flex;
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1;
     justify-content: center;
     align-items: center;
     order: -1;
     margin-top: 0.5rem;
     margin-bottom: 0.5rem;
+    width: 100%;
+  }
+  .hero-avatar-wrap {
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+    position: relative;
   }
   .avatar-circle {
+    display: block !important;
     width: 220px;
     height: 220px;
     box-shadow: 5px 5px 0px var(--nb-purple-brand), -5px -5px 0px var(--nb-red);
+  }
+  .profile-img {
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
   }
   .floating-badge {
     padding: 0.35rem 0.65rem;
@@ -1442,12 +1482,13 @@ section {
 
   .nav-links {
     position: fixed; top: 0; right: -100%;
-    width: min(320px, 100vw); height: 100vh;
+    width: min(300px, 80vw); height: 100vh;
     background: var(--nb-bg);
     border-left: var(--border-thick) solid var(--nb-yellow);
+    box-shadow: -10px 0 30px rgba(0, 0, 0, 0.7);
     flex-direction: column; gap: 0;
     padding: 5rem 0 2rem;
-    transition: right 0.3s ease;
+    transition: right 0.35s cubic-bezier(0.4, 0, 0.2, 1);
     z-index: 999;
   }
   .nav-links.open { right: 0; }
