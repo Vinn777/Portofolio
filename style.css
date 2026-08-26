@@ -1442,7 +1442,7 @@ section {
   .hero-visual {
     display: flex !important;
     visibility: visible !important;
-    opacity: 1;
+    opacity: 1 !important;
     justify-content: center;
     align-items: center;
     order: -1;
