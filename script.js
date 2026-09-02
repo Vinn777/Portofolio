@@ -202,8 +202,10 @@
   animate();
 })();
 
-/* ====== THREE.JS 3D HERO OBJECT (RESPONSIVE ON ALL DEVICES) ====== */
+/* ====== THREE.JS 3D HERO OBJECT — DISABLED (removed per redesign) ====== */
 (function initHero3D() {
+  // 3D wireframe polyhedron removed per redesign — canvas is now display:none
+  return;
   const canvas = document.getElementById('hero-3d-canvas');
   if (!canvas || typeof THREE === 'undefined') return;
 
