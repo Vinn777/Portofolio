@@ -1096,165 +1096,276 @@ function switchTab(tab) {
   }
 }
 
-console.log('%c◆ Portfolio Ariiq Nawfal Aqilla', 'color:#dc2626;font-size:16px;font-weight:900;font-family:Space Grotesk,sans-serif;');
-console.log('%cFront-End Developer | UI/UX | Hero Mode Active', 'color:rgba(255,255,255,0.6);font-size:12px;');
+console.log('%c◆ Portfolio Ariiq Nawfal Aqilla', 'color:#818cf8;font-size:16px;font-weight:900;font-family:Space Grotesk,sans-serif;');
+console.log('%cFront-End Developer | UI/UX | Storm Night Active', 'color:rgba(200,210,255,0.7);font-size:12px;');
 
 /* ================================================================
-   HERO MODE — RED BLACK THEME
-   Three features:
-   1. Canvas full-width lightning (midpoint displacement branching)
-   2. Photo hover: glitch → web overlay crossfade + rim-light
-   3. JS 3D tilt + scroll parallax
+   STORM NIGHT HERO
+   1. generatePetir()  — recursive branching lightning on canvas
+   2. Rain particles   — thin vertical lines, 10-15% opacity
+   3. 3D Tilt          — perspective rotateX/Y on avatar
+   4. Scroll Parallax  — storm canvas at 0.5× scroll speed
    ================================================================ */
 
-/* ===============================================================
-   FEATURE 1 — CANVAS LIGHTNING BACKGROUND
-   - Full-width canvas behind hero content
-   - Procedural branching lightning via midpoint displacement
-   - Fires every 4-7s at random x position, fades out in ~200ms
-   =============================================================== */
-(function initHeroLightningCanvas() {
-  const canvas = document.getElementById('hero-lightning-canvas');
-  if (!canvas) return;
-
+(function initStormNight() {
+  /* ============================================================
+     CANVAS SETUP
+  ============================================================ */
+  const canvas = document.getElementById('storm-canvas');
+  if (!canvas) {
+    console.warn('[Storm] #storm-canvas not found!');
+    return;
+  }
   const ctx = canvas.getContext('2d');
+  const flashOverlay = document.getElementById('lightning-flash-overlay');
 
-  // ---- Resize handling ----
+  /* Resize canvas to match hero section dimensions */
   function resizeCanvas() {
-    canvas.width  = canvas.offsetWidth;
-    canvas.height = canvas.offsetHeight;
+    const hero = document.getElementById('hero');
+    canvas.width  = hero ? hero.offsetWidth  : window.innerWidth;
+    canvas.height = hero ? hero.offsetHeight : window.innerHeight;
+    /* Re-init rain drops on resize */
+    initRain();
   }
   resizeCanvas();
   window.addEventListener('resize', resizeCanvas, { passive: true });
 
-  // ---- Midpoint displacement to generate a realistic bolt segment ----
-  // Returns array of {x,y} points
-  function generateBolt(x1, y1, x2, y2, offset, depth) {
-    if (depth === 0) return [{ x: x1, y: y1 }, { x: x2, y: y2 }];
+  /* ============================================================
+     FEATURE 1 — LIGHTNING (generatePetir)
 
-    const midX = (x1 + x2) / 2 + (Math.random() - 0.5) * offset;
-    const midY = (y1 + y2) / 2 + (Math.random() - 0.5) * offset * 0.3;
+     Algorithm: recursive branching
+     - Start at random X on top edge
+     - Each recursion steps downward by `stepY` pixels
+     - Offset X randomly (jitter) to create zigzag
+     - At random points, spawn a child branch (shallower recursion)
+  ============================================================ */
 
-    const left  = generateBolt(x1, y1, midX, midY, offset / 2, depth - 1);
-    const right = generateBolt(midX, midY, x2, y2, offset / 2, depth - 1);
+  /**
+   * generatePetir(x, y, dx, dy, depth, branches)
+   * Returns array of line segments: [{x1,y1,x2,y2}, ...]
+   */
+  function generatePetir(x, y, targetX, targetY, depth, isBranch) {
+    const segments = [];
+    if (depth <= 0) return segments;
 
-    // Merge: left ends and right starts at the same mid-point
-    return [...left.slice(0, -1), ...right];
-  }
-
-  // ---- Optionally add branch forks ----
-  function drawBranch(pts, branchProbability) {
-    if (pts.length < 4) return;
-
-    // Pick a random segment to branch from
-    const startIdx = Math.floor(pts.length * 0.2 + Math.random() * pts.length * 0.5);
-    const end = pts[startIdx];
-
-    const bx2 = end.x + (Math.random() - 0.5) * 80;
-    const by2 = end.y + (canvas.height - end.y) * (0.3 + Math.random() * 0.4);
-
-    const branchPts = generateBolt(end.x, end.y, bx2, by2, 30, 4);
-
-    ctx.save();
-    ctx.globalAlpha *= 0.45;
-    ctx.beginPath();
-    ctx.moveTo(branchPts[0].x, branchPts[0].y);
-    branchPts.forEach(p => ctx.lineTo(p.x, p.y));
-    ctx.stroke();
-    ctx.restore();
-  }
-
-  // ---- Draw one full lightning flash ----
-  function drawLightning() {
     const W = canvas.width;
     const H = canvas.height;
 
-    // Random x start position (avoid edges)
-    const startX = W * 0.1 + Math.random() * W * 0.8;
-    const startY = 0;
-    const endX   = startX + (Math.random() - 0.5) * W * 0.3;
-    const endY   = H * (0.6 + Math.random() * 0.4);
+    /* Number of sub-steps for this segment */
+    const steps = isBranch ? 5 + Math.floor(Math.random() * 4)
+                           : 8 + Math.floor(Math.random() * 6);
 
-    const pts = generateBolt(startX, startY, endX, endY, 80, 6);
+    let curX = x;
+    let curY = y;
 
-    // Outer glow pass (wider, lower opacity)
-    ctx.clearRect(0, 0, W, H);
+    for (let i = 0; i < steps; i++) {
+      /* Step downward */
+      const stepY = (targetY - y) / steps * (0.8 + Math.random() * 0.4);
+      const stepX = (targetX - x) / steps + (Math.random() - 0.5) * (isBranch ? 40 : 80);
+
+      const nextX = curX + stepX;
+      const nextY = curY + stepY;
+
+      /* Clamp inside canvas width */
+      const clampedX = Math.max(5, Math.min(W - 5, nextX));
+
+      segments.push({ x1: curX, y1: curY, x2: clampedX, y2: nextY });
+
+      /* Random chance to branch off */
+      if (!isBranch && depth > 1 && Math.random() < 0.3) {
+        const branchTargetX = clampedX + (Math.random() - 0.5) * W * 0.3;
+        const branchTargetY = nextY + (H - nextY) * (0.3 + Math.random() * 0.4);
+        const childSegs = generatePetir(clampedX, nextY, branchTargetX, branchTargetY, depth - 2, true);
+        segments.push(...childSegs);
+      }
+
+      curX = clampedX;
+      curY = nextY;
+    }
+
+    return segments;
+  }
+
+  /* Draw all segments with glow effect */
+  function drawPetir(segments, alpha) {
+    if (!segments.length) return;
+
     ctx.save();
+    ctx.globalAlpha = alpha;
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
 
-    ctx.shadowBlur  = 12;
-    ctx.shadowColor = 'rgba(252, 165, 165, 0.8)';
-    ctx.lineWidth   = 2.5;
-    ctx.strokeStyle = 'rgba(255, 220, 220, 0.18)';
-    ctx.lineCap     = 'round';
-    ctx.lineJoin    = 'round';
-
+    /* Outer glow pass */
+    ctx.shadowBlur  = 18;
+    ctx.shadowColor = '#818cf8';
+    ctx.strokeStyle = 'rgba(224, 231, 255, 0.25)';
+    ctx.lineWidth   = 3;
     ctx.beginPath();
-    ctx.moveTo(pts[0].x, pts[0].y);
-    pts.forEach(p => ctx.lineTo(p.x, p.y));
+    segments.forEach(s => {
+      ctx.moveTo(s.x1, s.y1);
+      ctx.lineTo(s.x2, s.y2);
+    });
     ctx.stroke();
 
-    // Core bolt (thinner, brighter)
-    ctx.lineWidth   = 1;
-    ctx.strokeStyle = 'rgba(252, 165, 165, 0.75)';
-    ctx.shadowBlur  = 6;
-    ctx.shadowColor = 'rgba(252, 165, 165, 1)';
+    /* Core bolt */
+    ctx.shadowBlur  = 8;
+    ctx.shadowColor = '#a5b4fc';
+    ctx.strokeStyle = 'rgba(224, 231, 255, 0.9)';
+    ctx.lineWidth   = 1.2;
     ctx.beginPath();
-    ctx.moveTo(pts[0].x, pts[0].y);
-    pts.forEach(p => ctx.lineTo(p.x, p.y));
+    segments.forEach(s => {
+      ctx.moveTo(s.x1, s.y1);
+      ctx.lineTo(s.x2, s.y2);
+    });
     ctx.stroke();
-
-    // Random branch
-    if (Math.random() > 0.4) drawBranch(pts, 0.5);
 
     ctx.restore();
   }
 
-  // ---- Animated fade-out after each flash ----
-  function flashLightning() {
-    drawLightning();
+  /* Fade-out: draw semi-transparent black over canvas in steps */
+  function fadeOutCanvas(steps, intervalMs, onDone) {
+    let step = 0;
+    const id = setInterval(() => {
+      step++;
+      ctx.fillStyle = `rgba(0,0,0,${0.85 / steps})`;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      if (step >= steps) {
+        clearInterval(id);
+        /* Clear rain residue too — rain redraws itself */
+        if (onDone) onDone();
+      }
+    }, intervalMs);
+  }
 
-    // Hold for 80-150ms, then fade out
-    const holdMs  = 80  + Math.random() * 70;
-    const fadeMs  = 120 + Math.random() * 80;
-    const steps   = 20;
-    const stepMs  = fadeMs / steps;
-    let   step    = 0;
+  /* One complete lightning event */
+  function triggerLightning() {
+    const W = canvas.width;
+    const H = canvas.height;
 
+    /* Random start X (10-90% width), end near bottom */
+    const startX   = W * (0.1 + Math.random() * 0.8);
+    const endX     = startX + (Math.random() - 0.5) * W * 0.25;
+    const endY     = H * (0.7 + Math.random() * 0.3);
+
+    const segments = generatePetir(startX, 0, endX, endY, 5, false);
+
+    /* === FLASH SEQUENCE === */
+    /* Frame 1: bright */
+    drawPetir(segments, 1.0);
+    if (flashOverlay) {
+      flashOverlay.classList.add('active');
+    }
+
+    /* Frame 2 (40ms): brief dimming */
     setTimeout(() => {
-      const fadeInterval = setInterval(() => {
-        step++;
-        // Overwrite canvas with semi-transparent black to fade
-        ctx.fillStyle = `rgba(10, 10, 10, ${step / steps * 0.9})`;
+      ctx.fillStyle = 'rgba(0,0,0,0.4)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      drawPetir(segments, 0.6);
+    }, 40);
+
+    /* Frame 3 (80ms): second bright pulse (optional double-flash) */
+    if (Math.random() > 0.45) {
+      setTimeout(() => {
+        ctx.fillStyle = 'rgba(0,0,0,0.5)';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
-        if (step >= steps) {
-          clearInterval(fadeInterval);
-          ctx.clearRect(0, 0, canvas.width, canvas.height);
-        }
-      }, stepMs);
+        drawPetir(segments, 0.85);
+        if (flashOverlay) flashOverlay.classList.add('active');
+      }, 80);
+    }
+
+    /* Remove flash overlay after ~120ms */
+    setTimeout(() => {
+      if (flashOverlay) flashOverlay.classList.remove('active');
+    }, 120);
+
+    /* Fade bolt out over ~150ms */
+    const holdMs = 100 + Math.random() * 100; /* 100-200ms hold */
+    setTimeout(() => {
+      fadeOutCanvas(12, 12, null);
     }, holdMs);
   }
 
-  // ---- Schedule next flash every 4-7 seconds ----
-  function scheduleNext() {
-    const delay = 4000 + Math.random() * 3000;
+  /* Schedule lightning: first strike within 2s, then 5-9s apart */
+  function scheduleLightning() {
+    const delay = 5000 + Math.random() * 4000; /* 5-9 seconds */
     setTimeout(() => {
-      flashLightning();
-      scheduleNext();
+      triggerLightning();
+      scheduleLightning();
     }, delay);
   }
 
-  // First flash after a short warm-up delay
-  setTimeout(flashLightning, 1500 + Math.random() * 1500);
-  scheduleNext();
-})();
+  /* Fire first strike early so user sees it quickly */
+  setTimeout(triggerLightning, 800 + Math.random() * 1200);
+  scheduleLightning();
+
+  /* ============================================================
+     FEATURE 2 — RAIN PARTICLES
+     Thin vertical lines, opacity 10-15%, white-blue tint
+     Rendered into same storm canvas on top of lightning
+  ============================================================ */
+
+  const MAX_DROPS = 120;
+  let rainDrops = [];
+
+  function initRain() {
+    rainDrops = [];
+    const W = canvas.width;
+    const H = canvas.height;
+    for (let i = 0; i < MAX_DROPS; i++) {
+      rainDrops.push({
+        x:       Math.random() * W,
+        y:       Math.random() * H,          /* start at random Y so it doesn't all appear at once */
+        len:     12 + Math.random() * 18,    /* line length 12-30px */
+        speed:   4  + Math.random() * 6,     /* px per frame */
+        opacity: 0.08 + Math.random() * 0.07 /* 8-15% */
+      });
+    }
+  }
+  initRain();
+
+  /* Rain animation loop — runs every frame */
+  let rainRafId = null;
+  function animateRain() {
+    const W = canvas.width;
+    const H = canvas.height;
+
+    /* Draw rain only (lightning is drawn separately via triggerLightning) */
+    /* We draw into a separate offscreen buffer to avoid clearing lightning mid-flash */
+    /* Simple approach: draw with very low opacity on top */
+    ctx.save();
+    ctx.lineCap = 'round';
+    ctx.lineWidth = 0.8;
+
+    rainDrops.forEach(drop => {
+      ctx.globalAlpha = drop.opacity;
+      ctx.strokeStyle = 'rgba(196, 216, 255, 1)';
+      ctx.shadowBlur  = 0;
+      ctx.beginPath();
+      ctx.moveTo(drop.x, drop.y);
+      ctx.lineTo(drop.x - 1, drop.y + drop.len); /* slight diagonal for wind effect */
+      ctx.stroke();
+
+      /* Move drop downward */
+      drop.y += drop.speed;
+
+      /* Reset to top when it leaves canvas bottom */
+      if (drop.y - drop.len > H) {
+        drop.y   = -drop.len;
+        drop.x   = Math.random() * W;
+      }
+    });
+
+    ctx.restore();
+    rainRafId = requestAnimationFrame(animateRain);
+  }
+  animateRain();
+
+})(); /* end initStormNight */
 
 
-/* ===============================================================
-   FEATURE 2 — INTERACTIVE PHOTO HOVER
-   - mouseenter: glitch CSS animation (0.35s) → crossfade to
-     web-overlay canvas + rim-light inset glow
-   - mouseleave: crossfade back to normal photo state
-   =============================================================== */
+/* ============================================================
+   FEATURE 3 — PHOTO HOVER: GLITCH + WEB OVERLAY + RIM-LIGHT
+============================================================ */
 (function initHeroPhotoHover() {
   const circle    = document.getElementById('avatar-circle');
   const img       = document.getElementById('profile-img');
@@ -1265,59 +1376,46 @@ console.log('%cFront-End Developer | UI/UX | Hero Mode Active', 'color:rgba(255,
   let glitchTimer = null;
   let webDrawn   = false;
 
-  // ---- Draw cross-hatch geometric web pattern on canvas ----
   function buildWebOverlay() {
     if (!webCanvas || webDrawn) return;
     const W = webCanvas.width  = circle.offsetWidth  || 300;
     const H = webCanvas.height = circle.offsetHeight || 300;
     const c = webCanvas.getContext('2d');
     c.clearRect(0, 0, W, H);
-
     const step = 20;
-
-    // Diagonal lines — top-left → bottom-right
-    c.strokeStyle = 'rgba(220, 38, 38, 0.5)';
+    c.strokeStyle = 'rgba(129, 140, 248, 0.5)'; /* indigo tone to match storm theme */
     c.lineWidth   = 0.7;
     for (let i = -H; i < W + H; i += step) {
       c.beginPath(); c.moveTo(i, 0); c.lineTo(i + H, H); c.stroke();
     }
-    // Diagonal lines — top-right → bottom-left
     for (let i = -H; i < W + H; i += step) {
       c.beginPath(); c.moveTo(i, H); c.lineTo(i + H, 0); c.stroke();
     }
-    // Sparse horizontals
-    c.strokeStyle = 'rgba(220, 38, 38, 0.2)';
+    c.strokeStyle = 'rgba(129, 140, 248, 0.2)';
     c.lineWidth   = 0.4;
     for (let y = 0; y <= H; y += step * 3) {
       c.beginPath(); c.moveTo(0, y); c.lineTo(W, y); c.stroke();
     }
-    // Corner accent triangles
-    c.strokeStyle = 'rgba(220, 38, 38, 0.55)';
+    c.strokeStyle = 'rgba(99, 102, 241, 0.55)';
     c.lineWidth   = 1;
     c.beginPath(); c.moveTo(0, 0); c.lineTo(55, 0); c.lineTo(0, 55); c.closePath(); c.stroke();
     c.beginPath(); c.moveTo(W, H); c.lineTo(W-55, H); c.lineTo(W, H-55); c.closePath(); c.stroke();
-    // Center crosshair + circle
     const cx = W/2, cy = H/2, cr = 22;
-    c.strokeStyle = 'rgba(220, 38, 38, 0.45)';
+    c.strokeStyle = 'rgba(129, 140, 248, 0.45)';
     c.lineWidth   = 0.6;
     c.beginPath(); c.moveTo(cx - cr, cy); c.lineTo(cx + cr, cy); c.stroke();
     c.beginPath(); c.moveTo(cx, cy - cr); c.lineTo(cx, cy + cr); c.stroke();
     c.beginPath(); c.arc(cx, cy, cr * 0.5, 0, Math.PI * 2); c.stroke();
-
     webDrawn = true;
   }
 
   function onEnter() {
     if (isHovered) return;
     isHovered = true;
-
-    // Phase 1: glitch burst (0.35s)
     img.classList.add('glitching');
     clearTimeout(glitchTimer);
-
     glitchTimer = setTimeout(() => {
       img.classList.remove('glitching');
-      // Phase 2: reveal overlay + rim
       buildWebOverlay();
       circle.classList.add('hovered');
     }, 350);
@@ -1329,59 +1427,43 @@ console.log('%cFront-End Developer | UI/UX | Hero Mode Active', 'color:rgba(255,
     clearTimeout(glitchTimer);
     img.classList.remove('glitching');
     circle.classList.remove('hovered');
-    // Reset any inline tilt transform on the tilt container
     const tiltEl = document.getElementById('avatar-tilt-container');
     if (tiltEl) tiltEl.style.transform = '';
   }
 
   circle.addEventListener('mouseenter', onEnter);
   circle.addEventListener('mouseleave', onLeave);
-  // Touch toggle
-  circle.addEventListener('touchstart', () => {
-    isHovered ? onLeave() : onEnter();
-  }, { passive: true });
+  circle.addEventListener('touchstart', () => { isHovered ? onLeave() : onEnter(); }, { passive: true });
 })();
 
 
-/* ===============================================================
-   FEATURE 3 — JS 3D TILT + SCROLL PARALLAX
-   - mousemove over avatar-tilt-container: perspective rotateX/Y
-     max ±8 degrees, smooth easing
-   - scroll: hero lightning canvas moves at 0.5× scroll speed
-     (parallax depth effect)
-   =============================================================== */
+/* ============================================================
+   FEATURE 4 — 3D TILT + SCROLL PARALLAX
+============================================================ */
 (function initHero3DAndParallax() {
-  const tiltEl        = document.getElementById('avatar-tilt-container');
-  const lightningCanvas = document.getElementById('hero-lightning-canvas');
-  const heroSection   = document.getElementById('hero');
+  const tiltEl      = document.getElementById('avatar-tilt-container');
+  const stormCanvas = document.getElementById('storm-canvas');
+  const heroSection = document.getElementById('hero');
   if (!heroSection) return;
 
-  const MAX_TILT = 8; // degrees
+  const MAX_TILT = 8;
 
-  // ---- 3D Tilt on mousemove ----
   if (tiltEl) {
     heroSection.addEventListener('mousemove', (e) => {
-      const rect = tiltEl.getBoundingClientRect();
-      // Only tilt when cursor is within ~150px of the avatar
-      const distX = e.clientX - (rect.left + rect.width / 2);
-      const distY = e.clientY - (rect.top  + rect.height / 2);
+      const rect    = tiltEl.getBoundingClientRect();
+      const distX   = e.clientX - (rect.left + rect.width  / 2);
+      const distY   = e.clientY - (rect.top  + rect.height / 2);
       const proximity = Math.sqrt(distX * distX + distY * distY);
 
       if (proximity > 350) {
-        // Cursor is far away — ease back to neutral
         tiltEl.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)';
         return;
       }
-
-      // Normalize to [-1, 1] relative to the avatar rect
-      const nx = Math.max(-1, Math.min(1, distX / (rect.width  / 2)));
-      const ny = Math.max(-1, Math.min(1, distY / (rect.height / 2)));
-
+      const nx   = Math.max(-1, Math.min(1, distX / (rect.width  / 2)));
+      const ny   = Math.max(-1, Math.min(1, distY / (rect.height / 2)));
       const rotX = -(ny * MAX_TILT);
       const rotY =   nx * MAX_TILT;
-
-      tiltEl.style.transform =
-        `perspective(1000px) rotateX(${rotX.toFixed(2)}deg) rotateY(${rotY.toFixed(2)}deg)`;
+      tiltEl.style.transform = `perspective(1000px) rotateX(${rotX.toFixed(2)}deg) rotateY(${rotY.toFixed(2)}deg)`;
     });
 
     heroSection.addEventListener('mouseleave', () => {
@@ -1389,7 +1471,7 @@ console.log('%cFront-End Developer | UI/UX | Hero Mode Active', 'color:rgba(255,
     });
   }
 
-  // ---- Scroll parallax: bg canvas moves at 0.5× scroll speed ----
+  /* Scroll parallax: storm canvas moves at 0.5× page scroll speed */
   let rafPending = false;
   window.addEventListener('scroll', () => {
     if (rafPending) return;
@@ -1397,12 +1479,8 @@ console.log('%cFront-End Developer | UI/UX | Hero Mode Active', 'color:rgba(255,
     requestAnimationFrame(() => {
       const scrollY = window.scrollY;
       const heroH   = heroSection.offsetHeight;
-      // Only inside the hero viewport
-      if (scrollY <= heroH) {
-        if (lightningCanvas) {
-          // Background canvas slides up slower than the page (parallax depth)
-          lightningCanvas.style.transform = `translateY(${scrollY * 0.5}px)`;
-        }
+      if (scrollY <= heroH && stormCanvas) {
+        stormCanvas.style.transform = `translateY(${scrollY * 0.5}px)`;
       }
       rafPending = false;
     });

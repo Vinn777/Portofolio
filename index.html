@@ -181,8 +181,18 @@
 
   <!-- ====== HERO ====== -->
   <section id="hero">
-    <!-- Full-width canvas lightning background -->
-    <canvas id="hero-lightning-canvas"></canvas>
+    <!-- LAYER 0: Storm canvas (lightning + rain) — furthest back -->
+    <canvas id="storm-canvas"></canvas>
+
+    <!-- LAYER 1: Cloud blobs — slow drifting glow -->
+    <div class="storm-cloud storm-cloud-1"></div>
+    <div class="storm-cloud storm-cloud-2"></div>
+    <div class="storm-cloud storm-cloud-3"></div>
+
+    <!-- LAYER 2: Flash overlay — brief bright pulse on each lightning strike -->
+    <div id="lightning-flash-overlay"></div>
+
+    <!-- LAYER 3+: Content -->
     <!-- 3D Canvas (Three.js) hidden -->
     <canvas id="hero-3d-canvas"></canvas>
     <div class="container">
@@ -231,15 +241,11 @@
       </div>
       <div class="hero-visual">
         <div class="hero-avatar-wrap" id="hero-avatar-wrap">
-          <!-- Dual-layer avatar: base photo + overlay canvas for crossfade -->
           <div class="avatar-tilt-container" id="avatar-tilt-container">
             <div class="avatar-circle" id="avatar-circle">
-              <!-- Layer 1: Normal photo -->
               <img src="img/profile.jpeg?v=2.2" alt="Ariiq Nawfal Aqilla - Front-End Developer"
                 class="profile-img profile-img-base" id="profile-img" loading="eager" decoding="async" />
-              <!-- Layer 2: Web overlay canvas (hidden by default, shown on hover) -->
               <canvas id="avatar-web-canvas" class="web-canvas"></canvas>
-              <!-- Rim light overlay div -->
               <div class="avatar-rim-light"></div>
             </div>
           </div>
