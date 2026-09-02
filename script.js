@@ -1096,7 +1096,210 @@ function switchTab(tab) {
   }
 }
 
-console.log('%c◆ Portfolio Ariiq Nawfal Aqilla', 'color:#FFD60A;font-size:16px;font-weight:900;font-family:Space Grotesk,sans-serif;');
-console.log('%cFront-End Developer | UI/UX | NeoBrutalism 3D Portfolio', 'color:#4FC3F7;font-size:12px;');
+console.log('%c◆ Portfolio Ariiq Nawfal Aqilla', 'color:#dc2626;font-size:16px;font-weight:900;font-family:Space Grotesk,sans-serif;');
+console.log('%cFront-End Developer | UI/UX | Hero Mode Active', 'color:rgba(255,255,255,0.6);font-size:12px;');
 
+/* ======================================================
+   HERO MODE — RED BLACK THEME EFFECTS
+   ====================================================== */
 
+/* ====== 1. LIGHTNING BOLT SYSTEM ====== */
+(function initLightning() {
+  const bolts = document.querySelectorAll('.hero-lightning');
+  if (!bolts.length) return;
+
+  function generateLightningPath(w, h) {
+    let path = `M ${w/2} 0 `;
+    let y = 0;
+    while(y < h) {
+      y += Math.random() * 10 + 5;
+      const x = (w/2) + (Math.random() - 0.5) * 40;
+      path += `L ${x} ${y} `;
+    }
+    return path;
+  }
+
+  let activeBolt = null; 
+
+  function flashBolt() {
+    if (activeBolt) return;
+    const bolt = bolts[Math.floor(Math.random() * bolts.length)];
+    activeBolt = bolt;
+    
+    bolt.innerHTML = `<path d="${generateLightningPath(100, 100)}" stroke="rgba(255,255,255,0.8)" stroke-width="0.5" fill="none" vector-effect="non-scaling-stroke"/>`;
+    
+    bolt.classList.add('flash');
+
+    setTimeout(() => {
+      bolt.classList.remove('flash');
+      activeBolt = null;
+    }, 350);
+  }
+
+  function scheduleNext() {
+    const delay = 5000 + Math.random() * 3000;
+    setTimeout(() => {
+      flashBolt();
+      scheduleNext();
+    }, delay);
+  }
+
+  setTimeout(scheduleNext, 2000 + Math.random() * 2000);
+})();
+
+/* ====== 2. GEOMETRIC WEB OVERLAY ====== */
+function drawWebOverlay(canvas) {
+  const w = canvas.width  = canvas.offsetWidth  || 300;
+  const h = canvas.height = canvas.offsetHeight || 300;
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0, 0, w, h);
+
+  const RED  = 'rgba(220, 38, 38, 0.55)';
+  const RED2 = 'rgba(220, 38, 38, 0.25)';
+
+  ctx.lineWidth = 0.6;
+
+  ctx.strokeStyle = RED;
+  const step = 22;
+  for (let i = -(h); i < w + h; i += step) {
+    ctx.beginPath();
+    ctx.moveTo(i, 0);
+    ctx.lineTo(i + h, h);
+    ctx.stroke();
+  }
+
+  for (let i = -(h); i < w + h; i += step) {
+    ctx.beginPath();
+    ctx.moveTo(i, h);
+    ctx.lineTo(i + h, 0);
+    ctx.stroke();
+  }
+
+  ctx.strokeStyle = RED2;
+  ctx.lineWidth = 0.4;
+  for (let y = 0; y <= h; y += step * 3) {
+    ctx.beginPath();
+    ctx.moveTo(0, y);
+    ctx.lineTo(w, y);
+    ctx.stroke();
+  }
+
+  for (let x = 0; x <= w; x += step * 3) {
+    ctx.beginPath();
+    ctx.moveTo(x, 0);
+    ctx.lineTo(x, h);
+    ctx.stroke();
+  }
+
+  ctx.strokeStyle = 'rgba(220, 38, 38, 0.4)';
+  ctx.lineWidth = 0.8;
+  ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(60, 0); ctx.lineTo(0, 60); ctx.closePath(); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(w, h); ctx.lineTo(w - 60, h); ctx.lineTo(w, h - 60); ctx.closePath(); ctx.stroke();
+
+  const cx = w / 2, cy = h / 2, cr = 24;
+  ctx.strokeStyle = 'rgba(220, 38, 38, 0.5)';
+  ctx.lineWidth = 0.7;
+  ctx.beginPath(); ctx.moveTo(cx - cr, cy); ctx.lineTo(cx + cr, cy); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(cx, cy - cr); ctx.lineTo(cx, cy + cr); ctx.stroke();
+  ctx.beginPath(); ctx.arc(cx, cy, cr * 0.55, 0, Math.PI * 2); ctx.stroke();
+}
+
+/* ====== 3. HERO PHOTO HOVER EFFECTS ====== */
+(function initHeroPhotoEffects() {
+  const circle  = document.getElementById('avatar-circle');
+  const img     = document.getElementById('profile-img');
+  const webCanvas = document.getElementById('avatar-web-canvas');
+  if (!circle || !img) return;
+
+  let isHovered  = false;
+  let glitchTimer = null;
+  let webDrawn   = false;
+
+  function ensureWebDrawn() {
+    if (!webCanvas || webDrawn) return;
+    drawWebOverlay(webCanvas);
+    webDrawn = true;
+  }
+
+  function startHover() {
+    if (isHovered) return;
+    isHovered = true;
+
+    img.classList.add('glitching');
+    clearTimeout(glitchTimer);
+
+    glitchTimer = setTimeout(() => {
+      img.classList.remove('glitching');
+      ensureWebDrawn();
+      circle.classList.add('web-active', 'rim-active');
+      img.style.filter = 'grayscale(0%) contrast(1.06) brightness(1)';
+    }, 420);
+  }
+
+  function endHover() {
+    if (!isHovered) return;
+    isHovered = false;
+    clearTimeout(glitchTimer);
+    img.classList.remove('glitching');
+    circle.classList.remove('web-active', 'rim-active');
+    img.style.filter = '';
+    circle.style.transform = '';
+    img.style.transform = '';
+  }
+
+  circle.addEventListener('mouseenter', startHover);
+  circle.addEventListener('mouseleave', endHover);
+
+  circle.addEventListener('touchstart', (e) => {
+    if (isHovered) { endHover(); } else { startHover(); }
+  }, { passive: true });
+
+  const MAX_TILT = 7; 
+  const MAX_MOVE = 8; 
+
+  document.addEventListener('mousemove', (e) => {
+    if (!isHovered) return;
+    const rect = circle.getBoundingClientRect();
+    const cx   = rect.left + rect.width  / 2;
+    const cy   = rect.top  + rect.height / 2;
+
+    const nx = Math.max(-1, Math.min(1, (e.clientX - cx) / (rect.width  / 2)));
+    const ny = Math.max(-1, Math.min(1, (e.clientY - cy) / (rect.height / 2)));
+
+    const tiltX = -(ny * MAX_TILT);
+    const tiltY =   nx * MAX_TILT;
+    circle.style.transform = `perspective(700px) rotateX(${tiltX.toFixed(2)}deg) rotateY(${tiltY.toFixed(2)}deg)`;
+
+    const moveX =  nx * MAX_MOVE;
+    const moveY =  ny * MAX_MOVE;
+    img.style.transform = `translate(${moveX.toFixed(1)}px, ${moveY.toFixed(1)}px) scale(1.06)`;
+  });
+})();
+
+/* ====== 4. HERO SCROLL PARALLAX ====== */
+(function initHeroParallax() {
+  const heroSection = document.getElementById('hero');
+  if (!heroSection) return;
+
+  const bgLayer   = heroSection.querySelector('.hero-glow-1');
+  const bgLayer2  = heroSection.querySelector('.hero-glow-2');
+  const heroCont  = heroSection.querySelector('.container');
+
+  let ticking = false;
+
+  window.addEventListener('scroll', () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => {
+      const scrollY = window.scrollY;
+      const heroH   = heroSection.offsetHeight;
+      if (scrollY > heroH) { ticking = false; return; }
+
+      if (bgLayer)  bgLayer.style.transform  = `translateY(${scrollY * 0.15}px)`;
+      if (bgLayer2) bgLayer2.style.transform = `translateY(${scrollY * 0.1}px)`;
+      if (heroCont) heroCont.style.transform = `translateY(${scrollY * -0.03}px)`;
+
+      ticking = false;
+    });
+  }, { passive: true });
+})();
