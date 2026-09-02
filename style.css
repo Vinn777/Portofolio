@@ -511,31 +511,21 @@ section {
   overflow: hidden;
 }
 
-/* Subtle line decorations (hidden in favor of lightning) */
-.hero-glow {
-  display: none;
-}
+/* Subtle line decorations (hidden - replaced by canvas lightning) */
+.hero-glow { display: none; }
 
-/* Lightning System */
-.hero-lightning {
+/* Full-width canvas lightning background */
+#hero-lightning-canvas {
   position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
   pointer-events: none;
-  opacity: 0;
-  z-index: 5;
-  mix-blend-mode: screen;
-}
-.hero-lightning.flash {
-  animation: lightningFlash 0.35s ease-out;
+  z-index: 0;
+  /* sits behind all content */
 }
 
-/* Custom SVG lines generated in JS for lightning */
-@keyframes lightningFlash {
-  0% { opacity: 0; }
-  10% { opacity: 0.25; }
-  20% { opacity: 0; }
-  30% { opacity: 0.3; }
-  100% { opacity: 0; }
-}
+/* Old SVG lightning placeholders — hidden */
+.hero-lightning { display: none; }
 
 /* 3D Hero Canvas — hidden (removed per redesign) */
 #hero-3d-canvas {
@@ -671,9 +661,16 @@ section {
   display: flex; justify-content: center; align-items: center;
 }
 
+/* Tilt container — receives the 3D perspective transform via JS */
+.avatar-tilt-container {
+  transform-style: preserve-3d;
+  transition: transform 0.08s linear;
+  will-change: transform;
+}
+
 .avatar-ring { display: none; }
 
-/* Clean avatar frame — 1px red border */
+/* Avatar frame */
 .avatar-circle {
   position: relative;
   width: 300px; height: 300px;
@@ -682,16 +679,47 @@ section {
   background: var(--nb-bg-2);
   z-index: 2;
   box-shadow: 0 0 0 1px rgba(220, 38, 38, 0.15), 0 24px 60px rgba(0,0,0,0.6);
-  transition: transform 0.1s ease-out, box-shadow 0.3s ease;
-  transform-style: preserve-3d;
+  transition: box-shadow 0.35s ease;
 }
 
-.avatar-circle.rim-active {
-  box-shadow: 0 0 15px rgba(220, 38, 38, 0.4), inset 0 0 20px rgba(220, 38, 38, 0.3), 0 24px 60px rgba(0,0,0,0.6);
-  border-color: rgba(220, 38, 38, 0.8);
+/* Base photo — Layer 1 */
+.profile-img-base {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: grayscale(20%) contrast(1.05) brightness(0.9);
+  opacity: 1;
+  transition: filter 0.4s ease, opacity 0.4s ease, transform 0.08s linear;
+  z-index: 1;
+  transform-origin: center;
 }
 
-/* Geometric web overlay canvas */
+/* Glitch keyframes — rapid translate jitter */
+@keyframes photoGlitch {
+  0%   { transform: translateX(0); }
+  10%  { transform: translateX(-5px) scaleX(1.01); filter: hue-rotate(90deg) brightness(1.4); }
+  20%  { transform: translateX(5px); filter: hue-rotate(-90deg); }
+  30%  { transform: translateX(-3px) scaleX(0.99); filter: hue-rotate(45deg) brightness(0.8); }
+  40%  { transform: translateX(3px); filter: none; }
+  50%  { transform: translateX(-4px); filter: hue-rotate(180deg) brightness(1.2); }
+  60%  { transform: translateX(2px); filter: none; }
+  70%  { transform: translateX(-2px) scaleX(1.02); filter: hue-rotate(-45deg); }
+  80%  { transform: translateX(1px); filter: none; }
+  100% { transform: translateX(0); filter: none; }
+}
+
+.profile-img-base.glitching {
+  animation: photoGlitch 0.35s step-end forwards;
+}
+
+/* Hovered state — photo goes full color, slight brightness boost */
+.avatar-circle.hovered .profile-img-base {
+  filter: grayscale(0%) contrast(1.05) brightness(1.05);
+}
+
+/* Geometric web overlay canvas — Layer 2 */
 .web-canvas {
   position: absolute;
   top: 0; left: 0;
@@ -699,35 +727,24 @@ section {
   z-index: 3;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.4s ease;
 }
-.avatar-circle.web-active .web-canvas {
+.avatar-circle.hovered .web-canvas {
   opacity: 1;
 }
 
-/* Photo — soft desaturate to blend with dark theme */
-.profile-img {
-  width: 100%; height: 100%;
-  object-fit: cover;
-  display: block;
-  filter: grayscale(20%) contrast(1.05) brightness(0.95);
-  transition: filter 0.4s ease, transform 0.1s ease-out;
-  position: relative;
-  z-index: 1;
+/* Rim light overlay — Layer 3 */
+.avatar-rim-light {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  border-radius: inherit;
+  box-shadow: inset 0 0 0 0 transparent;
+  transition: box-shadow 0.4s ease;
 }
-
-/* Glitch effect on hover start */
-@keyframes photoGlitch {
-  0% { filter: hue-rotate(0deg) contrast(1.5) saturate(2); transform: translate(0, 0) scale(1.02); }
-  20% { filter: hue-rotate(90deg) contrast(2); transform: translate(-4px, 2px) scale(1.03); }
-  40% { filter: hue-rotate(-90deg) contrast(1.8); transform: translate(4px, -2px) scale(1.02); }
-  60% { filter: hue-rotate(45deg) contrast(1.5) saturate(0); transform: translate(-2px, -4px) scale(1.04); }
-  80% { filter: hue-rotate(-45deg) contrast(2); transform: translate(2px, 4px) scale(1.02); }
-  100% { filter: grayscale(0%) contrast(1.06) brightness(1); transform: translate(0, 0) scale(1.06); }
-}
-
-.profile-img.glitching {
-  animation: photoGlitch 0.42s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+.avatar-circle.hovered .avatar-rim-light {
+  box-shadow: inset 0 0 30px rgba(220, 38, 38, 0.5), inset 0 0 8px rgba(220, 38, 38, 0.8);
 }
 
 /* Floating tech badges — hidden per redesign, info moved to Skills section */

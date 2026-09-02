@@ -181,11 +181,9 @@
 
   <!-- ====== HERO ====== -->
   <section id="hero">
-    <!-- Lightning Containers -->
-    <svg class="hero-lightning" id="lightning-1" viewBox="0 0 100 100" preserveAspectRatio="none" style="top:5%; right:5%; width: 25vw; height: 40vh;"></svg>
-    <svg class="hero-lightning" id="lightning-2" viewBox="0 0 100 100" preserveAspectRatio="none" style="bottom:10%; left:2%; width: 30vw; height: 35vh;"></svg>
-    
-    <!-- 3D Canvas (Three.js) -->
+    <!-- Full-width canvas lightning background -->
+    <canvas id="hero-lightning-canvas"></canvas>
+    <!-- 3D Canvas (Three.js) hidden -->
     <canvas id="hero-3d-canvas"></canvas>
     <div class="container">
       <div class="hero-content">
@@ -232,11 +230,18 @@
         </div>
       </div>
       <div class="hero-visual">
-        <div class="hero-avatar-wrap">
-          <div class="avatar-circle" id="avatar-circle">
-            <img src="img/profile.jpeg?v=2.2" alt="Ariiq Nawfal Aqilla - Front-End Developer" class="profile-img"
-              id="profile-img" loading="eager" decoding="async" />
-            <canvas id="avatar-web-canvas" class="web-canvas"></canvas>
+        <div class="hero-avatar-wrap" id="hero-avatar-wrap">
+          <!-- Dual-layer avatar: base photo + overlay canvas for crossfade -->
+          <div class="avatar-tilt-container" id="avatar-tilt-container">
+            <div class="avatar-circle" id="avatar-circle">
+              <!-- Layer 1: Normal photo -->
+              <img src="img/profile.jpeg?v=2.2" alt="Ariiq Nawfal Aqilla - Front-End Developer"
+                class="profile-img profile-img-base" id="profile-img" loading="eager" decoding="async" />
+              <!-- Layer 2: Web overlay canvas (hidden by default, shown on hover) -->
+              <canvas id="avatar-web-canvas" class="web-canvas"></canvas>
+              <!-- Rim light overlay div -->
+              <div class="avatar-rim-light"></div>
+            </div>
           </div>
         </div>
       </div>

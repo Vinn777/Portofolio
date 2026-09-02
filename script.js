@@ -1099,115 +1099,165 @@ function switchTab(tab) {
 console.log('%c◆ Portfolio Ariiq Nawfal Aqilla', 'color:#dc2626;font-size:16px;font-weight:900;font-family:Space Grotesk,sans-serif;');
 console.log('%cFront-End Developer | UI/UX | Hero Mode Active', 'color:rgba(255,255,255,0.6);font-size:12px;');
 
-/* ======================================================
-   HERO MODE — RED BLACK THEME EFFECTS
-   ====================================================== */
+/* ================================================================
+   HERO MODE — RED BLACK THEME
+   Three features:
+   1. Canvas full-width lightning (midpoint displacement branching)
+   2. Photo hover: glitch → web overlay crossfade + rim-light
+   3. JS 3D tilt + scroll parallax
+   ================================================================ */
 
-/* ====== 1. LIGHTNING BOLT SYSTEM ====== */
-(function initLightning() {
-  const bolts = document.querySelectorAll('.hero-lightning');
-  if (!bolts.length) return;
+/* ===============================================================
+   FEATURE 1 — CANVAS LIGHTNING BACKGROUND
+   - Full-width canvas behind hero content
+   - Procedural branching lightning via midpoint displacement
+   - Fires every 4-7s at random x position, fades out in ~200ms
+   =============================================================== */
+(function initHeroLightningCanvas() {
+  const canvas = document.getElementById('hero-lightning-canvas');
+  if (!canvas) return;
 
-  function generateLightningPath(w, h) {
-    let path = `M ${w/2} 0 `;
-    let y = 0;
-    while(y < h) {
-      y += Math.random() * 10 + 5;
-      const x = (w/2) + (Math.random() - 0.5) * 40;
-      path += `L ${x} ${y} `;
-    }
-    return path;
+  const ctx = canvas.getContext('2d');
+
+  // ---- Resize handling ----
+  function resizeCanvas() {
+    canvas.width  = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
+  }
+  resizeCanvas();
+  window.addEventListener('resize', resizeCanvas, { passive: true });
+
+  // ---- Midpoint displacement to generate a realistic bolt segment ----
+  // Returns array of {x,y} points
+  function generateBolt(x1, y1, x2, y2, offset, depth) {
+    if (depth === 0) return [{ x: x1, y: y1 }, { x: x2, y: y2 }];
+
+    const midX = (x1 + x2) / 2 + (Math.random() - 0.5) * offset;
+    const midY = (y1 + y2) / 2 + (Math.random() - 0.5) * offset * 0.3;
+
+    const left  = generateBolt(x1, y1, midX, midY, offset / 2, depth - 1);
+    const right = generateBolt(midX, midY, x2, y2, offset / 2, depth - 1);
+
+    // Merge: left ends and right starts at the same mid-point
+    return [...left.slice(0, -1), ...right];
   }
 
-  let activeBolt = null; 
+  // ---- Optionally add branch forks ----
+  function drawBranch(pts, branchProbability) {
+    if (pts.length < 4) return;
 
-  function flashBolt() {
-    if (activeBolt) return;
-    const bolt = bolts[Math.floor(Math.random() * bolts.length)];
-    activeBolt = bolt;
-    
-    bolt.innerHTML = `<path d="${generateLightningPath(100, 100)}" stroke="rgba(255,255,255,0.8)" stroke-width="0.5" fill="none" vector-effect="non-scaling-stroke"/>`;
-    
-    bolt.classList.add('flash');
+    // Pick a random segment to branch from
+    const startIdx = Math.floor(pts.length * 0.2 + Math.random() * pts.length * 0.5);
+    const end = pts[startIdx];
+
+    const bx2 = end.x + (Math.random() - 0.5) * 80;
+    const by2 = end.y + (canvas.height - end.y) * (0.3 + Math.random() * 0.4);
+
+    const branchPts = generateBolt(end.x, end.y, bx2, by2, 30, 4);
+
+    ctx.save();
+    ctx.globalAlpha *= 0.45;
+    ctx.beginPath();
+    ctx.moveTo(branchPts[0].x, branchPts[0].y);
+    branchPts.forEach(p => ctx.lineTo(p.x, p.y));
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  // ---- Draw one full lightning flash ----
+  function drawLightning() {
+    const W = canvas.width;
+    const H = canvas.height;
+
+    // Random x start position (avoid edges)
+    const startX = W * 0.1 + Math.random() * W * 0.8;
+    const startY = 0;
+    const endX   = startX + (Math.random() - 0.5) * W * 0.3;
+    const endY   = H * (0.6 + Math.random() * 0.4);
+
+    const pts = generateBolt(startX, startY, endX, endY, 80, 6);
+
+    // Outer glow pass (wider, lower opacity)
+    ctx.clearRect(0, 0, W, H);
+    ctx.save();
+
+    ctx.shadowBlur  = 12;
+    ctx.shadowColor = 'rgba(252, 165, 165, 0.8)';
+    ctx.lineWidth   = 2.5;
+    ctx.strokeStyle = 'rgba(255, 220, 220, 0.18)';
+    ctx.lineCap     = 'round';
+    ctx.lineJoin    = 'round';
+
+    ctx.beginPath();
+    ctx.moveTo(pts[0].x, pts[0].y);
+    pts.forEach(p => ctx.lineTo(p.x, p.y));
+    ctx.stroke();
+
+    // Core bolt (thinner, brighter)
+    ctx.lineWidth   = 1;
+    ctx.strokeStyle = 'rgba(252, 165, 165, 0.75)';
+    ctx.shadowBlur  = 6;
+    ctx.shadowColor = 'rgba(252, 165, 165, 1)';
+    ctx.beginPath();
+    ctx.moveTo(pts[0].x, pts[0].y);
+    pts.forEach(p => ctx.lineTo(p.x, p.y));
+    ctx.stroke();
+
+    // Random branch
+    if (Math.random() > 0.4) drawBranch(pts, 0.5);
+
+    ctx.restore();
+  }
+
+  // ---- Animated fade-out after each flash ----
+  function flashLightning() {
+    drawLightning();
+
+    // Hold for 80-150ms, then fade out
+    const holdMs  = 80  + Math.random() * 70;
+    const fadeMs  = 120 + Math.random() * 80;
+    const steps   = 20;
+    const stepMs  = fadeMs / steps;
+    let   step    = 0;
 
     setTimeout(() => {
-      bolt.classList.remove('flash');
-      activeBolt = null;
-    }, 350);
+      const fadeInterval = setInterval(() => {
+        step++;
+        // Overwrite canvas with semi-transparent black to fade
+        ctx.fillStyle = `rgba(10, 10, 10, ${step / steps * 0.9})`;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        if (step >= steps) {
+          clearInterval(fadeInterval);
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+      }, stepMs);
+    }, holdMs);
   }
 
+  // ---- Schedule next flash every 4-7 seconds ----
   function scheduleNext() {
-    const delay = 5000 + Math.random() * 3000;
+    const delay = 4000 + Math.random() * 3000;
     setTimeout(() => {
-      flashBolt();
+      flashLightning();
       scheduleNext();
     }, delay);
   }
 
-  setTimeout(scheduleNext, 2000 + Math.random() * 2000);
+  // First flash after a short warm-up delay
+  setTimeout(flashLightning, 1500 + Math.random() * 1500);
+  scheduleNext();
 })();
 
-/* ====== 2. GEOMETRIC WEB OVERLAY ====== */
-function drawWebOverlay(canvas) {
-  const w = canvas.width  = canvas.offsetWidth  || 300;
-  const h = canvas.height = canvas.offsetHeight || 300;
-  const ctx = canvas.getContext('2d');
-  ctx.clearRect(0, 0, w, h);
 
-  const RED  = 'rgba(220, 38, 38, 0.55)';
-  const RED2 = 'rgba(220, 38, 38, 0.25)';
-
-  ctx.lineWidth = 0.6;
-
-  ctx.strokeStyle = RED;
-  const step = 22;
-  for (let i = -(h); i < w + h; i += step) {
-    ctx.beginPath();
-    ctx.moveTo(i, 0);
-    ctx.lineTo(i + h, h);
-    ctx.stroke();
-  }
-
-  for (let i = -(h); i < w + h; i += step) {
-    ctx.beginPath();
-    ctx.moveTo(i, h);
-    ctx.lineTo(i + h, 0);
-    ctx.stroke();
-  }
-
-  ctx.strokeStyle = RED2;
-  ctx.lineWidth = 0.4;
-  for (let y = 0; y <= h; y += step * 3) {
-    ctx.beginPath();
-    ctx.moveTo(0, y);
-    ctx.lineTo(w, y);
-    ctx.stroke();
-  }
-
-  for (let x = 0; x <= w; x += step * 3) {
-    ctx.beginPath();
-    ctx.moveTo(x, 0);
-    ctx.lineTo(x, h);
-    ctx.stroke();
-  }
-
-  ctx.strokeStyle = 'rgba(220, 38, 38, 0.4)';
-  ctx.lineWidth = 0.8;
-  ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(60, 0); ctx.lineTo(0, 60); ctx.closePath(); ctx.stroke();
-  ctx.beginPath(); ctx.moveTo(w, h); ctx.lineTo(w - 60, h); ctx.lineTo(w, h - 60); ctx.closePath(); ctx.stroke();
-
-  const cx = w / 2, cy = h / 2, cr = 24;
-  ctx.strokeStyle = 'rgba(220, 38, 38, 0.5)';
-  ctx.lineWidth = 0.7;
-  ctx.beginPath(); ctx.moveTo(cx - cr, cy); ctx.lineTo(cx + cr, cy); ctx.stroke();
-  ctx.beginPath(); ctx.moveTo(cx, cy - cr); ctx.lineTo(cx, cy + cr); ctx.stroke();
-  ctx.beginPath(); ctx.arc(cx, cy, cr * 0.55, 0, Math.PI * 2); ctx.stroke();
-}
-
-/* ====== 3. HERO PHOTO HOVER EFFECTS ====== */
-(function initHeroPhotoEffects() {
-  const circle  = document.getElementById('avatar-circle');
-  const img     = document.getElementById('profile-img');
+/* ===============================================================
+   FEATURE 2 — INTERACTIVE PHOTO HOVER
+   - mouseenter: glitch CSS animation (0.35s) → crossfade to
+     web-overlay canvas + rim-light inset glow
+   - mouseleave: crossfade back to normal photo state
+   =============================================================== */
+(function initHeroPhotoHover() {
+  const circle    = document.getElementById('avatar-circle');
+  const img       = document.getElementById('profile-img');
   const webCanvas = document.getElementById('avatar-web-canvas');
   if (!circle || !img) return;
 
@@ -1215,91 +1265,146 @@ function drawWebOverlay(canvas) {
   let glitchTimer = null;
   let webDrawn   = false;
 
-  function ensureWebDrawn() {
+  // ---- Draw cross-hatch geometric web pattern on canvas ----
+  function buildWebOverlay() {
     if (!webCanvas || webDrawn) return;
-    drawWebOverlay(webCanvas);
+    const W = webCanvas.width  = circle.offsetWidth  || 300;
+    const H = webCanvas.height = circle.offsetHeight || 300;
+    const c = webCanvas.getContext('2d');
+    c.clearRect(0, 0, W, H);
+
+    const step = 20;
+
+    // Diagonal lines — top-left → bottom-right
+    c.strokeStyle = 'rgba(220, 38, 38, 0.5)';
+    c.lineWidth   = 0.7;
+    for (let i = -H; i < W + H; i += step) {
+      c.beginPath(); c.moveTo(i, 0); c.lineTo(i + H, H); c.stroke();
+    }
+    // Diagonal lines — top-right → bottom-left
+    for (let i = -H; i < W + H; i += step) {
+      c.beginPath(); c.moveTo(i, H); c.lineTo(i + H, 0); c.stroke();
+    }
+    // Sparse horizontals
+    c.strokeStyle = 'rgba(220, 38, 38, 0.2)';
+    c.lineWidth   = 0.4;
+    for (let y = 0; y <= H; y += step * 3) {
+      c.beginPath(); c.moveTo(0, y); c.lineTo(W, y); c.stroke();
+    }
+    // Corner accent triangles
+    c.strokeStyle = 'rgba(220, 38, 38, 0.55)';
+    c.lineWidth   = 1;
+    c.beginPath(); c.moveTo(0, 0); c.lineTo(55, 0); c.lineTo(0, 55); c.closePath(); c.stroke();
+    c.beginPath(); c.moveTo(W, H); c.lineTo(W-55, H); c.lineTo(W, H-55); c.closePath(); c.stroke();
+    // Center crosshair + circle
+    const cx = W/2, cy = H/2, cr = 22;
+    c.strokeStyle = 'rgba(220, 38, 38, 0.45)';
+    c.lineWidth   = 0.6;
+    c.beginPath(); c.moveTo(cx - cr, cy); c.lineTo(cx + cr, cy); c.stroke();
+    c.beginPath(); c.moveTo(cx, cy - cr); c.lineTo(cx, cy + cr); c.stroke();
+    c.beginPath(); c.arc(cx, cy, cr * 0.5, 0, Math.PI * 2); c.stroke();
+
     webDrawn = true;
   }
 
-  function startHover() {
+  function onEnter() {
     if (isHovered) return;
     isHovered = true;
 
+    // Phase 1: glitch burst (0.35s)
     img.classList.add('glitching');
     clearTimeout(glitchTimer);
 
     glitchTimer = setTimeout(() => {
       img.classList.remove('glitching');
-      ensureWebDrawn();
-      circle.classList.add('web-active', 'rim-active');
-      img.style.filter = 'grayscale(0%) contrast(1.06) brightness(1)';
-    }, 420);
+      // Phase 2: reveal overlay + rim
+      buildWebOverlay();
+      circle.classList.add('hovered');
+    }, 350);
   }
 
-  function endHover() {
+  function onLeave() {
     if (!isHovered) return;
     isHovered = false;
     clearTimeout(glitchTimer);
     img.classList.remove('glitching');
-    circle.classList.remove('web-active', 'rim-active');
-    img.style.filter = '';
-    circle.style.transform = '';
-    img.style.transform = '';
+    circle.classList.remove('hovered');
+    // Reset any inline tilt transform on the tilt container
+    const tiltEl = document.getElementById('avatar-tilt-container');
+    if (tiltEl) tiltEl.style.transform = '';
   }
 
-  circle.addEventListener('mouseenter', startHover);
-  circle.addEventListener('mouseleave', endHover);
-
-  circle.addEventListener('touchstart', (e) => {
-    if (isHovered) { endHover(); } else { startHover(); }
+  circle.addEventListener('mouseenter', onEnter);
+  circle.addEventListener('mouseleave', onLeave);
+  // Touch toggle
+  circle.addEventListener('touchstart', () => {
+    isHovered ? onLeave() : onEnter();
   }, { passive: true });
-
-  const MAX_TILT = 7; 
-  const MAX_MOVE = 8; 
-
-  document.addEventListener('mousemove', (e) => {
-    if (!isHovered) return;
-    const rect = circle.getBoundingClientRect();
-    const cx   = rect.left + rect.width  / 2;
-    const cy   = rect.top  + rect.height / 2;
-
-    const nx = Math.max(-1, Math.min(1, (e.clientX - cx) / (rect.width  / 2)));
-    const ny = Math.max(-1, Math.min(1, (e.clientY - cy) / (rect.height / 2)));
-
-    const tiltX = -(ny * MAX_TILT);
-    const tiltY =   nx * MAX_TILT;
-    circle.style.transform = `perspective(700px) rotateX(${tiltX.toFixed(2)}deg) rotateY(${tiltY.toFixed(2)}deg)`;
-
-    const moveX =  nx * MAX_MOVE;
-    const moveY =  ny * MAX_MOVE;
-    img.style.transform = `translate(${moveX.toFixed(1)}px, ${moveY.toFixed(1)}px) scale(1.06)`;
-  });
 })();
 
-/* ====== 4. HERO SCROLL PARALLAX ====== */
-(function initHeroParallax() {
-  const heroSection = document.getElementById('hero');
+
+/* ===============================================================
+   FEATURE 3 — JS 3D TILT + SCROLL PARALLAX
+   - mousemove over avatar-tilt-container: perspective rotateX/Y
+     max ±8 degrees, smooth easing
+   - scroll: hero lightning canvas moves at 0.5× scroll speed
+     (parallax depth effect)
+   =============================================================== */
+(function initHero3DAndParallax() {
+  const tiltEl        = document.getElementById('avatar-tilt-container');
+  const lightningCanvas = document.getElementById('hero-lightning-canvas');
+  const heroSection   = document.getElementById('hero');
   if (!heroSection) return;
 
-  const bgLayer   = heroSection.querySelector('.hero-glow-1');
-  const bgLayer2  = heroSection.querySelector('.hero-glow-2');
-  const heroCont  = heroSection.querySelector('.container');
+  const MAX_TILT = 8; // degrees
 
-  let ticking = false;
+  // ---- 3D Tilt on mousemove ----
+  if (tiltEl) {
+    heroSection.addEventListener('mousemove', (e) => {
+      const rect = tiltEl.getBoundingClientRect();
+      // Only tilt when cursor is within ~150px of the avatar
+      const distX = e.clientX - (rect.left + rect.width / 2);
+      const distY = e.clientY - (rect.top  + rect.height / 2);
+      const proximity = Math.sqrt(distX * distX + distY * distY);
 
+      if (proximity > 350) {
+        // Cursor is far away — ease back to neutral
+        tiltEl.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)';
+        return;
+      }
+
+      // Normalize to [-1, 1] relative to the avatar rect
+      const nx = Math.max(-1, Math.min(1, distX / (rect.width  / 2)));
+      const ny = Math.max(-1, Math.min(1, distY / (rect.height / 2)));
+
+      const rotX = -(ny * MAX_TILT);
+      const rotY =   nx * MAX_TILT;
+
+      tiltEl.style.transform =
+        `perspective(1000px) rotateX(${rotX.toFixed(2)}deg) rotateY(${rotY.toFixed(2)}deg)`;
+    });
+
+    heroSection.addEventListener('mouseleave', () => {
+      tiltEl.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)';
+    });
+  }
+
+  // ---- Scroll parallax: bg canvas moves at 0.5× scroll speed ----
+  let rafPending = false;
   window.addEventListener('scroll', () => {
-    if (ticking) return;
-    ticking = true;
+    if (rafPending) return;
+    rafPending = true;
     requestAnimationFrame(() => {
       const scrollY = window.scrollY;
       const heroH   = heroSection.offsetHeight;
-      if (scrollY > heroH) { ticking = false; return; }
-
-      if (bgLayer)  bgLayer.style.transform  = `translateY(${scrollY * 0.15}px)`;
-      if (bgLayer2) bgLayer2.style.transform = `translateY(${scrollY * 0.1}px)`;
-      if (heroCont) heroCont.style.transform = `translateY(${scrollY * -0.03}px)`;
-
-      ticking = false;
+      // Only inside the hero viewport
+      if (scrollY <= heroH) {
+        if (lightningCanvas) {
+          // Background canvas slides up slower than the page (parallax depth)
+          lightningCanvas.style.transform = `translateY(${scrollY * 0.5}px)`;
+        }
+      }
+      rafPending = false;
     });
   }, { passive: true });
 })();
