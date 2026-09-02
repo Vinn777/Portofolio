@@ -517,7 +517,8 @@ section {
     linear-gradient(180deg, #0f172a 0%, #1e1b4b 40%, #020617 100%);
 }
 
-/* STEP 2: Storm canvas — full-width, z-index 0 (furthest back) */
+/* Lightning Canvas — full-width, z-index 0 (furthest back) */
+#lightning-canvas,
 #storm-canvas {
   position: absolute;
   top: 0; left: 0;
@@ -631,23 +632,35 @@ section {
   animation: blink 1.2s step-end infinite;
 }
 
+.hero-content {
+  min-width: 0;
+  width: 100%;
+}
+
 /* Hero title */
 .hero-title {
   font-family: var(--font-display);
-  font-size: clamp(2.5rem, 5.5vw, 4rem);
+  font-size: clamp(1.85rem, 3.8vw, 3.2rem);
   font-weight: 900;
-  line-height: 1.08;
+  line-height: 1.15;
   margin-bottom: 1.4rem;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.02em;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
 }
 .hero-role {
   color: var(--nb-yellow);
   font-style: italic;
+  display: inline;
+  word-break: break-word;
+  white-space: normal;
 }
 .typed-cursor {
   color: var(--nb-yellow);
   font-weight: 300;
   animation: blink 0.8s step-end infinite;
+  display: inline-block;
 }
 
 .hero-desc {
@@ -1621,7 +1634,7 @@ section {
 
 @media (max-width: 480px) {
   section { padding: 4rem 0; }
-  .hero-title { font-size: 2.2rem; }
+  .hero-title { font-size: clamp(1.5rem, 6.5vw, 1.95rem); }
   
   .avatar-circle {
     width: 180px;
