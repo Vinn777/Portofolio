@@ -51,19 +51,25 @@
       <div class="loader-logo">
         <svg width="130" height="130" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
           <defs>
-            <linearGradient id="grad-red-main" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#ef4444" />
-              <stop offset="100%" stop-color="#b91c1c" />
+            <linearGradient id="grad-purple-dark" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#FFD60A" />
+              <stop offset="50%" stop-color="#C084FC" />
+              <stop offset="100%" stop-color="#7C3AED" />
             </linearGradient>
-            <filter id="glow-red">
-              <feGaussianBlur stdDeviation="2" result="coloredBlur" />
+            <linearGradient id="grad-purple-neon" x1="100%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#A855F7" />
+              <stop offset="50%" stop-color="#7C3AED" />
+              <stop offset="100%" stop-color="#00F2FE" />
+            </linearGradient>
+            <filter id="glow-purple">
+              <feGaussianBlur stdDeviation="2.5" result="coloredBlur" />
               <feMerge>
                 <feMergeNode in="coloredBlur" />
                 <feMergeNode in="SourceGraphic" />
               </feMerge>
             </filter>
-            <filter id="glow-yellow-strong">
-              <feGaussianBlur stdDeviation="3.5" result="coloredBlur" />
+            <filter id="glow-purple-strong">
+              <feGaussianBlur stdDeviation="4" result="coloredBlur" />
               <feMerge>
                 <feMergeNode in="coloredBlur" />
                 <feMergeNode in="SourceGraphic" />
@@ -71,49 +77,49 @@
             </filter>
           </defs>
           <!-- Outer spinning hexagon -->
-          <polygon points="60,4 108,30 108,90 60,116 12,90 12,30" stroke="url(#grad-red-main)" stroke-width="1.5"
-            fill="none" filter="url(#glow-red)"
+          <polygon points="60,4 108,30 108,90 60,116 12,90 12,30" stroke="url(#grad-purple-dark)" stroke-width="2"
+            fill="none" filter="url(#glow-purple)"
             style="transform-origin:60px 60px; animation:spinClockwise 10s linear infinite;" />
           <!-- Accent orbit dots -->
-          <circle cx="60" cy="4" r="3" fill="#dc2626" filter="url(#glow-red)"
+          <circle cx="60" cy="4" r="3.5" fill="#FFD60A" filter="url(#glow-purple)"
             style="transform-origin:60px 60px; animation:spinClockwise 10s linear infinite;" />
-          <circle cx="108" cy="30" r="2.5" fill="#dc2626" filter="url(#glow-red)" opacity="0.6"
+          <circle cx="108" cy="30" r="3" fill="#C084FC" filter="url(#glow-purple)"
             style="transform-origin:60px 60px; animation:spinClockwise 10s linear infinite;" />
-          <circle cx="12" cy="90" r="2.5" fill="#dc2626" filter="url(#glow-red)" opacity="0.4"
+          <circle cx="12" cy="90" r="3" fill="#7C3AED" filter="url(#glow-purple)"
             style="transform-origin:60px 60px; animation:spinClockwise 10s linear infinite;" />
           <!-- Dashed middle ring counter -->
-          <polygon points="60,18 96,39 96,81 60,102 24,81 24,39" stroke="rgba(220,38,38,0.4)" stroke-width="1"
-            fill="none" stroke-dasharray="5 5"
+          <polygon points="60,18 96,39 96,81 60,102 24,81 24,39" stroke="url(#grad-purple-neon)" stroke-width="1.5"
+            fill="none" stroke-dasharray="5 5" opacity="0.8"
             style="transform-origin:60px 60px; animation:spinCounterClockwise 7s linear infinite;" />
           <!-- Inner glow circle -->
-          <circle cx="60" cy="60" r="30" stroke="rgba(220,38,38,0.2)" stroke-width="1" fill="rgba(220,38,38,0.03)"
+          <circle cx="60" cy="60" r="30" stroke="url(#grad-purple-dark)" stroke-width="1" fill="rgba(124,58,237,0.08)"
             stroke-dasharray="2 8" style="transform-origin:60px 60px; animation:spinClockwise 5s linear infinite;" />
           <!-- Solid inner fill -->
-          <circle cx="60" cy="60" r="22" fill="rgba(18,18,18,0.8)" stroke="rgba(220,38,38,0.2)"
+          <circle cx="60" cy="60" r="22" fill="rgba(46,16,101,0.3)" stroke="rgba(192,132,252,0.4)"
             stroke-width="0.75" />
           <!-- Corner scan line brackets -->
-          <line x1="12" y1="30" x2="12" y2="44" stroke="#dc2626" stroke-width="2" opacity="0.8"
+          <line x1="12" y1="30" x2="12" y2="44" stroke="#FFD60A" stroke-width="2.5" opacity="0.9"
             stroke-linecap="round" />
-          <line x1="12" y1="30" x2="26" y2="22" stroke="#dc2626" stroke-width="2" opacity="0.8"
+          <line x1="12" y1="30" x2="26" y2="22" stroke="#FFD60A" stroke-width="2.5" opacity="0.9"
             stroke-linecap="round" />
-          <line x1="108" y1="30" x2="108" y2="44" stroke="rgba(220,38,38,0.5)" stroke-width="2" opacity="0.8"
+          <line x1="108" y1="30" x2="108" y2="44" stroke="#C084FC" stroke-width="2.5" opacity="0.9"
             stroke-linecap="round" />
-          <line x1="108" y1="30" x2="94" y2="22" stroke="rgba(220,38,38,0.5)" stroke-width="2" opacity="0.8"
+          <line x1="108" y1="30" x2="94" y2="22" stroke="#C084FC" stroke-width="2.5" opacity="0.9"
             stroke-linecap="round" />
-          <line x1="12" y1="90" x2="12" y2="76" stroke="rgba(220,38,38,0.4)" stroke-width="2" opacity="0.8"
+          <line x1="12" y1="90" x2="12" y2="76" stroke="#7C3AED" stroke-width="2.5" opacity="0.9"
             stroke-linecap="round" />
-          <line x1="12" y1="90" x2="26" y2="98" stroke="rgba(220,38,38,0.4)" stroke-width="2" opacity="0.8"
+          <line x1="12" y1="90" x2="26" y2="98" stroke="#7C3AED" stroke-width="2.5" opacity="0.9"
             stroke-linecap="round" />
-          <line x1="108" y1="90" x2="108" y2="76" stroke="#dc2626" stroke-width="2" opacity="0.8"
+          <line x1="108" y1="90" x2="108" y2="76" stroke="#FFD60A" stroke-width="2.5" opacity="0.9"
             stroke-linecap="round" />
-          <line x1="108" y1="90" x2="94" y2="98" stroke="#dc2626" stroke-width="2" opacity="0.8"
+          <line x1="108" y1="90" x2="94" y2="98" stroke="#FFD60A" stroke-width="2.5" opacity="0.9"
             stroke-linecap="round" />
           <!-- Center: ANA text -->
           <text x="60" y="63" text-anchor="middle" font-family="'Space Grotesk', sans-serif" font-weight="900"
-            font-size="24" fill="url(#grad-red-main)" filter="url(#glow-red-strong)" letter-spacing="4">ANA</text>
+            font-size="24" fill="url(#grad-purple-dark)" filter="url(#glow-purple-strong)" letter-spacing="4">ANA</text>
           <!-- Micro label below -->
           <text x="60" y="76" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-weight="600"
-            font-size="6" fill="rgba(220,38,38,0.6)" letter-spacing="3">v2.0.26</text>
+            font-size="6" fill="#C084FC" opacity="0.85" letter-spacing="3">v2.0.26</text>
         </svg>
       </div>
 
@@ -124,9 +130,9 @@
           <span class="status-text" id="loader-status-text">INITIALIZING SYSTEM</span>
         </div>
         <div class="loader-data-row">
-          <span class="data-chip"><span class="data-label">MODE</span> DARK</span>
+          <span class="data-chip"><span class="data-label">MODE</span> DARK PURPLE</span>
           <span class="data-chip"><span class="data-label">SYS</span> ONLINE</span>
-          <span class="data-chip"><span class="data-label">UI</span> ON</span>
+          <span class="data-chip"><span class="data-label">3D</span> ON</span>
         </div>
       </div>
     </div>
@@ -144,14 +150,15 @@
           style="text-decoration: none; display: flex; align-items: center; gap: 4px;"><svg width="32" height="32"
             viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" class="futuristic-logo">
             <defs>
-              <linearGradient id="red-logo" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#ef4444" />
-                <stop offset="100%" stop-color="#b91c1c" />
+              <linearGradient id="purple-dark-logo" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#FFD60A" />
+                <stop offset="50%" stop-color="#C084FC" />
+                <stop offset="100%" stop-color="#7C3AED" />
               </linearGradient>
             </defs>
-            <path d="M32 2 L60 18 L60 46 L32 62 L4 46 L4 18 Z" stroke="url(#red-logo)" stroke-width="1.5"
+            <path d="M32 2 L60 18 L60 46 L32 62 L4 46 L4 18 Z" stroke="url(#purple-dark-logo)" stroke-width="2.2"
               fill="none" class="hex-outer" />
-            <path d="M32 10 L50 21 L50 43 L32 54 L14 43 L14 21 Z" stroke="rgba(220,38,38,0.3)" stroke-width="1"
+            <path d="M32 10 L50 21 L50 43 L32 54 L14 43 L14 21 Z" stroke="url(#purple-dark-logo)" stroke-width="1.5"
               fill="none" stroke-dasharray="4 4" class="hex-inner" /><text x="32" y="40" text-anchor="middle"
               font-family="'Space Grotesk', sans-serif" font-weight="900" font-size="22" fill="#FFFFFF"
               letter-spacing="1">ANA</text>
@@ -181,21 +188,9 @@
 
   <!-- ====== HERO ====== -->
   <section id="hero">
-    <!-- Lightning Canvas -->
-    <canvas id="lightning-canvas"></canvas>
-    <!-- LAYER 0: Storm canvas (lightning + rain) — furthest back -->
-    <canvas id="storm-canvas"></canvas>
-
-    <!-- LAYER 1: Cloud blobs — slow drifting glow -->
-    <div class="storm-cloud storm-cloud-1"></div>
-    <div class="storm-cloud storm-cloud-2"></div>
-    <div class="storm-cloud storm-cloud-3"></div>
-
-    <!-- LAYER 2: Flash overlay — brief bright pulse on each lightning strike -->
-    <div id="lightning-flash-overlay"></div>
-
-    <!-- LAYER 3+: Content -->
-    <!-- 3D Canvas (Three.js) hidden -->
+    <div class="hero-glow hero-glow-1"></div>
+    <div class="hero-glow hero-glow-2"></div>
+    <!-- 3D Canvas (Three.js) -->
     <canvas id="hero-3d-canvas"></canvas>
     <div class="container">
       <div class="hero-content">
@@ -242,15 +237,15 @@
         </div>
       </div>
       <div class="hero-visual">
-        <div class="hero-avatar-wrap" id="hero-avatar-wrap">
-          <div class="avatar-tilt-container" id="avatar-tilt-container">
-            <div class="avatar-circle" id="avatar-circle">
-              <img src="img/profile.jpeg?v=2.2" alt="Ariiq Nawfal Aqilla - Front-End Developer"
-                class="profile-img profile-img-base" id="profile-img" loading="eager" decoding="async" />
-              <canvas id="avatar-web-canvas" class="web-canvas"></canvas>
-              <div class="avatar-rim-light"></div>
-            </div>
+        <div class="hero-avatar-wrap">
+          <div class="avatar-circle">
+            <img src="img/profile.jpeg?v=2.2" alt="Ariiq Nawfal Aqilla - Front-End Developer" class="profile-img"
+              loading="eager" decoding="async" />
           </div>
+          <div class="floating-badge fb-1"><i class="bx bxl-html5"></i> HTML</div>
+          <div class="floating-badge fb-2"><i class="bx bxl-react"></i> React</div>
+          <div class="floating-badge fb-3"><i class="bx bx-palette"></i> UI/UX</div>
+          <div class="floating-badge fb-4"><i class="bx bxl-tailwind-css"></i> Tailwind</div>
         </div>
       </div>
     </div>
@@ -784,20 +779,21 @@
           style="text-decoration: none; display: flex; align-items: center; gap: 4px;"><svg width="32" height="32"
             viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" class="futuristic-logo">
             <defs>
-              <linearGradient id="red-logo-ft" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#ef4444" />
-                <stop offset="100%" stop-color="#b91c1c" />
+              <linearGradient id="purple-dark-logo-ft" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#FFD60A" />
+                <stop offset="50%" stop-color="#C084FC" />
+                <stop offset="100%" stop-color="#7C3AED" />
               </linearGradient>
             </defs>
-            <path d="M32 2 L60 18 L60 46 L32 62 L4 46 L4 18 Z" stroke="url(#red-logo-ft)" stroke-width="1.5"
+            <path d="M32 2 L60 18 L60 46 L32 62 L4 46 L4 18 Z" stroke="url(#purple-dark-logo-ft)" stroke-width="2.2"
               fill="none" class="hex-outer" />
-            <path d="M32 10 L50 21 L50 43 L32 54 L14 43 L14 21 Z" stroke="rgba(220,38,38,0.3)" stroke-width="1"
+            <path d="M32 10 L50 21 L50 43 L32 54 L14 43 L14 21 Z" stroke="url(#purple-dark-logo-ft)" stroke-width="1.5"
               fill="none" stroke-dasharray="4 4" class="hex-inner" /><text x="32" y="40" text-anchor="middle"
               font-family="'Space Grotesk', sans-serif" font-weight="900" font-size="22" fill="#FFFFFF"
               letter-spacing="1">ANA</text>
           </svg></a>
         <p class="footer-text">
-          Dibuat dengan <i class="bx bx-heart" style="color:var(--nb-yellow);"></i> oleh
+          Dibuat dengan <i class="bx bx-brain" style="color:#C084FC;"></i> oleh
           <span class="gradient-text">Ariiq Nawfal Aqilla</span>
         </p>
         <p class="footer-copy">&copy; 2026 Ariiq Nawfal Aqilla. All rights reserved.</p>
@@ -821,7 +817,6 @@
   </script>
 
   <script src="script.js?v=2.3"></script>
-  <script src="lightning.js"></script>
 </body>
 
 </html>
