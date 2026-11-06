@@ -29,7 +29,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 
   <!-- CSS -->
-  <link rel="stylesheet" href="style.css?v=3.0" />
+  <link rel="stylesheet" href="style.css?v=3.1" />
 </head>
 
 <body>
@@ -47,79 +47,44 @@
   <!-- ====== LOADER ====== -->
   <div class="loader" id="loader">
     <div class="loader-inner">
-      <!-- Original Futuristic Hexagon Logo with Dark Purple & Neon Gradients -->
+      <!-- Refined Editorial Emblem Logo -->
       <div class="loader-logo">
         <svg width="130" height="130" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <linearGradient id="grad-purple-dark" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#FFD60A" />
-              <stop offset="50%" stop-color="#C084FC" />
-              <stop offset="100%" stop-color="#7C3AED" />
-            </linearGradient>
-            <linearGradient id="grad-purple-neon" x1="100%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stop-color="#A855F7" />
-              <stop offset="50%" stop-color="#7C3AED" />
-              <stop offset="100%" stop-color="#00F2FE" />
-            </linearGradient>
-            <filter id="glow-purple">
-              <feGaussianBlur stdDeviation="2.5" result="coloredBlur" />
-              <feMerge>
-                <feMergeNode in="coloredBlur" />
-                <feMergeNode in="SourceGraphic" />
-              </feMerge>
-            </filter>
-            <filter id="glow-purple-strong">
-              <feGaussianBlur stdDeviation="4" result="coloredBlur" />
-              <feMerge>
-                <feMergeNode in="coloredBlur" />
-                <feMergeNode in="SourceGraphic" />
-              </feMerge>
-            </filter>
-          </defs>
           <!-- Outer spinning hexagon -->
-          <polygon points="60,4 108,30 108,90 60,116 12,90 12,30" stroke="url(#grad-purple-dark)" stroke-width="2"
-            fill="none" filter="url(#glow-purple)"
-            style="transform-origin:60px 60px; animation:spinClockwise 10s linear infinite;" />
+          <polygon points="60,4 108,30 108,90 60,116 12,90 12,30" stroke="#B8893B" stroke-width="2"
+            fill="none"
+            style="transform-origin:60px 60px; animation:spinClockwise 12s linear infinite;" />
           <!-- Accent orbit dots -->
-          <circle cx="60" cy="4" r="3.5" fill="#FFD60A" filter="url(#glow-purple)"
-            style="transform-origin:60px 60px; animation:spinClockwise 10s linear infinite;" />
-          <circle cx="108" cy="30" r="3" fill="#C084FC" filter="url(#glow-purple)"
-            style="transform-origin:60px 60px; animation:spinClockwise 10s linear infinite;" />
-          <circle cx="12" cy="90" r="3" fill="#7C3AED" filter="url(#glow-purple)"
-            style="transform-origin:60px 60px; animation:spinClockwise 10s linear infinite;" />
+          <circle cx="60" cy="4" r="3" fill="#B8893B"
+            style="transform-origin:60px 60px; animation:spinClockwise 12s linear infinite;" />
+          <circle cx="108" cy="30" r="3" fill="#B8893B"
+            style="transform-origin:60px 60px; animation:spinClockwise 12s linear infinite;" />
+          <circle cx="12" cy="90" r="3" fill="#B8893B"
+            style="transform-origin:60px 60px; animation:spinClockwise 12s linear infinite;" />
           <!-- Dashed middle ring counter -->
-          <polygon points="60,18 96,39 96,81 60,102 24,81 24,39" stroke="url(#grad-purple-neon)" stroke-width="1.5"
-            fill="none" stroke-dasharray="5 5" opacity="0.8"
-            style="transform-origin:60px 60px; animation:spinCounterClockwise 7s linear infinite;" />
-          <!-- Inner glow circle -->
-          <circle cx="60" cy="60" r="30" stroke="url(#grad-purple-dark)" stroke-width="1" fill="rgba(124,58,237,0.08)"
-            stroke-dasharray="2 8" style="transform-origin:60px 60px; animation:spinClockwise 5s linear infinite;" />
+          <polygon points="60,18 96,39 96,81 60,102 24,81 24,39" stroke="#3A4A68" stroke-width="1.5"
+            fill="none" stroke-dasharray="4 4" opacity="0.8"
+            style="transform-origin:60px 60px; animation:spinCounterClockwise 8s linear infinite;" />
+          <!-- Inner circle -->
+          <circle cx="60" cy="60" r="28" stroke="#B8893B" stroke-width="1" fill="rgba(184,137,59,0.06)"
+            stroke-dasharray="2 6" style="transform-origin:60px 60px; animation:spinClockwise 6s linear infinite;" />
           <!-- Solid inner fill -->
-          <circle cx="60" cy="60" r="22" fill="rgba(46,16,101,0.3)" stroke="rgba(192,132,252,0.4)"
-            stroke-width="0.75" />
-          <!-- Corner scan line brackets -->
-          <line x1="12" y1="30" x2="12" y2="44" stroke="#FFD60A" stroke-width="2.5" opacity="0.9"
-            stroke-linecap="round" />
-          <line x1="12" y1="30" x2="26" y2="22" stroke="#FFD60A" stroke-width="2.5" opacity="0.9"
-            stroke-linecap="round" />
-          <line x1="108" y1="30" x2="108" y2="44" stroke="#C084FC" stroke-width="2.5" opacity="0.9"
-            stroke-linecap="round" />
-          <line x1="108" y1="30" x2="94" y2="22" stroke="#C084FC" stroke-width="2.5" opacity="0.9"
-            stroke-linecap="round" />
-          <line x1="12" y1="90" x2="12" y2="76" stroke="#7C3AED" stroke-width="2.5" opacity="0.9"
-            stroke-linecap="round" />
-          <line x1="12" y1="90" x2="26" y2="98" stroke="#7C3AED" stroke-width="2.5" opacity="0.9"
-            stroke-linecap="round" />
-          <line x1="108" y1="90" x2="108" y2="76" stroke="#FFD60A" stroke-width="2.5" opacity="0.9"
-            stroke-linecap="round" />
-          <line x1="108" y1="90" x2="94" y2="98" stroke="#FFD60A" stroke-width="2.5" opacity="0.9"
-            stroke-linecap="round" />
+          <circle cx="60" cy="60" r="22" fill="#0A1530" stroke="#3A4A68" stroke-width="1" />
+          <!-- Corner brackets -->
+          <line x1="12" y1="30" x2="12" y2="44" stroke="#B8893B" stroke-width="2" opacity="0.8" stroke-linecap="round" />
+          <line x1="12" y1="30" x2="26" y2="22" stroke="#B8893B" stroke-width="2" opacity="0.8" stroke-linecap="round" />
+          <line x1="108" y1="30" x2="108" y2="44" stroke="#B8893B" stroke-width="2" opacity="0.8" stroke-linecap="round" />
+          <line x1="108" y1="30" x2="94" y2="22" stroke="#B8893B" stroke-width="2" opacity="0.8" stroke-linecap="round" />
+          <line x1="12" y1="90" x2="12" y2="76" stroke="#B8893B" stroke-width="2" opacity="0.8" stroke-linecap="round" />
+          <line x1="12" y1="90" x2="26" y2="98" stroke="#B8893B" stroke-width="2" opacity="0.8" stroke-linecap="round" />
+          <line x1="108" y1="90" x2="108" y2="76" stroke="#B8893B" stroke-width="2" opacity="0.8" stroke-linecap="round" />
+          <line x1="108" y1="90" x2="94" y2="98" stroke="#B8893B" stroke-width="2" opacity="0.8" stroke-linecap="round" />
           <!-- Center: ANA text -->
-          <text x="60" y="63" text-anchor="middle" font-family="'Space Grotesk', sans-serif" font-weight="900"
-            font-size="24" fill="url(#grad-purple-dark)" filter="url(#glow-purple-strong)" letter-spacing="4">ANA</text>
+          <text x="60" y="64" text-anchor="middle" font-family="'Fraunces', serif" font-weight="700"
+            font-size="22" fill="#F7F1E3" letter-spacing="3">ANA</text>
           <!-- Micro label below -->
-          <text x="60" y="76" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-weight="600"
-            font-size="6" fill="#C084FC" opacity="0.85" letter-spacing="3">v2.0.26</text>
+          <text x="60" y="76" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-weight="500"
+            font-size="6" fill="#B8893B" opacity="0.9" letter-spacing="2">DEV</text>
         </svg>
       </div>
 
@@ -149,19 +114,12 @@
         <a href="#hero" class="nav-logo"
           style="text-decoration: none; display: flex; align-items: center; gap: 4px;"><svg width="32" height="32"
             viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" class="futuristic-logo">
-            <defs>
-              <linearGradient id="purple-dark-logo" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#FFD60A" />
-                <stop offset="50%" stop-color="#C084FC" />
-                <stop offset="100%" stop-color="#7C3AED" />
-              </linearGradient>
-            </defs>
-            <path d="M32 2 L60 18 L60 46 L32 62 L4 46 L4 18 Z" stroke="url(#purple-dark-logo)" stroke-width="2.2"
+            <path d="M32 2 L60 18 L60 46 L32 62 L4 46 L4 18 Z" stroke="#0F1F3D" stroke-width="2.2"
               fill="none" class="hex-outer" />
-            <path d="M32 10 L50 21 L50 43 L32 54 L14 43 L14 21 Z" stroke="url(#purple-dark-logo)" stroke-width="1.5"
+            <path d="M32 10 L50 21 L50 43 L32 54 L14 43 L14 21 Z" stroke="#B8893B" stroke-width="1.5"
               fill="none" stroke-dasharray="4 4" class="hex-inner" /><text x="32" y="40" text-anchor="middle"
-              font-family="'Space Grotesk', sans-serif" font-weight="900" font-size="22" fill="#FFFFFF"
-              letter-spacing="1">ANA</text>
+              font-family="'Space Grotesk', sans-serif" font-weight="900" font-size="22" fill="#0F1F3D"
+              letter-spacing="1" class="logo-text">ANA</text>
           </svg></a>
         <ul class="nav-links" id="nav-links">
           <li><a href="#hero" class="nav-link active">Home</a></li>
@@ -188,344 +146,263 @@
 
   <!-- ====== HERO ====== -->
   <section id="hero">
-    <div class="hero-glow hero-glow-1"></div>
-    <div class="hero-glow hero-glow-2"></div>
-    <!-- 3D Canvas (Three.js) -->
-    <canvas id="hero-3d-canvas"></canvas>
     <div class="container">
-      <div class="hero-content">
-        <div class="hero-badge">
-          <span class="badge-dot"></span>
-          <span>◆ Available for Work &amp; Collaboration</span>
-        </div>
-        <h1 class="hero-title">
-          Halo, Saya<br />
-          <span class="gradient-text">Ariiq Nawfal</span><br />
-          <span class="hero-role" id="typed-role"></span><span class="typed-cursor">_</span>
-        </h1>
-        <p class="hero-desc">
-          Awalnya suka ngoprek UI web iseng-iseng, eh keterusan belajar front-end. Fresh Graduate <strong
-            class="school-highlight">SMK Telkom Lampung</strong> yang mulai ngoding dari convert desain Dribbble ke HTML/CSS, dan sekarang lagi
-          seru-serunya eksplor ekosistem React &amp; Next.js.
-        </p>
-        <div class="hero-btns">
-          <a href="#projects" class="btn-primary" id="hero-cta-projects">
-            <i class="bx bx-code-alt"></i> Lihat Project
-          </a>
-          <a href="#contact" class="btn-outline" id="hero-cta-contact">
-            <i class="bx bx-paper-plane"></i> Hubungi Saya
-          </a>
-          <a href="cv/cv terbaru .pdf" download class="btn-cv" id="btn-cv" title="Download CV">
-            <i class="bx bx-download"></i> CV
-          </a>
-        </div>
-        <div class="hero-stats">
-          <div class="stat-item">
-            <span class="stat-num" data-target="9">0</span><span class="stat-num">+</span>
-            <span class="stat-label">Skill Dikuasai</span>
+      <div class="hero-grid">
+        <div class="hero-content">
+          <div class="editorial-label">PORTOFOLIO · EDISI 2026</div>
+          <h1 class="hero-title">
+            Ariiq Nawfal Aqilla
+          </h1>
+          <p class="hero-role-lead">
+            Front-End Developer &amp; UI/UX Designer
+          </p>
+          <p class="hero-desc">
+            Lulusan Rekayasa Perangkat Lunak <strong>SMK Telkom Lampung</strong> yang berfokus pada pengembangan antarmuka web yang terstruktur, fungsional, dan mudah digunakan. Mengutamakan kode semantik, performa, serta kejelasan tata letak menggunakan ekosistem React dan JavaScript modern.
+          </p>
+          <div class="hero-actions">
+            <a href="#projects" class="btn-primary" id="hero-cta-projects">
+              Lihat Proyek Pilihan
+            </a>
+            <a href="cv/cv terbaru .pdf" download class="hero-link-cv" id="btn-cv">
+              Unduh Curriculum Vitae (PDF) &rarr;
+            </a>
           </div>
-          <div class="stat-divider"></div>
-          <div class="stat-item">
-            <span class="stat-num" data-target="3">0</span><span class="stat-num">+</span>
-            <span class="stat-label">Project Selesai</span>
-          </div>
-          <div class="stat-divider"></div>
-          <div class="stat-item">
-            <span class="stat-num" data-target="2">0</span><span class="stat-num">+</span>
-            <span class="stat-label">Tahun Belajar</span>
+          <div class="hero-meta-bar">
+            <div class="meta-item">
+              <span class="meta-label">DOMISILI</span>
+              <span class="meta-value">Lampung, Indonesia</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">STATUS</span>
+              <span class="meta-value status-available">Terbuka untuk Kerja / Magang</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">FOKUS</span>
+              <span class="meta-value">React, JavaScript, Interface</span>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="hero-visual">
-        <div class="hero-avatar-wrap">
-          <div class="avatar-circle">
+        <div class="hero-visual">
+          <div class="avatar-frame">
             <img src="img/profile.jpeg?v=2.2" alt="Ariiq Nawfal Aqilla - Front-End Developer" class="profile-img"
               loading="eager" decoding="async" />
+            <div class="avatar-caption">
+              <span>FOTO RESMI · 2026</span>
+              <span>SMK TELKOM LAMPUNG</span>
+            </div>
           </div>
-          <div class="floating-badge fb-1"><i class="bx bxl-html5"></i> HTML</div>
-          <div class="floating-badge fb-2"><i class="bx bxl-react"></i> React</div>
-          <div class="floating-badge fb-3"><i class="bx bx-palette"></i> UI/UX</div>
-          <div class="floating-badge fb-4"><i class="bx bxl-tailwind-css"></i> Tailwind</div>
         </div>
       </div>
-    </div>
-    <div class="scroll-indicator">
-      <span>Scroll</span>
-      <div class="scroll-arrow"></div>
     </div>
   </section>
 
   <!-- ====== ABOUT ====== -->
   <section id="about">
     <div class="container">
-      <div class="section-header" data-aos="fade-up">
-        <span class="section-tag">About Me</span>
-        <h2 class="section-title">Tentang <span class="gradient-text">Saya</span></h2>
-        <p class="section-sub">Kenali lebih dekat siapa saya dan apa yang saya kerjakan</p>
+      <div class="section-heading-editorial">
+        <span class="editorial-num">01</span>
+        <div>
+          <span class="editorial-kicker">PROFIL PENGEMBANG</span>
+          <h2 class="editorial-title">Latar Belakang &amp; Pendekatan Kerja</h2>
+        </div>
       </div>
-      <div class="about-grid">
-        <div class="about-card" data-aos="fade-right">
-          <div class="about-icon-wrap">
-            <i class="bx bx-user-circle"></i>
-          </div>
-          <div class="about-text">
-            <h3>Siapa Saya?</h3>
-            <p>
-              Saya <strong>Ariiq Nawfal Aqilla</strong>. Awalnya kenal ngoding dari coba-coba convert design Dribbble
-              jadi kodingan HTML/CSS, dari situ malah kebablasan jadi Front-End.
-            </p>
-            <p>
-              Pernah ngerasain <em>stuck</em> berhari-hari cuma gara-gara typo sepele atau bug logika komponen, tapi
-              anehnya hal itu malah bikin makin nagih buat <em>problem-solving</em>. Saat ini, saya lebih fokus ngerjain
-              project real-world pakai React dan JavaScript.
-            </p>
+
+      <div class="about-editorial-grid">
+        <div class="about-main-text">
+          <p class="lead-text">
+            Saya <strong>Ariiq Nawfal Aqilla</strong>, pengembang web front-end fresh graduate dari <strong>SMK Telkom Lampung</strong> jurusan Rekayasa Perangkat Lunak. Ketertarikan saya berawal dari rasa penasaran menerjemahkan rancangan visual di Figma menjadi antarmuka kode yang presisi, responsif, dan ringan diakses.
+          </p>
+          <p>
+            Bagi saya, antarmuka yang baik bukan sekadar estetika, melainkan bagaimana pengguna dapat menyelesaikan tujuannya dengan lancar tanpa kebingungan. Saat ini saya mendedikasikan waktu untuk mendalami arsitektur komponen React, state management, dan styling modular menggunakan Tailwind CSS.
+          </p>
+
+          <div class="principles-block">
+            <h3 class="principles-title">Prinsip Pengembangan</h3>
+            <div class="principles-list">
+              <div class="principle-item">
+                <span class="p-num">A.</span>
+                <div>
+                  <strong>Kode Semantik &amp; Aksesibel:</strong>
+                  <span>Struktur HTML yang baku, mudah diindeks perayap mesin pencari, dan nyaman dibaca screen reader.</span>
+                </div>
+              </div>
+              <div class="principle-item">
+                <span class="p-num">B.</span>
+                <div>
+                  <strong>Desain Responsif Terukur:</strong>
+                  <span>Pendekatan mobile-first memastikan tata letak proporsional mulai dari layar ponsel 360px hingga layar desktop lebar.</span>
+                </div>
+              </div>
+              <div class="principle-item">
+                <span class="p-num">C.</span>
+                <div>
+                  <strong>Komponen Modular &amp; Bersih:</strong>
+                  <span>Pemisahan tanggung jawab komponen agar mudah dirawat, diuji, dan dikembangkan berkelanjutan.</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="about-card" data-aos="fade-up">
-          <div class="about-icon-wrap">
-            <i class="bx bx-target-lock"></i>
-          </div>
-          <div class="about-text">
-            <h3>Apa yang Saya Lakukan</h3>
-            <p>
-              Saya tidak hanya fokus membuat tampilan website yang menarik, tetapi juga memperhatikan kenyamanan
-              pengguna saat berinteraksi dengan website. Saya senang mengeksplorasi berbagai teknik dalam pengembangan
-              front-end untuk menciptakan tampilan yang responsif, mudah digunakan, dan memberikan pengalaman pengguna
-              yang optimal.
-            </p>
-            <ul class="about-list">
-              <li><i class="bx bx-check-circle"></i> Front-End Web Development</li>
-              <li><i class="bx bx-check-circle"></i> UI/UX Design</li>
-              <li><i class="bx bx-check-circle"></i> Interactive Web Animation</li>
-              <li><i class="bx bx-check-circle"></i> Mobile-First Approach</li>
-            </ul>
-          </div>
-        </div>
-        <div class="about-card" data-aos="fade-left">
-          <div class="about-icon-wrap">
-            <i class="bx bx-info-circle"></i>
-          </div>
-          <div class="about-text">
-            <h3>Info Singkat</h3>
-            <ul class="info-list">
-              <li>
-                <span class="info-label"><i class="bx bx-user"></i> Nama</span>
-                <span class="info-value">Ariiq Nawfal Aqilla</span>
-              </li>
-              <li>
-                <span class="info-label"><i class="bx bx-buildings"></i> Sekolah</span>
-                <span class="info-value">SMK Telkom Lampung</span>
-              </li>
-              <li>
-                <span class="info-label"><i class="bx bx-book"></i> Jurusan</span>
-                <span class="info-value">Software Engineering</span>
-              </li>
-              <li>
-                <span class="info-label"><i class="bx bx-map"></i> Lokasi</span>
-                <span class="info-value">Lampung, Indonesia</span>
-              </li>
-              <li>
-                <span class="info-label"><i class="bx bx-briefcase"></i> Status</span>
-                <span class="info-value status-open"><i class="bx bx-check-circle"></i> Open to Work</span>
-              </li>
-            </ul>
+
+        <div class="about-sidebar-meta">
+          <div class="spec-table-box">
+            <div class="spec-table-header">DATA SINGKAT</div>
+            <table class="spec-table">
+              <tbody>
+                <tr>
+                  <th>Nama Lengkap</th>
+                  <td>Ariiq Nawfal Aqilla</td>
+                </tr>
+                <tr>
+                  <th>Pendidikan</th>
+                  <td>SMK Telkom Lampung</td>
+                </tr>
+                <tr>
+                  <th>Konsentrasi</th>
+                  <td>Rekayasa Perangkat Lunak</td>
+                </tr>
+                <tr>
+                  <th>Tahun Kelulusan</th>
+                  <td>2026</td>
+                </tr>
+                <tr>
+                  <th>Domisili</th>
+                  <td>Lampung, Indonesia</td>
+                </tr>
+                <tr>
+                  <th>Status Kerja</th>
+                  <td><span class="status-badge">Terbuka untuk Rekrutmen</span></td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ====== SKILLS ====== -->
-  <section id="skills">
+  <!-- ====== SKILLS (SECTION NAVY PENUH) ====== -->
+  <section id="skills" class="section-dark-navy">
     <div class="container">
-      <div class="section-header" data-aos="fade-up">
-        <span class="section-tag">Tech Stack</span>
-        <h2 class="section-title">Skill <span class="gradient-text">Saya</span></h2>
-        <p class="section-sub">Teknologi, tools, dan kemampuan yang saya miliki</p>
-      </div>
-
-      <!-- Tab Toggle -->
-      <div class="skills-tab-wrap">
-        <button class="skills-tab active" id="tab-hard" onclick="switchTab('hard')">
-          <i class="bx bx-code-alt"></i> Hard Skills
-        </button>
-        <button class="skills-tab" id="tab-soft" onclick="switchTab('soft')">
-          <i class="bx bx-brain"></i> Soft Skills
-        </button>
-      </div>
-
-      <!-- Hard Skills Panel -->
-      <div class="skills-panel" id="panel-hard">
-        <div class="skills-grid" data-aos="fade-up">
-
-          <div class="skill-card" data-aos="zoom-in" data-aos-delay="0">
-            <div class="skill-icon" style="--clr: #e34c26;">
-              <i class="bx bxl-html5" style="font-size:2.2rem;"></i>
-            </div>
-            <span class="skill-name">HTML5</span>
-            <div class="skill-bar">
-              <div class="skill-fill" data-width="95"></div>
-            </div>
-            <span class="skill-pct">95%</span>
-          </div>
-
-          <div class="skill-card" data-aos="zoom-in" data-aos-delay="50">
-            <div class="skill-icon" style="--clr: #264de4;">
-              <i class="bx bxl-css3" style="font-size:2rem;"></i>
-            </div>
-            <span class="skill-name">CSS3</span>
-            <div class="skill-bar">
-              <div class="skill-fill" data-width="90"></div>
-            </div>
-            <span class="skill-pct">90%</span>
-          </div>
-
-          <div class="skill-card" data-aos="zoom-in" data-aos-delay="100">
-            <div class="skill-icon" style="--clr: #f7df1e;">
-              <i class="bx bxl-javascript" style="font-size:2rem;"></i>
-            </div>
-            <span class="skill-name">JavaScript</span>
-            <div class="skill-bar">
-              <div class="skill-fill" data-width="80"></div>
-            </div>
-            <span class="skill-pct">80%</span>
-          </div>
-
-          <div class="skill-card" data-aos="zoom-in" data-aos-delay="150">
-            <div class="skill-icon" style="--clr: #61dafb;">
-              <i class="bx bxl-react" style="font-size:2rem;"></i>
-            </div>
-            <span class="skill-name">React.js</span>
-            <div class="skill-bar">
-              <div class="skill-fill" data-width="85"></div>
-            </div>
-            <span class="skill-pct">85%</span>
-          </div>
-
-          <div class="skill-card" data-aos="zoom-in" data-aos-delay="200">
-            <div class="skill-icon" style="--clr: #38bdf8;">
-              <i class="bx bxl-tailwind-css" style="font-size:2rem;"></i>
-            </div>
-            <span class="skill-name">Tailwind CSS</span>
-            <div class="skill-bar">
-              <div class="skill-fill" data-width="88"></div>
-            </div>
-            <span class="skill-pct">88%</span>
-          </div>
-
-          <div class="skill-card" data-aos="zoom-in" data-aos-delay="250">
-            <div class="skill-icon" style="--clr: #7952b3;">
-              <i class="bx bxl-bootstrap" style="font-size:2rem;"></i>
-            </div>
-            <span class="skill-name">Bootstrap</span>
-            <div class="skill-bar">
-              <div class="skill-fill" data-width="88"></div>
-            </div>
-            <span class="skill-pct">88%</span>
-          </div>
-
-          <div class="skill-card" data-aos="zoom-in" data-aos-delay="300">
-            <div class="skill-icon" style="--clr: #F24E1E;">
-              <i class="bx bxl-figma" style="font-size:2rem;"></i>
-            </div>
-            <span class="skill-name">Figma</span>
-            <div class="skill-bar">
-              <div class="skill-fill" data-width="85"></div>
-            </div>
-            <span class="skill-pct">85%</span>
-          </div>
-
-          <div class="skill-card" data-aos="zoom-in" data-aos-delay="350">
-            <div class="skill-icon" style="--clr: #f24e1e;">
-              <i class="bx bx-palette" style="font-size:2rem;"></i>
-            </div>
-            <span class="skill-name">UI/UX Design</span>
-            <div class="skill-bar">
-              <div class="skill-fill" data-width="75"></div>
-            </div>
-            <span class="skill-pct">75%</span>
-          </div>
-
-          <div class="skill-card" data-aos="zoom-in" data-aos-delay="400">
-            <div class="skill-icon" style="--clr: #f05032;">
-              <i class="bx bxl-github" style="font-size:2rem;"></i>
-            </div>
-            <span class="skill-name">GitHub</span>
-            <div class="skill-bar">
-              <div class="skill-fill" data-width="80"></div>
-            </div>
-            <span class="skill-pct">80%</span>
-          </div>
-
+      <div class="section-heading-editorial section-heading-light">
+        <span class="editorial-num">02</span>
+        <div>
+          <span class="editorial-kicker">SPESIALISASI &amp; PERANGKAT</span>
+          <h2 class="editorial-title">Kemampuan Teknis yang Dikuasai</h2>
         </div>
       </div>
 
-      <!-- Soft Skills Panel -->
-      <div class="skills-panel" id="panel-soft" style="display:none;">
-        <div class="soft-skills-grid" data-aos="fade-up">
-          <div class="soft-skill-card">
-            <i class="bx bx-chat"></i>
-            <span>Komunikasi</span>
+      <div class="skills-editorial-grid">
+        <div class="skill-column">
+          <div class="skill-col-header">
+            <span class="col-index">01</span>
+            <h3>Fondasi &amp; Bahasa</h3>
           </div>
-          <div class="soft-skill-card">
-            <i class="bx bx-group"></i>
-            <span>Kerja Sama Tim</span>
+          <ul class="skill-editorial-list">
+            <li>
+              <strong>HTML5 Semantik</strong>
+              <span>Aksesibilitas web, struktur SEO-friendly, formulir native</span>
+            </li>
+            <li>
+              <strong>CSS3 Modern</strong>
+              <span>Flexbox, Grid, CSS Variables, animasi performan, responsive design</span>
+            </li>
+            <li>
+              <strong>JavaScript (ES6+)</strong>
+              <span>Manipulasi DOM, asynchronous fetch, array methods, event handling</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="skill-column">
+          <div class="skill-col-header">
+            <span class="col-index">02</span>
+            <h3>Framework &amp; Styling</h3>
           </div>
-          <div class="soft-skill-card">
-            <i class="bx bx-bulb"></i>
-            <span>Problem Solving</span>
+          <ul class="skill-editorial-list">
+            <li>
+              <strong>React.js</strong>
+              <span>Komponen fungsional, custom hooks, component lifecycle</span>
+            </li>
+            <li>
+              <strong>Tailwind CSS</strong>
+              <span>Utility-first styling, konfigurasi design token, layout konsisten</span>
+            </li>
+            <li>
+              <strong>Bootstrap</strong>
+              <span>Sistem grid cepat, utility classes, komponen responsif</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="skill-column">
+          <div class="skill-col-header">
+            <span class="col-index">03</span>
+            <h3>Desain &amp; Kolaborasi</h3>
           </div>
-          <div class="soft-skill-card">
-            <i class="bx bx-time"></i>
-            <span>Manajemen Waktu</span>
-          </div>
-          <div class="soft-skill-card">
-            <i class="bx bx-line-chart"></i>
-            <span>Adaptabilitas</span>
-          </div>
+          <ul class="skill-editorial-list">
+            <li>
+              <strong>Figma (UI/UX)</strong>
+              <span>Wireframing, prototipe interaktif, visual design, design system</span>
+            </li>
+            <li>
+              <strong>Git &amp; GitHub</strong>
+              <span>Version control, branching, repository management, deployment</span>
+            </li>
+            <li>
+              <strong>Analisis Antarmuka</strong>
+              <span>Penyusunan hirarki informasi, riset kemudahan navigasi</span>
+            </li>
+          </ul>
         </div>
       </div>
 
+      <div class="skills-soft-bar">
+        <span class="soft-label">KOMPETENSI KERJA:</span>
+        <div class="soft-tags">
+          <span>Komunikasi Teknis</span>
+          <span>Kerja Sama Tim</span>
+          <span>Ketelitian Validasi Data</span>
+          <span>Pemecahan Masalah Mandiri</span>
+          <span>Manajemen Waktu</span>
+        </div>
+      </div>
     </div>
   </section>
-
-
 
   <!-- ====== EXPERIENCE ====== -->
   <section id="experience">
     <div class="container">
-      <div class="section-header" data-aos="fade-up">
-        <span class="section-tag">Experience</span>
-        <h2 class="section-title">Pengalaman <span class="gradient-text">Magang</span></h2>
-        <p class="section-sub">Perjalanan karir dan pengalaman profesional saya di dunia industri</p>
+      <div class="section-heading-editorial">
+        <span class="editorial-num">03</span>
+        <div>
+          <span class="editorial-kicker">RIWAYAT PRAKTIK INDUSTRI</span>
+          <h2 class="editorial-title">Pengalaman Kerja</h2>
+        </div>
       </div>
 
-      <div class="experience-list">
-        <div class="experience-card" data-aos="fade-up">
-          <div class="exp-icon">
-            <i class="bx bx-briefcase"></i>
-          </div>
-          <div class="exp-content">
-            <h3 class="exp-role">Business Service (Intern)</h3>
-            <p class="exp-company">PT. Telkom Indonesia (Witel Lampung)</p>
-            <p class="exp-date"><i class="bx bx-calendar"></i> Juli 2025 - Oktober 2025</p>
-            <ul class="exp-list">
-              <li><i class="bx bx-check-circle"></i> Memahami alur kerja sistem IndiBizChamp Assignment Wizard.</li>
-              <li><i class="bx bx-check-circle"></i> Mampu melakukan input dan validasi data POI dengan teliti.</li>
-              <li><i class="bx bx-check-circle"></i> Meningkatkan kemampuan menggunakan sistem administrasi berbasis
-                web.</li>
-              <li><i class="bx bx-check-circle"></i> Melatih ketelitian, tanggung jawab, dan kerja sama dalam lingkungan
-                kerja.</li>
-              <li><i class="bx bx-check-circle"></i> Memperoleh pengalaman kerja nyata dalam pengelolaan data dan
-                penugasan lapangan.</li>
-            </ul>
-            <div class="exp-tools">
-              <span class="exp-tool"><i class="bx bx-code-alt"></i> Microsoft Office</span>
-              <span class="exp-tool"><i class="bx bx-file"></i> Microsoft Word</span>
-              <span class="exp-tool"><i class="bx bx-spreadsheet"></i> Microsoft Excel</span>
-              <span class="exp-tool"><i class="bx bx-analyse"></i> Analisis Sistem</span>
-              <span class="exp-tool"><i class="bx bx-git-merge"></i> Integrasi Sistem</span>
-            </div>
+      <div class="experience-editorial-row">
+        <div class="exp-left-col">
+          <span class="exp-period">JULI 2025 — OKTOBER 2025</span>
+          <h3 class="exp-company-title">PT. Telkom Indonesia</h3>
+          <span class="exp-unit">Witel Lampung · Kantor Layanan Bisnis</span>
+        </div>
+        <div class="exp-right-col">
+          <div class="exp-role-badge">Business Service Intern</div>
+          <p class="exp-summary">
+            Melaksanakan penugasan magang industri pada unit layanan bisnis telekomunikasi dengan tanggung jawab operasional pengelolaan data serta administrasi sistem web internal perusahaan.
+          </p>
+          <ul class="exp-bullet-list">
+            <li>Mengoperasikan dan memahami alur kerja sistem <em>IndiBizChamp Assignment Wizard</em> untuk penugasan tim lapangan.</li>
+            <li>Melakukan input, verifikasi, dan validasi data POI (Point of Interest) dengan standar akurasi tinggi.</li>
+            <li>Berinteraksi rutin dengan sistem administrasi berbasis web untuk pelaporan status penugasan secara real-time.</li>
+            <li>Melatih kedisiplinan kerja tim, koordinasi lintas bagian, serta kepatuhan terhadap prosedur perusahaan.</li>
+          </ul>
+          <div class="exp-tools-row">
+            <span class="tool-tag">Sistem IndiBizChamp</span>
+            <span class="tool-tag">Validasi Data POI</span>
+            <span class="tool-tag">Microsoft Excel</span>
+            <span class="tool-tag">Administrasi Web</span>
           </div>
         </div>
       </div>
@@ -535,214 +412,232 @@
   <!-- ====== PROJECTS ====== -->
   <section id="projects">
     <div class="container">
-      <div class="section-header" data-aos="fade-up">
-        <span class="section-tag">Project</span>
-        <h2 class="section-title">Proyek <span class="gradient-text">Saya</span></h2>
-        <p class="section-sub">Kumpulan karya yang telah saya kerjakan</p>
+      <div class="section-heading-editorial">
+        <span class="editorial-num">04</span>
+        <div>
+          <span class="editorial-kicker">ARSIP KARYA</span>
+          <h2 class="editorial-title">Proyek Antarmuka Pilihan</h2>
+        </div>
       </div>
 
-      <!-- PROJECT CARDS AKAN DIISI DI SINI -->
-      <div class="projects-grid" id="projects-grid">
+      <div class="projects-editorial-list">
 
-        <!-- Project 1: Sistem Pengaduan Sekolah -->
-        <div class="project-card" data-aos="fade-up">
-          <img src="img/sistem.png" alt="Sistem Pengaduan Sekolah" class="project-img" />
-          <div class="project-body">
-            <div class="project-tags">
-              <span class="project-tag">HTML</span>
-              <span class="project-tag">CSS</span>
-              <span class="project-tag">JavaScript</span>
-              <span class="project-tag">Bootstrap</span>
-              <span class="project-tag">Tailwind CSS</span>
+        <!-- Proyek 01 -->
+        <article class="project-entry">
+          <div class="project-entry-num">01</div>
+          <div class="project-entry-visual">
+            <img src="img/sistem.png" alt="Tampilan Antarmuka Sistem Pengaduan Sekolah" class="project-thumb" />
+          </div>
+          <div class="project-entry-info">
+            <div class="project-meta-top">
+              <span class="project-year">2025</span>
+              <span class="project-cat">Aplikasi Web Layanan Publik</span>
             </div>
-            <h3 class="project-title">Sistem Pengaduan Sekolah</h3>
-            <p class="project-desc">
-              <strong>Masalah:</strong> Pelaporan sarana di sekolah sering hilang karena dititip secara lisan atau
-              kertas.<br />
-              <strong>Solusi:</strong> Membangun platform online agar keluhan bisa dilacak transparan oleh warga
-              sekolah.<br />
-              <strong>Tantangan:</strong> Sempat pusing mengatur <em>state management</em> dan alur data agar UI tetap
-              responsif saat laporan masuk.
+            <h3 class="project-entry-title">Sistem Pengaduan Sarana Sekolah</h3>
+            <p class="project-entry-desc">
+              Platform pelaporan kerusakan sarana belajar di lingkungan sekolah. Menggantikan proses manual berbasis formulir fisik menjadi alur digital terpusat yang memungkinkan siswa dan guru memantau status tindak lanjut sarana secara transparan.
             </p>
-            <div class="project-links">
-              <a href="#" class="project-link primary"><i class="bx bx-link-external"></i> Live Demo</a>
-              <a href="https://github.com/Vinn777/ukk_nasional.git" target="_blank" class="project-link secondary"><i
-                  class="bx bxl-github"></i> Code</a>
+            <div class="project-tech-tags">
+              <span>HTML5</span>
+              <span>CSS3</span>
+              <span>JavaScript</span>
+              <span>Bootstrap</span>
+              <span>Tailwind CSS</span>
+            </div>
+            <div class="project-actions">
+              <a href="#" class="btn-primary project-link-primary"><i class="bx bx-link-external"></i> Pratinjau Demo</a>
+              <a href="https://github.com/Vinn777/ukk_nasional.git" target="_blank" class="project-link-secondary"><i class="bx bxl-github"></i> Repositori Kode</a>
             </div>
           </div>
-        </div>
+        </article>
 
-        <!-- Project 2: Web TK -->
-        <div class="project-card" data-aos="fade-up" data-aos-delay="100">
-          <img src="img/anhal.jpg.png" alt="Web Profile TK" class="project-img" />
-          <div class="project-body">
-            <div class="project-tags">
-              <span class="project-tag">HTML</span>
-              <span class="project-tag">CSS</span>
-              <span class="project-tag">JavaScript</span>
-              <span class="project-tag">Bootstrap</span>
-              <span class="project-tag">Tailwind CSS</span>
+        <!-- Proyek 02 -->
+        <article class="project-entry">
+          <div class="project-entry-num">02</div>
+          <div class="project-entry-visual">
+            <img src="img/anhal.jpg.png" alt="Tampilan Antarmuka Web Profil TK" class="project-thumb" />
+          </div>
+          <div class="project-entry-info">
+            <div class="project-meta-top">
+              <span class="project-year">2025</span>
+              <span class="project-cat">Website Institusi Pendidikan</span>
             </div>
-            <h3 class="project-title">Web Profile TK</h3>
-            <p class="project-desc">
-              <strong>Masalah:</strong> Orang tua calon murid susah dapat info soal sekolah dan harus datang langsung
-              untuk mendaftar.<br />
-              <strong>Solusi:</strong> Bikin web profil agar info kurikulum dan pendaftaran murid baru bisa diakses 100%
-              online dari rumah.
+            <h3 class="project-entry-title">Portal Profil &amp; Pendaftaran TK</h3>
+            <p class="project-entry-desc">
+              Situs informasi profil lembaga taman kanak-kanak yang menyajikan kurikulum, fasilitas, agenda kegiatan, serta formulir pendaftaran siswa baru secara daring untuk memudahkan orang tua calon murid mendapatkan informasi tanpa harus datang ke lokasi.
             </p>
-            <div class="project-links">
-              <a href="#" class="project-link primary"><i class="bx bx-link-external"></i> Live Demo</a>
-              <a href="https://github.com/Vinn777/tk" target="_blank" class="project-link secondary"><i
-                  class="bx bxl-github"></i> Code</a>
+            <div class="project-tech-tags">
+              <span>HTML5</span>
+              <span>CSS3</span>
+              <span>JavaScript</span>
+              <span>Tailwind CSS</span>
+            </div>
+            <div class="project-actions">
+              <a href="#" class="btn-primary project-link-primary"><i class="bx bx-link-external"></i> Pratinjau Demo</a>
+              <a href="https://github.com/Vinn777/tk" target="_blank" class="project-link-secondary"><i class="bx bxl-github"></i> Repositori Kode</a>
             </div>
           </div>
-        </div>
+        </article>
 
-        <!-- Project 3: FutureProperty -->
-        <div class="project-card" data-aos="fade-up" data-aos-delay="200">
-          <img src="img/future-property.png" alt="FutureProperty" class="project-img" />
-          <div class="project-body">
-            <div class="project-tags">
-              <span class="project-tag">HTML</span>
-              <span class="project-tag">CSS</span>
-              <span class="project-tag">JavaScript</span>
+        <!-- Proyek 03 -->
+        <article class="project-entry">
+          <div class="project-entry-num">03</div>
+          <div class="project-entry-visual">
+            <img src="img/future-property.png" alt="Prototipe Landing Page FutureProperty" class="project-thumb" />
+          </div>
+          <div class="project-entry-info">
+            <div class="project-meta-top">
+              <span class="project-year">2025</span>
+              <span class="project-cat">Prototipe UI/UX Properti</span>
             </div>
-            <h3 class="project-title">
+            <h3 class="project-entry-title">
               FutureProperty
-              <span
-                style="font-size: 0.75rem; color: #fbbf24; background: rgba(251, 191, 36, 0.15); padding: 0.2rem 0.6rem; border-radius: 99px; font-weight: 600; margin-left: 5px; vertical-align: middle; border: 1px solid rgba(251, 191, 36, 0.3);">Prototype</span>
+              <span class="badge-prototype">Prototipe UI</span>
             </h3>
-            <p class="project-desc">
-              <strong>Masalah:</strong> Tampilan website real estate yang kaku dan kurang interaktif bagi
-              pengguna.<br />
-              <strong>Solusi:</strong> Mendesain prototipe landing page properti dengan tema futuristik yang
-              responsif, mengutamakan estetika UI/UX premium.
+            <p class="project-entry-desc">
+              Eksplorasi antarmuka landing page agen properti modern dengan fokus pada tipografi editorial yang rapi, hierarki katalog visual hunian, dan interaksi formulir reservasi unit yang responsif di perangkat layar sentuh.
             </p>
-            <div class="project-links">
-              <a href="https://prototype-beryl-phi-25.vercel.app/" target="_blank" class="project-link primary"><i
-                  class="bx bx-link-external"></i> Live Demo</a>
-              <a href="https://github.com/Vinn777/property.git" target="_blank" class="project-link secondary"><i
-                  class="bx bxl-github"></i> Code</a>
+            <div class="project-tech-tags">
+              <span>HTML5</span>
+              <span>CSS3</span>
+              <span>JavaScript</span>
+              <span>Figma Design</span>
+            </div>
+            <div class="project-actions">
+              <a href="https://prototype-beryl-phi-25.vercel.app/" target="_blank" class="btn-primary project-link-primary"><i class="bx bx-link-external"></i> Kunjungi Live Demo</a>
+              <a href="https://github.com/Vinn777/property.git" target="_blank" class="project-link-secondary"><i class="bx bxl-github"></i> Repositori Kode</a>
             </div>
           </div>
-        </div>
+        </article>
 
       </div>
-      <!-- END PROJECT CARDS -->
-
     </div>
   </section>
 
   <!-- ====== CERTIFICATES ====== -->
-  <section id="certificates">
+  <section id="certificates" class="section-dark-navy">
     <div class="container">
-      <div class="section-header" data-aos="fade-up">
-        <span class="section-tag">Credentials</span>
-        <h2 class="section-title">Sertifikat <span class="gradient-text">Saya</span></h2>
-        <p class="section-sub">Pencapaian dan sertifikasi yang telah saya raih</p>
+      <div class="section-heading-editorial section-heading-light">
+        <span class="editorial-num">05</span>
+        <div>
+          <span class="editorial-kicker">SERTIFIKASI &amp; KOMPETENSI</span>
+          <h2 class="editorial-title">Kredensial Resmi</h2>
+        </div>
       </div>
 
-      <!-- CERTIFICATE CARDS -->
-      <div class="certs-grid" id="certs-grid">
-
-        <!-- Certificate 1: Dicoding -->
-        <div class="cert-card" data-aos="fade-up">
-          <div class="cert-icon">
-            <i class="bx bx-award"></i>
-          </div>
-          <div>
-            <h3 class="cert-title">Belajar Dasar Manajemen Proyek</h3>
-            <p class="cert-issuer">Dicoding Academy</p>
-            <p class="cert-date">02 Februari 2026</p>
-          </div>
-          <a href="https://dicoding.com/certificates/JLX15MN55Z72" class="cert-link" target="_blank">
-            <i class="bx bx-link-external"></i> Lihat Kredensial
-          </a>
-        </div>
-
-        <!-- Certificate 2: Cisco JS -->
-        <div class="cert-card" data-aos="fade-up" data-aos-delay="100">
-          <div class="cert-icon">
-            <i class="bx bxl-javascript"></i>
-          </div>
-          <div>
-            <h3 class="cert-title">JavaScript Essentials 1</h3>
-            <p class="cert-issuer">Cisco Networking Academy & JS Institute</p>
-            <p class="cert-date">13 Desember 2025</p>
-          </div>
-          <a href="#" class="cert-link">
-            <i class="bx bx-check-shield"></i> Tersertifikasi
-          </a>
-        </div>
-
+      <div class="cert-table-wrap">
+        <table class="cert-table">
+          <thead>
+            <tr>
+              <th>NO</th>
+              <th>PROGRAM / SERTIFIKASI</th>
+              <th>LEMBAGA PENERBIT</th>
+              <th>TANGGAL TERBIT</th>
+              <th>TAUTAN VERIFIKASI</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="cert-no">01</td>
+              <td>
+                <strong class="cert-name">Belajar Dasar Manajemen Proyek</strong>
+                <span class="cert-desc-sub">Prinsip metodologi Agile, manajemen ruang lingkup, dan alokasi kerja tim</span>
+              </td>
+              <td>Dicoding Academy</td>
+              <td>02 Februari 2026</td>
+              <td>
+                <a href="https://dicoding.com/certificates/JLX15MN55Z72" class="cert-verify-link" target="_blank">
+                  Verifikasi Kredensial &rarr;
+                </a>
+              </td>
+            </tr>
+            <tr>
+              <td class="cert-no">02</td>
+              <td>
+                <strong class="cert-name">JavaScript Essentials 1</strong>
+                <span class="cert-desc-sub">Sintaks dasar, tipe data, kondisional, perulangan, dan manipulasi fungsi JS</span>
+              </td>
+              <td>Cisco Networking Academy &amp; JS Institute</td>
+              <td>13 Desember 2025</td>
+              <td>
+                <span class="cert-verified-label">
+                  <i class="bx bx-check-shield"></i> Terverifikasi Resmi
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-      <!-- END CERTIFICATE CARDS -->
-
     </div>
   </section>
 
   <!-- ====== CONTACT ====== -->
   <section id="contact">
     <div class="container">
-      <div class="section-header" data-aos="fade-up">
-        <span class="section-tag">Contact</span>
-        <h2 class="section-title">Hubungi <span class="gradient-text">Saya</span></h2>
-        <p class="section-sub">Ada project menarik? Mari berkolaborasi!</p>
+      <div class="section-heading-editorial">
+        <span class="editorial-num">06</span>
+        <div>
+          <span class="editorial-kicker">KOMUNIKASI LANGSUNG</span>
+          <h2 class="editorial-title">Hubungi Saya</h2>
+        </div>
       </div>
-      <div class="contact-wrap" data-aos="fade-up">
-        <div class="contact-info">
-          <h3>Mari Terhubung</h3>
-          <p>Saya terbuka untuk kesempatan freelance, kolaborasi project, maupun diskusi seputar teknologi. Jangan ragu
-            untuk menghubungi saya!</p>
-          <div class="contact-links">
-            <a href="mailto:ariiqnawfal845@gmail.com" class="contact-link" id="contact-email">
-              <div class="contact-link-icon"><i class="bx bx-envelope"></i></div>
-              <div>
-                <span class="contact-link-label">Email</span>
-                <span class="contact-link-value">ariiqnawfal845@gmail.com</span>
-              </div>
-            </a>
-            <a href="https://github.com/" target="_blank" class="contact-link" id="contact-github">
-              <div class="contact-link-icon"><i class="bx bxl-github"></i></div>
-              <div>
-                <span class="contact-link-label">GitHub</span>
-                <span class="contact-link-value">github.com/ariiqnawfal</span>
-              </div>
-            </a>
-            <a href="https://www.instagram.com/im.4ri1q?igsh=ZjBxbGtmNm05N284" target="_blank" class="contact-link"
-              id="contact-instagram">
-              <div class="contact-link-icon"><i class="bx bxl-instagram"></i></div>
-              <div>
-                <span class="contact-link-label">Instagram</span>
-                <span class="contact-link-value">@im.4ri1q</span>
-              </div>
-            </a>
+
+      <div class="contact-editorial-layout">
+        <div class="contact-editorial-info">
+          <p class="contact-lead-text">
+            Terbuka untuk diskusi proyek antarmuka web, peluang magang, maupun kontrak kerja front-end. Kirim pesan melalui formulir di samping atau hubungi langsung melalui saluran resmi berikut:
+          </p>
+
+          <div class="contact-direct-table">
+            <div class="contact-row">
+              <span class="c-label">SUREL RESMI</span>
+              <a href="mailto:ariiqnawfal845@gmail.com" class="c-val" id="contact-email">
+                ariiqnawfal845@gmail.com
+              </a>
+            </div>
+            <div class="contact-row">
+              <span class="c-label">REPOSITORI KODE</span>
+              <a href="https://github.com/Vinn777" target="_blank" class="c-val" id="contact-github">
+                github.com/Vinn777
+              </a>
+            </div>
+            <div class="contact-row">
+              <span class="c-label">JEJARING SOSIAL</span>
+              <a href="https://www.instagram.com/im.4ri1q?igsh=ZjBxbGtmNm05N284" target="_blank" class="c-val" id="contact-instagram">
+                instagram.com/im.4ri1q
+              </a>
+            </div>
+            <div class="contact-row">
+              <span class="c-label">WAKTU RESPON</span>
+              <span class="c-val-text">Maksimal 1x24 jam pada hari kerja</span>
+            </div>
           </div>
         </div>
-        <form class="contact-form" id="contact-form">
-          <div class="form-row">
-            <div class="form-group">
-              <label for="name">Nama</label>
-              <input type="text" id="name" name="from_name" placeholder="Nama Anda" required />
+
+        <form class="contact-form-editorial" id="contact-form">
+          <div class="form-grid-row">
+            <div class="form-field">
+              <label for="name">NAMA PENGIRIM</label>
+              <input type="text" id="name" name="from_name" placeholder="Nama lengkap atau instansi" required />
             </div>
-            <div class="form-group">
-              <label for="email">Email</label>
-              <input type="email" id="email" name="from_email" placeholder="email@anda.com" required />
+            <div class="form-field">
+              <label for="email">ALAMAT SUREL</label>
+              <input type="email" id="email" name="from_email" placeholder="nama@domain.com" required />
             </div>
           </div>
-          <div class="form-group">
-            <label for="subject">Subjek</label>
-            <input type="text" id="subject" name="subject" placeholder="Subjek pesan" required />
+          <div class="form-field">
+            <label for="subject">PERIHAL / SUBJEK</label>
+            <input type="text" id="subject" name="subject" placeholder="Keperluan diskusi atau tawaran kerja" required />
           </div>
-          <div class="form-group">
-            <label for="message">Pesan</label>
-            <textarea id="message" name="message" rows="5" placeholder="Tulis pesan Anda..." required></textarea>
+          <div class="form-field">
+            <label for="message">ISI PESAN</label>
+            <textarea id="message" name="message" rows="5" placeholder="Tuliskan rincian kebutuhan atau pesan Anda..." required></textarea>
           </div>
-          <button type="submit" class="btn-primary btn-full" id="send-btn">
-            <i class="bx bx-send"></i> Kirim Pesan
+          <button type="submit" class="btn-primary btn-submit-doc" id="send-btn">
+            Kirimkan Pesan &rarr;
           </button>
           <div class="form-success" id="form-success">
-            <i class="bx bx-check-circle"></i> Pesan berhasil dikirim! Saya akan segera membalas.
+            <i class="bx bx-check-circle"></i> Pesan telah terkirim dengan baik. Terima kasih atas kontak Anda.
           </div>
         </form>
       </div>
@@ -778,23 +673,16 @@
         <a href="#hero" class="nav-logo footer-logo"
           style="text-decoration: none; display: flex; align-items: center; gap: 4px;"><svg width="32" height="32"
             viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" class="futuristic-logo">
-            <defs>
-              <linearGradient id="purple-dark-logo-ft" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#FFD60A" />
-                <stop offset="50%" stop-color="#C084FC" />
-                <stop offset="100%" stop-color="#7C3AED" />
-              </linearGradient>
-            </defs>
-            <path d="M32 2 L60 18 L60 46 L32 62 L4 46 L4 18 Z" stroke="url(#purple-dark-logo-ft)" stroke-width="2.2"
+            <path d="M32 2 L60 18 L60 46 L32 62 L4 46 L4 18 Z" stroke="#F7F1E3" stroke-width="2.2"
               fill="none" class="hex-outer" />
-            <path d="M32 10 L50 21 L50 43 L32 54 L14 43 L14 21 Z" stroke="url(#purple-dark-logo-ft)" stroke-width="1.5"
+            <path d="M32 10 L50 21 L50 43 L32 54 L14 43 L14 21 Z" stroke="#B8893B" stroke-width="1.5"
               fill="none" stroke-dasharray="4 4" class="hex-inner" /><text x="32" y="40" text-anchor="middle"
-              font-family="'Space Grotesk', sans-serif" font-weight="900" font-size="22" fill="#FFFFFF"
-              letter-spacing="1">ANA</text>
+              font-family="'Space Grotesk', sans-serif" font-weight="900" font-size="22" fill="#F7F1E3"
+              letter-spacing="1" class="logo-text">ANA</text>
           </svg></a>
         <p class="footer-text">
-          Dibuat dengan <i class="bx bx-brain" style="color:#C084FC;"></i> oleh
-          <span class="gradient-text">Ariiq Nawfal Aqilla</span>
+          Dibuat dengan dedikasi oleh
+          <strong class="footer-author">Ariiq Nawfal Aqilla</strong>
         </p>
         <p class="footer-copy">&copy; 2026 Ariiq Nawfal Aqilla. All rights reserved.</p>
       </div>
@@ -816,7 +704,7 @@
     })();
   </script>
 
-  <script src="script.js?v=2.3"></script>
+  <script src="script.js?v=3.1"></script>
 </body>
 
 </html>

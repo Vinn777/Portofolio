@@ -28,6 +28,7 @@
     isLoaded = true;
     clearInterval(interval);
     if (statusEl) statusEl.textContent = 'READY';
+    document.documentElement.classList.add('js-ready');
     setTimeout(() => {
       if (loader) {
         loader.classList.add('hidden');
@@ -36,6 +37,12 @@
       }
     }, 400);
   }
+
+  // Failsafe 1-second animation and visibility fallback
+  setTimeout(() => {
+    document.documentElement.classList.add('js-ready');
+    document.body.classList.add('loaded');
+  }, 1000);
 
   window.addEventListener('load', finishLoader);
   // Failsafe timeout for mobile network/CDNs
@@ -48,15 +55,14 @@
     'Software Engineer',
     'Front-End Developer',
     'UI/UX Designer',
-    'Web Developer',
   ];
   const el = document.getElementById('typed-role');
   if (!el) return;
 
-  let roleIdx  = 0;
-  let charIdx  = 0;
+  let roleIdx = 0;
+  let charIdx = 0;
   let deleting = false;
-  let paused   = false;
+  let paused = false;
 
   function type() {
     if (paused) return;
@@ -74,7 +80,7 @@
       el.textContent = current.slice(0, --charIdx);
       if (charIdx === 0) {
         deleting = false;
-        roleIdx  = (roleIdx + 1) % roles.length;
+        roleIdx = (roleIdx + 1) % roles.length;
         setTimeout(type, 400);
         return;
       }
@@ -92,11 +98,11 @@
   if (!canvas) return;
   const ctx = canvas.getContext('2d');
   let W, H, particles = [];
-  
+
   let mouse = { x: null, y: null, radius: 180 };
 
   function resize() {
-    W = canvas.width  = window.innerWidth;
+    W = canvas.width = window.innerWidth;
     H = canvas.height = window.innerHeight;
   }
   resize();
@@ -135,9 +141,9 @@
   class Particle {
     constructor() { this.reset(); }
     reset() {
-      this.x  = randomBetween(0, W);
-      this.y  = randomBetween(0, H);
-      this.r  = randomBetween(0.8, 1.8);
+      this.x = randomBetween(0, W);
+      this.y = randomBetween(0, H);
+      this.r = randomBetween(0.8, 1.8);
       this.vx = randomBetween(-0.1, 0.1);
       this.vy = randomBetween(-0.1, 0.1);
       this.alpha = randomBetween(0.05, 0.2);
@@ -148,9 +154,9 @@
         : `rgba(255,255,255,${this.alpha})`;
     }
     update() {
-      this.x += this.vx; 
+      this.x += this.vx;
       this.y += this.vy;
-      
+
       if (mouse.x !== null) {
         const dx = mouse.x - this.x;
         const dy = mouse.y - this.y;
@@ -537,8 +543,8 @@ window.addEventListener('scroll', () => {
 });
 
 /* ====== HAMBURGER MENU & MOBILE NAV ====== */
-const hamburger  = document.getElementById('hamburger');
-const navLinks   = document.getElementById('nav-links');
+const hamburger = document.getElementById('hamburger');
+const navLinks = document.getElementById('nav-links');
 const navOverlay = document.getElementById('nav-overlay');
 
 function openMobileMenu() {
@@ -610,10 +616,10 @@ const sections = document.querySelectorAll('section[id]');
 function updateActiveLink() {
   const scrollY = window.scrollY + 100;
   sections.forEach(section => {
-    const top    = section.offsetTop;
+    const top = section.offsetTop;
     const height = section.offsetHeight;
-    const id     = section.getAttribute('id');
-    const link   = document.querySelector(`.nav-link[href="#${id}"]`);
+    const id = section.getAttribute('id');
+    const link = document.querySelector(`.nav-link[href="#${id}"]`);
     if (link) {
       if (scrollY >= top && scrollY < top + height) {
         document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
@@ -661,13 +667,13 @@ function animateSkillBars() {
 /* ====== AOS (Animate on Scroll) ====== */
 const aosEls = document.querySelectorAll('[data-aos]');
 let countersTriggered = false;
-let skillsTriggered   = false;
+let skillsTriggered = false;
 
 function checkAOS() {
   const windowH = window.innerHeight;
 
   aosEls.forEach(el => {
-    const rect  = el.getBoundingClientRect();
+    const rect = el.getBoundingClientRect();
     const delay = el.getAttribute('data-aos-delay') || 0;
     if (rect.top < windowH - 60) {
       setTimeout(() => el.classList.add('aos-animate'), parseInt(delay));
@@ -759,7 +765,7 @@ function initCustomCursor() {
     aura.style.display = 'none';
     return;
   }
-  
+
   document.body.classList.add('has-custom-cursor');
 
   // Track pointer movements
@@ -770,7 +776,7 @@ function initCustomCursor() {
 
   // Track hover state for clickable triggers
   const hovers = 'a, button, .project-card, .about-card, .skill-card, .hamburger, .btn-primary, .btn-outline, .btn-cv, .btn-hire';
-  
+
   function updateHovers() {
     document.querySelectorAll(hovers).forEach(el => {
       if (el.dataset.hasCursorBound) return;
@@ -786,7 +792,7 @@ function initCustomCursor() {
       });
     });
   }
-  
+
   updateHovers();
   setInterval(updateHovers, 1500); // Handle dynamic nodes addition
 
@@ -825,133 +831,33 @@ function initScrollProgress() {
   updateProgress();
 }
 
-/* ------ MAGNETIC PHYSICS BUTTONS (NEOBRUTALISM) ------ */
+/* ------ MAGNETIC PHYSICS BUTTONS (SAFE ACCENT) ------ */
 function initMagneticButtons() {
-  const targets = document.querySelectorAll('.btn-primary, .btn-outline, .btn-cv, .btn-hire, .nav-logo, .skills-tab');
-  const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-  if (isTouch) return;
-
-  targets.forEach(el => {
-    const origTransform = el.style.transform || '';
-    el.addEventListener('mousemove', (e) => {
-      const rect = el.getBoundingClientRect();
-      const x = e.clientX - rect.left - rect.width / 2;
-      const y = e.clientY - rect.top - rect.height / 2;
-      // Small magnetic pull — NeoBrutalism keeps sharp edges
-      el.style.transform = `translate3d(${x * 0.22}px, ${y * 0.22}px, 0)`;
-    });
-
-    el.addEventListener('mouseleave', () => {
-      el.style.transform = origTransform;
-    });
-  });
+  // Let CSS handle smooth button hover elevations naturally
+  return;
 }
 
-/* ------ BRUTALIST CARD HOVER EFFECT ------ */
+/* ------ CARD SPOTLIGHT EFFECT ------ */
 function init3DTiltAndSpotlight() {
   const cards = document.querySelectorAll('.about-card, .project-card, .skill-card, .cert-card');
   const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+  if (isTouch) return;
 
   cards.forEach(card => {
     card.addEventListener('mousemove', (e) => {
-      if (isTouch) return;
       const rect = card.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
       card.style.setProperty('--mouse-x', `${x}px`);
       card.style.setProperty('--mouse-y', `${y}px`);
-
-      // Subtle tilt — less extreme for brutalist feel
-      const centerX = rect.width / 2;
-      const centerY = rect.height / 2;
-      const rotX = ((rect.top + centerY - e.clientY) / centerY) * 3;
-      const rotY = ((e.clientX - (rect.left + centerX)) / centerX) * 3;
-      card.style.transform = `perspective(900px) rotateX(${rotX}deg) rotateY(${rotY}deg) translate(-2px, -2px)`;
-    });
-
-    card.addEventListener('mouseleave', () => {
-      card.style.transform = '';
     });
   });
 }
 
-/* ------ SIMPLE TERMINAL TYPING EFFECT ------ */
+/* ------ TERMINAL TYPING EFFECT (TEXT SAFE) ------ */
 function initTextScramble() {
-  const targets = document.querySelectorAll('.section-title, .nav-logo');
-  
-  targets.forEach(el => {
-    const originalHTML = el.innerHTML;
-    
-    const triggerScramble = async () => {
-      if (el.dataset.scrambling === 'true') return;
-      el.dataset.scrambling = 'true';
-      
-      // Reset inner HTML to clean state
-      el.innerHTML = originalHTML;
-      
-      // Store original text and clear text nodes
-      function clearTextNodes(n) {
-        if (n.nodeType === Node.TEXT_NODE) {
-          n.originalText = n.textContent;
-          n.textContent = '';
-        } else {
-          n.childNodes.forEach(clearTextNodes);
-        }
-      }
-      clearTextNodes(el);
-
-      // Add terminal prefix
-      const prefix = document.createElement('span');
-      prefix.innerHTML = '<span style="color: var(--accent-1); font-family: var(--font-mono); font-weight: bold; margin-right: 8px;">></span>';
-      el.prepend(prefix);
-      
-      // Blinking cursor that follows the typing
-      const cursor = document.createElement('span');
-      cursor.textContent = '_';
-      cursor.style.color = 'var(--accent-1)';
-      cursor.style.animation = 'cursorBlink 0.8s step-end infinite';
-      el.appendChild(cursor);
-
-      // Recursive sequential typing
-      async function typeNodes(n) {
-        if (n.nodeType === Node.TEXT_NODE) {
-          const text = n.originalText;
-          if (!text || !text.trim()) return;
-          for (let i = 0; i < text.length; i++) {
-            n.textContent += text[i];
-            await new Promise(r => setTimeout(r, 40)); // Typing speed
-          }
-        } else if (n !== prefix && n !== cursor) {
-          for (let child of Array.from(n.childNodes)) {
-            await typeNodes(child);
-          }
-        }
-      }
-
-      await typeNodes(el);
-      
-      // Finish typing, let cursor blink a few times then cleanup
-      setTimeout(() => {
-        el.innerHTML = originalHTML;
-        el.dataset.scrambling = 'false';
-      }, 2000);
-    };
-
-    el.addEventListener('mouseenter', triggerScramble);
-    el.addEventListener('click', triggerScramble);
-
-    // Trigger automatically when scrolled into view
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          triggerScramble();
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.5 });
-    
-    observer.observe(el);
-  });
+  // Disabled text erasing to prevent titles from disappearing when scrolled
+  return;
 }
 
 /* ------ HERO BADGES PARALLAX MOUSE EFFECT ------ */
@@ -994,7 +900,7 @@ function initHeroParallaxBadges() {
 
 /* ------ DEMO "NOT HOSTED" MODAL CONTROLLER ------ */
 function initDemoModal() {
-  const overlay  = document.getElementById('demo-modal-overlay');
+  const overlay = document.getElementById('demo-modal-overlay');
   const closeBtn = document.getElementById('demo-modal-close');
   const contactBtn = document.getElementById('demo-modal-contact-btn');
   if (!overlay) return;
@@ -1010,7 +916,7 @@ function initDemoModal() {
   }
 
   // Intercept ALL "Live Demo" links that still point to '#'
-  document.querySelectorAll('.project-link.primary').forEach(link => {
+  document.querySelectorAll('.project-link.primary, .project-link-primary').forEach(link => {
     if (!link.getAttribute('href') || link.getAttribute('href') === '#') {
       link.addEventListener('click', (e) => {
         e.preventDefault();
@@ -1062,8 +968,8 @@ if (document.readyState === 'loading') {
 function switchTab(tab) {
   const panelHard = document.getElementById('panel-hard');
   const panelSoft = document.getElementById('panel-soft');
-  const tabHard   = document.getElementById('tab-hard');
-  const tabSoft   = document.getElementById('tab-soft');
+  const tabHard = document.getElementById('tab-hard');
+  const tabSoft = document.getElementById('tab-soft');
 
   if (tab === 'hard') {
     panelHard.style.display = 'block';
@@ -1094,7 +1000,7 @@ function switchTab(tab) {
   }
 }
 
-console.log('%c◆ Portfolio Ariiq Nawfal Aqilla', 'color:#FFD60A;font-size:16px;font-weight:900;font-family:Space Grotesk,sans-serif;');
-console.log('%cFront-End Developer | UI/UX | NeoBrutalism 3D Portfolio', 'color:#4FC3F7;font-size:12px;');
+console.log('%c◆ Portfolio Ariiq Nawfal Aqilla', 'color:#B8893B;font-size:16px;font-weight:900;font-family:serif;');
+console.log('%cFront-End Developer | Portfolio Resmi', 'color:#0F1F3D;font-size:12px;');
 
 
